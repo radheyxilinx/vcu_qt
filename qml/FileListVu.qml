@@ -170,7 +170,8 @@ Rectangle{
                 var lst = dirOPS.changeFolder(libraryModel.get(row).itemName)
                 updateTable(lst)
             }else{
-                root.filePath = filePathLbl.text + "/" + libraryModel.get(row).itemName
+                root.uri = filePathLbl.text + "/" + libraryModel.get(row).itemName
+                root.src = "uridecodebin"
                 fileList.visible = false
             }
         }
@@ -232,7 +233,8 @@ Rectangle{
             }
             onClicked:{
                 if(fileName.length){
-                    root.filePath = filePathLbl.text + "/" + fileName
+                    root.uri = filePathLbl.text + "/" + fileName
+                    root.src = "uridecodebin"
                     fileList.visible = false
                     dirOPS.applyTypeFilter("*")
                 }else{

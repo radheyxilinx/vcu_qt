@@ -64,12 +64,12 @@ Rectangle {
         }
         width: 125
         height: 25
-        text: "High"
+        text: "Low"
         MouseArea{
             anchors.fill: parent
             onClicked: {
                 bitRate.visible = !bitRate.visible
-                entropyType.visible = false
+//                entropyType.visible = false
                 encoderType.visible = false
             }
         }
@@ -184,7 +184,6 @@ Rectangle {
             width: 110
             height: 15
             text: qsTr("B Frame")
-            onClicked: getGopStructure()
         }
 
         TextField{
@@ -200,7 +199,6 @@ Rectangle {
             height: 20
             visible: bFrame.checked
             enabled: bFrame.checked
-
             text: qsTr(framesCount.value.toString())
         }
 
@@ -244,20 +242,52 @@ Rectangle {
         verticalAlignment: Text.AlignVCenter
     }
 
-    TextField{
-        width: 150
+    Rectangle{
+        width: 100
         height: 25
+        id: goPLenTxtRect
         anchors{
             left:  gopLenLbl.right
             leftMargin: 5
             top: frameSupportBox.bottom
             topMargin: 10
         }
-        placeholderText: "length"
-        text: "30"
-
+        border.color: "black"
+        Label{
+            width: parent.width-4
+            height: parent.height-4
+            id: goPLenTxt
+            anchors{
+                left:  parent.left
+                leftMargin: 2
+                top: parent.top
+                topMargin: 2
+            }
+            text: qsTr(gopLengthCount.value.toString())
+        }
     }
+    Slider {
+        id: gopLengthCount
+        anchors{
+            left: goPLenTxtRect.right
+            leftMargin: 10
+            top: frameSupportBox.bottom
+            topMargin: 10
 
+        }
+        maximumValue: 1000
+        minimumValue: 10
+        stepSize: 1.0
+        value : 30
+        style: SliderStyle {
+            groove: Rectangle {
+                implicitWidth: 220
+                implicitHeight: 5
+                color: "gray"
+                radius: 5
+            }
+        }
+    }
     Rectangle{
         anchors{
             left: parent.left
@@ -406,6 +436,12 @@ Rectangle {
                 encoderType.visible = false
                 //                entropyType.visible = false
                 encoderDecoderPanel.visible = false
+                if(bFrame.checked){
+                    root.b_frame = framesCount.value
+                }
+                root.goP_len = goPLenTxt.text
+                root.enc_name = "omx" + encoderTxt.text.toLowerCase() + "enc"
+                root.raw = false
             }
         }
     }
@@ -458,6 +494,7 @@ Rectangle {
                     onClicked: {
                         bitRateTxt.text = "High"
                         bitRate.visible = false
+                        root.bitrate = 100000000
                     }
                 }
             }
@@ -477,6 +514,7 @@ Rectangle {
                     onClicked: {
                         bitRateTxt.text = "Medium High"
                         bitRate.visible = false
+                        root.bitrate = 50000000
                     }
                 }
             }
@@ -495,6 +533,7 @@ Rectangle {
                     onClicked: {
                         bitRateTxt.text = "Medium"
                         bitRate.visible = false
+                        root.bitrate = 30000000
                     }
                 }
             }
@@ -513,6 +552,7 @@ Rectangle {
                     onClicked: {
                         bitRateTxt.text = "Medium Low"
                         bitRate.visible = false
+                        root.bitrate = 20000000
                     }
                 }
             }
@@ -531,6 +571,7 @@ Rectangle {
                     onClicked: {
                         bitRateTxt.text = "Low"
                         bitRate.visible = false
+                        root.bitrate = 10000000
                     }
                 }
             }
@@ -647,8 +688,5 @@ Rectangle {
                 }
             }
         }
-    }
-    function getGopStructure(){
-
     }
 }

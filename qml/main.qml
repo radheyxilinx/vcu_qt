@@ -31,13 +31,29 @@ ApplicationWindow {
     property int boarderWidths: 1
 
     property var videoResolution: "4k"
-    property var format: "NV12"
     property var fpsValue: "30"
-    property var bitRateValue: "10Mbps"
 
     property var videoInput: 0
+    property var presetSelect: 0
     property var plotDisplay: true
-    property var filePath: ""
+
+    property int bitrate: 10000000
+    property var b_frame: 2
+    property var enc_name: "omxh264enc"
+    property var goP_len: 30
+
+    property var format : "NV12"
+    property var num_src : 1
+    property var raw : true
+    property var src : "v4l2src"
+    property var device_type : 1
+    property var uri : ""
+
+    property alias presetStructure: presetValues.presetStruct
+
+    PresetProperties{
+        id: presetValues
+    }
 
     FontLoader { id: fontFamily; source: "/font/luxisr.ttf" }
 
@@ -55,6 +71,7 @@ ApplicationWindow {
                 hoverEnabled: true
                 onClicked: {
                     inputSrcLst.showList = false
+                    controlLst.showList = false
                     inputRectangle.visible = false
                     controlRectangle.visible = false
                 }
@@ -71,10 +88,6 @@ ApplicationWindow {
                 }
 
             }
-            //            Image{
-            //                anchors.fill: parent
-            //                source:  "qrc:///images/sampleImg.png"
-            //            }
 
             Rectangle{
                 id: titleBar
@@ -182,9 +195,12 @@ ApplicationWindow {
                             root.play = !root.play;
 
                             if(root.play){
-                                controller.setInput(1);
+                                controller.updateInputParam(root.format, root.num_src, root.raw, root.src, root.device_type, "file://"+root.uri);
+                                controller.updateEncParam(root.bitrate, root.b_frame, root.enc_name, root.goP_len);
+                                controller.start_pipeline();
                             }else{
-                                controller.setInput(0);
+                                root.raw = true
+                                controller.stop_pipeline();
                             }
                         }
                     }
@@ -241,6 +257,7 @@ ApplicationWindow {
                                     parent.showList = !parent.showList
                                     encoderDecoderPanel.visible = false
                                     controlRectangle.visible = false
+                                    controlLst.showList = false
                                 }
                             }
                             Label{
@@ -290,10 +307,22 @@ ApplicationWindow {
                                     width: parent.width
                                     function clicked(indexval){
                                         inputRectangle.visible = false
-                                        if(indexval === 0){
+                                        inputSrcLst.showList = false
+                                        switch (indexval){
+                                        case 0:
                                             fileList.visible = true
-                                        }else{
-
+                                            break;
+                                        case 1:
+                                            root.src = "v4l2src"
+                                            root.device_type = 0
+                                            break;
+                                        case 2:
+                                            root.src = "v4l2src"
+                                            root.device_type = 1
+                                            break;
+                                        default:
+                                            root.src = "v4l2src"
+                                            root.device_type = 1
                                         }
                                         root.videoInput = indexval
                                     }
@@ -311,10 +340,10 @@ ApplicationWindow {
                                 anchors.fill: parent
                                 onClicked: {
                                     encoderDecoderPanel.visible = false
-                                    controlLst.showList = !controlLst.showList
-                                    inputSrcLst.showList = false
+                                    parent.showList = !parent.showList
                                     controlRectangle.visible = !controlRectangle.visible
                                     inputRectangle.visible = false
+                                    inputSrcLst.showList = false
                                 }
                             }
                             Label{
@@ -349,18 +378,14 @@ ApplicationWindow {
                                 ControlVu{
                                     anchors.fill: parent
                                     listModel.model: controlList
-                                    selecteItem: root.videoInput
+                                    selecteItem: root.presetSelect
                                     delgate: this
                                     width: parent.width
                                     function clicked(indexval){
-                                        root.videoInput = indexval
-                                    }
-                                }
-                                MouseArea{
-                                    anchors.fill: parent
-                                    hoverEnabled: true
-                                    onExited: {
-
+                                        controlRectangle.visible = false
+                                        controlLst.showList = false
+                                        root.presetSelect = indexval
+                                        root.setPresets(indexval)
                                     }
                                 }
                             }
@@ -498,9 +523,8 @@ ApplicationWindow {
                             text: "FPS: " + root.fpsValue
                         }
                         Label{
-                            text: "Bitrate: " + root.bitRateValue
+                            text: "Bitrate: " + root.bitrate/1000000 + "Mbps"
                         }
-
                     }
                 }
             }
@@ -508,7 +532,7 @@ ApplicationWindow {
             Rectangle {
                 anchors.left: parent.left
                 anchors.bottom: parent.bottom
-                color: root.barColors
+                color: "transparent"
                 id: graphPlot
                 width: parent.width
                 height: 200
@@ -589,7 +613,7 @@ ApplicationWindow {
                         anchors.fill: parent
                         theme: ChartView.ChartThemeBlueCerulean
                         antialiasing: true
-
+                        id: encoderBandWidthPlot
                         ValueAxis {
                             id: axisYEncBW
                             min: 0
@@ -632,7 +656,7 @@ ApplicationWindow {
                         anchors.fill: parent
                         theme: ChartView.ChartThemeBlueCerulean
                         antialiasing: true
-
+                        id: decoderBandWidthPlot
                         ValueAxis {
                             id: axisYDecBW
                             min: 0
@@ -651,7 +675,6 @@ ApplicationWindow {
                             lineVisible: false
                             labelsFont.pointSize: 1 * resoluteFrac
                         }
-
 
                         LineSeries {
                             axisX: axisXDecBW
@@ -677,6 +700,7 @@ ApplicationWindow {
             repeat: true
             onTriggered: {
                 controller.updatecpu(chart_line_CPU.series(0),chart_line_CPU.series(1),chart_line_CPU.series(2),chart_line_CPU.series(3))
+                controller.updateThroughput(encoderBandWidthPlot.series(0),decoderBandWidthPlot.series(0))
             }
         }
     }
@@ -689,5 +713,26 @@ ApplicationWindow {
     EncDecPanel{
         id: encoderDecoderPanel
         visible: false
+    }
+
+    /*Error message*/
+    ErrorMessage{
+        width: parent.width
+        height: parent.height
+        id: errorMessage
+        messageText: errorMessageText
+        errorName: errorNameText
+        message.onClicked:{
+            errorMessageText = ""
+            errorNameText = ""
+        }
+    }
+    function setPresets(index){
+        root.b_frame =  presetStructures[index].b_frame
+        root.enc_name = presetStructure[index].enc_name
+        root.goP_len = presetStructure[index].goP_len
+        root.src = presetStructure[index].src
+        root.device_type = presetStructure[index].device_type
+        root.bitrate = presetStructure[index].bitrate
     }
 }

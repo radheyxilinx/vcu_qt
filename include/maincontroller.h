@@ -50,34 +50,58 @@
 #include "CPUStat.h"
 #include <QtCharts/QAbstractSeries>
 #include <QtCharts/QXYSeries>
+#include "vgst_lib.h"
+#include "perfapm.h"
 
 QT_CHARTS_USE_NAMESPACE
 
+#define SCREEN_HEIGHT 2160;
+#define SCREEN_WIDTH 3840;
+
 class maincontroller : public QObject
 {
-Q_OBJECT
-    enum CpuData
-        {
-            Cpu1,
-            Cpu2,
-            Cpu3,
-            Cpu4,
-            NCpuData
-        };
-        CPUStat *cpuStat1;
-        CPUStat *cpuStat2;
-        CPUStat *cpuStat3;
-        CPUStat *cpuStat4;
-        QVector<qreal> cpu1List;
-        QVector<qreal> cpu2List;
-        QVector<qreal> cpu3List;
-        QVector<qreal> cpu4List;
+    Q_OBJECT
+    enum CpuData{
+        Cpu1,
+        Cpu2,
+        Cpu3,
+        Cpu4,
+        NCpuData
+    };
+    CPUStat *cpuStat1;
+    CPUStat *cpuStat2;
+    CPUStat *cpuStat3;
+    CPUStat *cpuStat4;
+    QVector<qreal> cpu1List;
+    QVector<qreal> cpu2List;
+    QVector<qreal> cpu3List;
+    QVector<qreal> cpu4List;
+    enum MemData{
+        videoSrc,
+        filter,
+        NMemData
+    };
+    QVector<qreal> videoSrcList;
+    QVector<qreal> filterList;
+
+    QObject * rootobject;
+
+    vgst_enc_params encoderParam;
+    vgst_input_param inputParam;
+
+public:
+    void rootUIObj(QObject * item);
 
 public slots:
     void inits();
     void closeall();
-    void errorPopup(int);
+    bool errorPopup(int);
     void updatecpu(QAbstractSeries *cpu1, QAbstractSeries *cpu2, QAbstractSeries *cpu3, QAbstractSeries *cpu4);
+    void updateThroughput(QAbstractSeries *videoSrc, QAbstractSeries *accelerator);
+    void updateEncParam(int, int, QString, int);
+    void updateInputParam(QString, int, bool, QString, int, QString);
+    void start_pipeline();
+    void stop_pipeline();
 };
 
 #endif // MAINCONTROLLER_H

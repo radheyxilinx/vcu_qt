@@ -2,9 +2,9 @@
 #include <QQmlApplicationEngine>
 #include <QtWidgets/QMainWindow>
 #include <QQmlContext>
-#include <maincontroller.h>
 #include <QtWidgets/QApplication>
 #include "dirop.h"
+#include <maincontroller.h>
 
 int main(int argc, char *argv[])
 {
@@ -42,10 +42,9 @@ int main(int argc, char *argv[])
     QQmlContext *ctx = engine.rootContext();
     maincontroller mc;
     mc.inits();
+    mc.rootUIObj(engine.rootObjects().first());
     ctx->setContextProperty("controller", &mc);
 
-
-    QObject *item = engine.rootObjects().first();
     DirOp currDir;
     currDir.currentDir.setPath("/");
     ctx->setContextProperty("dirOPS", &currDir);

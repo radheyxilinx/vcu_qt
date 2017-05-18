@@ -41,6 +41,7 @@ QMAKE_EXTRA_TARGETS += mkdirs
 INCLUDEPATH += \
         include \
         ../vcu_gst_lib/include \
+	../perfmon_lib/include \
         ${SYSROOT}/usr/include/gstreamer-1.0 \
         ${SYSROOT}/usr/include/gstreamer-1.0/gst \
         ${SYSROOT}/usr/include/glib-2.0 \
@@ -56,6 +57,8 @@ INCLUDEPATH += \
 QMAKE_LIBDIR_FLAGS += \
         -L../vcu_gst_lib/Release \
         -L../vcu_gst_lib/Debug \
+	-L../perfmon_lib/Release \
+	-L../perfmon_lib/Debug \
         -L=/usr/lib \
         -L=/${SYSROOT}/usr/lib \
         -L=/${SYSROOT}/usr/lib/gstreamer-1.0
@@ -83,9 +86,10 @@ LIBS += \
         -lcrypto \
         -ldrm \
 	-lrt \
+        -lperfmon \
 	-lvcu_gst_lib \
-	-lgstreamer-1.0 \
-	-lxml2 \
+        -lgstreamer-1.0 \
+        -lxml2 \
 	-lgthread-2.0 \
 	-lgobject-2.0 \
 	-lglib-2.0 \
@@ -94,7 +98,7 @@ LIBS += \
         -lgmp \
         -lcrypt \
         -lm \
-        -lltdl \
+        -lltdl
 
 CONFIG += "release"
 

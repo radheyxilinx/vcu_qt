@@ -47,11 +47,11 @@ import QtQuick.Controls.Styles 1.0
 import QtQuick.Layouts 1.0
 
 Rectangle{
-    property alias listModel: repeateList
+    property alias listModel: repeateListControl
     property int selecteItem: 0
     property var delgate: this
 
-    height: repeateList.count * resoluteFrac
+    height: repeateListControl.count * resoluteFrac
     anchors.topMargin: 0
     anchors.leftMargin: 0
     id: ctrlVu
@@ -65,7 +65,7 @@ Rectangle{
     ColumnLayout{
         spacing: 0
         Repeater{
-            id: repeateList
+            id: repeateListControl
             Rectangle{
                 Text {
                     text: modelData.shortName
@@ -84,8 +84,8 @@ Rectangle{
                     cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
                     onClicked:{
 
-                        for(var i = 0; i< repeateList.count; i++){
-                            repeateList.itemAt(i).color = root.cellColor
+                        for(var i = 0; i< repeateListControl.count; i++){
+                            repeateListControl.itemAt(i).color = root.cellColor
                         }
                         parent.color = root.cellHighlightColor
                         delgate.clicked(index)
@@ -95,12 +95,12 @@ Rectangle{
         }
     }
     function resetSource(index){
-        for(var i = 0; i< repeateList.count; i++){
+        for(var i = 0; i< repeateListControl.count; i++){
             if(i == index){
-                repeateList.itemAt(i).color = root.cellHighlightColor
+                repeateListControl.itemAt(i).color = root.cellHighlightColor
             }
             else{
-                repeateList.itemAt(i).color = root.cellColor
+                repeateListControl.itemAt(i).color = root.cellColor
             }
         }
     }

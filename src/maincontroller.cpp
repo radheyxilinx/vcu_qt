@@ -43,29 +43,37 @@
 
 #include "maincontroller.h"
 #include <unistd.h>
-#include <vgst_lib.h>
 #include <gst/gst.h>
+#include "perfapm.h"
 
 void maincontroller :: inits(){
     cpuStat1 = new CPUStat("cpu0");
     cpuStat2 = new CPUStat("cpu1");
     cpuStat3 = new CPUStat("cpu2");
     cpuStat4 = new CPUStat("cpu3");
+
+    inputParam.height = SCREEN_HEIGHT;
+    inputParam.width = SCREEN_WIDTH;
+
+    perfmon_init_all(PERF_SAMPLE_INTERVAL_COUNTER);
 }
+void maincontroller :: rootUIObj(QObject * item){
+    rootobject = item;
+}
+bool maincontroller:: errorPopup(int errorno){
+    if(errorno == VGST_SUCCESS){
+        return false;
+    }
+    QVariant errorName = QString("Error");
+    rootobject->setProperty("errorNameText",QVariant(errorName));
 
-void maincontroller:: errorPopup(int errorno){
-    //    if(errorno == VLIB_SUCCESS){
-    //      return;
-    //}
-    //	QVariant errorName = QString::fromUtf8(vlib_error_name((vlib_error) errorno));
-    //	rootObject->setProperty("errorNameText",QVariant(errorName));
-
-    //	QVariant errorMsg = QString::fromUtf8(vlib_strerror());
-    //	rootObject->setProperty("errorMessageText",QVariant(errorMsg));
+    QVariant errorMsg = QString::fromUtf8(vgst_error_to_string((VGST_ERROR_LOG)errorno));
+    rootobject->setProperty("errorMessageText",QVariant(errorMsg));
+    return true;
 }
 
 void maincontroller::closeall() {
-
+    perfmon_deinit_all(PERF_SAMPLE_INTERVAL_COUNTER);
 }
 
 void maincontroller :: updatecpu( QAbstractSeries *cpu1, QAbstractSeries *cpu2, QAbstractSeries *cpu3, QAbstractSeries *cpu4) {
@@ -131,4 +139,75 @@ void maincontroller :: updatecpu( QAbstractSeries *cpu1, QAbstractSeries *cpu2, 
     cpu2Series->replace(cpu2points);
     cpu3Series->replace(cpu3points);
     cpu4Series->replace(cpu4points);
+}
+
+void maincontroller :: updateThroughput(QAbstractSeries *videoSrcAS, QAbstractSeries *acceleratorAS){
+    double data[NMemData];
+    QXYSeries *videoSrcSeries = static_cast<QXYSeries *>(videoSrcAS);
+    QXYSeries *acceleratorSeries = static_cast<QXYSeries *>(acceleratorAS);
+
+    data[videoSrc] = (float)((perfmon_get_countervalue(PS_DDRAPM_SLOT_4, 8, PERF_SAMPLE_INTERVAL_COUNTER) + perfmon_get_countervalue(PS_DDRAPM_SLOT_4, 9, PERF_SAMPLE_INTERVAL_COUNTER))* 8 / 1000000000.0);
+    data[filter] = (float)((perfmon_get_countervalue(PS_DDRAPM_SLOT_5, 0, PERF_SAMPLE_INTERVAL_COUNTER) + perfmon_get_countervalue(PS_DDRAPM_SLOT_5, 1, PERF_SAMPLE_INTERVAL_COUNTER))* 8 / 1000000000.0);
+
+    perfmon_reset_countervalue(PS_DDRAPM_SLOT_4, PERF_SAMPLE_INTERVAL_COUNTER);
+    perfmon_reset_countervalue(PS_DDRAPM_SLOT_5, PERF_SAMPLE_INTERVAL_COUNTER);
+
+    if(videoSrcList.length() > 60){
+        videoSrcList.removeFirst();
+        filterList.removeFirst();
+    }
+    videoSrcList.append(data[videoSrc]);
+    filterList.append(data[filter]);
+
+    QString str1;
+    str1.sprintf("Encoder Bandwidth Utilization (%2.0f Gbps)", data[videoSrc]);
+    QString str2;
+    str2.sprintf("Decoder Bandwidth Utilization (%2.0f Gbps)", data[filter]);
+
+    videoSrcSeries->setName(str1);
+    acceleratorSeries->setName(str2);
+
+    QVector < QPointF > videoSrcpoints;
+    QVector < QPointF > accelpoints;
+
+    for(int p = 0; p < videoSrcList.length(); p++){
+        videoSrcpoints.append(QPointF(p, videoSrcList.at(p)));
+        accelpoints.append(QPointF(p, filterList.at(p)));
+    }
+    videoSrcSeries->replace(videoSrcpoints);
+    acceleratorSeries->replace(accelpoints);
+}
+
+void maincontroller :: updateEncParam(int bitRate, int bFrameCount, QString encName, int gopLength){
+    encoderParam.bitrate = bitRate;
+    encoderParam.b_frame = bFrameCount;
+    encoderParam.enc_name = g_strdup(encName.toLatin1().data());
+    encoderParam.GoP_len = gopLength;
+}
+
+void maincontroller :: updateInputParam(QString format, int num_src, bool raw, QString src, int device_type, QString uri){
+    inputParam.format = g_strdup(format.toLatin1().data());
+    inputParam.num_src = num_src;
+    inputParam.raw = raw;
+    inputParam.src = g_strdup(src.toLatin1().data());
+    inputParam.device_type = device_type;
+    inputParam.uri = g_strdup(uri.toLatin1().data());
+}
+
+void maincontroller :: start_pipeline(){
+    int err = vgst_config_options(&encoderParam, &inputParam);
+    if(errorPopup(err)){
+        return;
+    }
+    err = vgst_start_pipeline();
+    if(errorPopup(err)){
+        return;
+    }
+}
+
+void maincontroller :: stop_pipeline(){
+    int err = vgst_stop_pipeline();
+    if(errorPopup(err)){
+        return;
+    }
 }

@@ -51,7 +51,7 @@ Rectangle{
     property var errorName: ""
     property alias message: okMouseArea
 
-    color: "#08FFFFFF"
+    color: "#09ffffff"
     MouseArea{
         anchors.fill: parent
         hoverEnabled: true
@@ -101,7 +101,7 @@ Rectangle{
             anchors.top: baseErrorPopupHeader.bottom
             width: parent.width
             height: parent.height - baseErrorPopupHeader.height
-            color: "transparent"
+            color: "#ffffff"
             //			Image {
             //				id: errorImage
             ////				source: "qrc:///imgs/images/error.png"
@@ -116,17 +116,20 @@ Rectangle{
             Rectangle{
                 //				anchors.left: errorImage.right
                 anchors.leftMargin: 20 * 1
-                width: parent.width - (40 * resoluteFrac) - root.toolBarHeight
+                width: parent.width - 200
                 anchors.top: parent.top
                 anchors.topMargin: 20 * 1
                 color: "transparent"
                 height: parent.height - (40 * 1)
                 Text {
+                    anchors.leftMargin: 10
                     anchors.left: parent.left
                     id: errorMessageLbl
                     text: messageText
                     font.pointSize: 13 * 1
-                    anchors.fill: parent
+                    width: parent.width - 20
+                    height: parent.height - 20
+                    anchors.top: parent.top
                     wrapMode: Text.WordWrap
 
                 }

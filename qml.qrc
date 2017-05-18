@@ -22,5 +22,6 @@
         <file>images/close.png</file>
         <file>images/error.png</file>
         <file>images/pause.png</file>
+        <file>qml/PresetProperties.qml</file>
     </qresource>
 </RCC>
