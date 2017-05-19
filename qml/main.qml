@@ -31,7 +31,9 @@ ApplicationWindow {
     property int boarderWidths: 1
 
     property var videoResolution: "4k"
-    property var fpsValue: "30"
+    property var fpsValue: 0
+    property var encLatency: 0
+    property var decLatency: 0
 
     property var videoInput: 0
     property var presetSelect: 0
@@ -523,6 +525,12 @@ ApplicationWindow {
                             text: "FPS: " + root.fpsValue
                         }
                         Label{
+                            text: "Encoder Latency: " + root.encLatency + "mSec"
+                        }
+                        Label{
+                            text: "Decoder Latency: " + root.decLatency + "mSec"
+                        }
+                        Label{
                             text: "Bitrate: " + root.bitrate/1000000 + "Mbps"
                         }
                     }
@@ -701,6 +709,8 @@ ApplicationWindow {
             onTriggered: {
                 controller.updatecpu(chart_line_CPU.series(0),chart_line_CPU.series(1),chart_line_CPU.series(2),chart_line_CPU.series(3))
                 controller.updateThroughput(encoderBandWidthPlot.series(0),decoderBandWidthPlot.series(0))
+                controller.updateLatency()
+                controller.updateFPS()
             }
         }
     }

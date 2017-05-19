@@ -211,3 +211,12 @@ void maincontroller :: stop_pipeline(){
         return;
     }
 }
+
+void maincontroller :: updateLatency(){
+    rootobject->setProperty("encLatency", 60);
+    rootobject->setProperty("decLatency", 60);
+}
+
+void maincontroller :: updateFPS(){
+    rootobject->setProperty("fpsValue", 30);
+}
