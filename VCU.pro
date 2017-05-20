@@ -67,38 +67,12 @@ LIBS += \
         -lQt5PrintSupport \
         -lQt5OpenGL \
         -lQt5Svg \
-        -lgobject-2.0 \
-        -lglib-2.0 \
-        -lpcre \
-        -lffi \
-        -lX11 \
-        -lXfixes \
-        -lXext \
-        -lxcb \
-        -lXau \
-        -lXdmcp \
-        -lXdamage \
-        -lz \
-        -lpng16 \
-        -lrt \
-        -ldl \
-        -lssl \
-        -lcrypto \
-        -ldrm \
-	-lrt \
         -lperfmon \
 	-lvcu_gst_lib \
         -lgstreamer-1.0 \
-        -lxml2 \
 	-lgthread-2.0 \
-	-lgobject-2.0 \
-	-lglib-2.0 \
-	-lpthread \
-        -lltdl \
-        -lgmp \
-        -lcrypt \
-        -lm \
-        -lltdl
+        -lgobject-2.0 \
+        -lglib-2.0
 
 CONFIG += "release"
 
