@@ -777,7 +777,7 @@ ApplicationWindow {
         }
     }
     function setPresets(index){
-        root.b_frame =  presetStructures[index].b_frame
+        root.b_frame =  presetStructure[index].b_frame
         root.enc_name = presetStructure[index].enc_name
         root.goP_len = presetStructure[index].goP_len
         root.src = presetStructure[index].src
