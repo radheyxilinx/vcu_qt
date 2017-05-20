@@ -213,10 +213,15 @@ void maincontroller :: stop_pipeline(){
 }
 
 void maincontroller :: updateLatency(){
-    rootobject->setProperty("encLatency", 60);
-    rootobject->setProperty("decLatency", 60);
+    double decLatency = 0.0;
+    double encLatency = 0.0;
+    vgst_calc_latency(&decLatency, &encLatency);
+    rootobject->setProperty("encLatency", encLatency);
+    rootobject->setProperty("decLatency", decLatency);
 }
 
 void maincontroller :: updateFPS(){
-    rootobject->setProperty("fpsValue", 30);
+    int fpsValue = 0;
+    vgst_calc_fps(&fpsValue);
+    rootobject->setProperty("fpsValue", fpsValue);
 }
