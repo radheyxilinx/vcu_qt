@@ -43,6 +43,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
 Rectangle {
+    property int tmpBitrate: 10000000
     anchors{
         horizontalCenter: parent.horizontalCenter
         verticalCenter: parent.verticalCenter
@@ -68,6 +69,31 @@ Rectangle {
         width: parent.width
         height: 30
         id: header
+    }
+    RowLayout{
+        anchors{
+            right: parent.right
+            rightMargin: 20
+            top: parent.top
+            topMargin: 10
+        }
+        height: 30
+        ExclusiveGroup { id: frameTypeGroup }
+
+        RadioButton {
+            id: radioButton
+            checked: true
+            text: qsTr("Raw")
+            exclusiveGroup: frameTypeGroup
+            onClicked: root.raw = true
+        }
+
+        RadioButton {
+            id: radioButton1
+            text: qsTr("Processed")
+            exclusiveGroup: frameTypeGroup
+            onClicked: root.raw = false
+        }
     }
 
     Rectangle{
@@ -104,6 +130,7 @@ Rectangle {
         width: 125
         height: 25
         text: "Low"
+        enabled: !root.raw
         MouseArea{
             anchors.fill: parent
             onClicked: {
@@ -122,6 +149,7 @@ Rectangle {
             bottom: bitRateTxt.bottom
             top: bitRateTxt.top
         }
+        enabled: !root.raw
         width: bitRateTxt.height
         height: bitRateTxt.height
         Image{
@@ -219,14 +247,13 @@ Rectangle {
                 top: parent.top
                 topMargin: 25
             }
-
+            enabled: !root.raw
             width: 110
             height: 15
             text: qsTr("B Frame")
         }
-
-        TextField{
-            id: framesCountLbl
+        Rectangle{
+            id: framesCountLblContainer
             anchors{
                 left: bFrame.right
                 leftMargin: 5
@@ -234,24 +261,33 @@ Rectangle {
                 topMargin: 25
 
             }
+            visible: bFrame.checked
             width: 30
             height: 20
-            visible: bFrame.checked
-            enabled: bFrame.checked
-            text: qsTr(framesCount.value.toString())
+            border.color: "black"
+            border.width: 1
+            Label{
+                id: framesCountLbl
+                anchors.fill: parent
+                visible: bFrame.checked
+                enabled: !root.raw
+                text: qsTr(framesCount.value.toString())
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+            }
         }
 
         Slider {
             id: framesCount
             anchors{
-                left: framesCountLbl.right
+                left: framesCountLblContainer.right
                 leftMargin: 10
                 top: parent.top
                 topMargin: 25
 
             }
+            enabled: !root.raw
             visible: bFrame.checked
-            //                    anchors.rightMargin: 5
             maximumValue: 4.0
             stepSize: 1.0
             value : 2
@@ -291,6 +327,7 @@ Rectangle {
             top: frameSupportBox.bottom
             topMargin: 10
         }
+        enabled: !root.raw
         border.color: "black"
         Label{
             width: parent.width-4
@@ -303,6 +340,7 @@ Rectangle {
                 topMargin: 2
             }
             text: qsTr(gopLengthCount.value.toString())
+            verticalAlignment: Text.AlignVCenter
         }
     }
     Slider {
@@ -314,6 +352,7 @@ Rectangle {
             topMargin: 10
 
         }
+        enabled: !root.raw
         maximumValue: 1000
         minimumValue: 10
         stepSize: 1.0
@@ -420,6 +459,7 @@ Rectangle {
             top: gopLenLbl.bottom
             topMargin: 10
         }
+        enabled: !root.raw
         width: 125
         height: 25
         text: "H264"
@@ -440,6 +480,7 @@ Rectangle {
             bottom: encoderTxt.bottom
             top: encoderTxt.top
         }
+        enabled: !root.raw
         width: encoderTxt.height
         height: encoderTxt.height
         Image{
@@ -475,12 +516,12 @@ Rectangle {
                 encoderType.visible = false
                 //                entropyType.visible = false
                 encoderDecoderPanel.visible = false
-                if(bFrame.checked){
-                    root.b_frame = framesCount.value
-                }
+
+                root.b_frame = bFrame.checked? framesCount.value :2
                 root.goP_len = goPLenTxt.text
                 root.enc_name = "omx" + encoderTxt.text.toLowerCase() + "enc"
                 root.raw = false
+                root.bitrate = tmpBitrate
             }
         }
     }
@@ -511,9 +552,15 @@ Rectangle {
             top: bitRateTxt.bottom
         }
         visible: false
-        width: bitRateTxt.width
+        width: bitRateTxt.width+dropButton.width-5
         height: 85
         color: "white"
+        MouseArea{
+            anchors.fill: parent
+            hoverEnabled: true
+            onExited: parent.visible = false
+        }
+
         ColumnLayout{
             width: parent.width
             height: parent.height
@@ -533,7 +580,7 @@ Rectangle {
                     onClicked: {
                         bitRateTxt.text = "High"
                         bitRate.visible = false
-                        root.bitrate = 100000000
+                        tmpBitrate = 100000000
                     }
                 }
             }
@@ -553,7 +600,7 @@ Rectangle {
                     onClicked: {
                         bitRateTxt.text = "Medium High"
                         bitRate.visible = false
-                        root.bitrate = 50000000
+                        tmpBitrate = 50000000
                     }
                 }
             }
@@ -572,7 +619,7 @@ Rectangle {
                     onClicked: {
                         bitRateTxt.text = "Medium"
                         bitRate.visible = false
-                        root.bitrate = 30000000
+                        tmpBitrate = 30000000
                     }
                 }
             }
@@ -591,7 +638,7 @@ Rectangle {
                     onClicked: {
                         bitRateTxt.text = "Medium Low"
                         bitRate.visible = false
-                        root.bitrate = 20000000
+                        tmpBitrate = 20000000
                     }
                 }
             }
@@ -610,7 +657,7 @@ Rectangle {
                     onClicked: {
                         bitRateTxt.text = "Low"
                         bitRate.visible = false
-                        root.bitrate = 10000000
+                        tmpBitrate = 10000000
                     }
                 }
             }
@@ -681,8 +728,13 @@ Rectangle {
             left: encoderTxt.left
             top: encoderTxt.bottom
         }
+        MouseArea{
+            anchors.fill: parent
+            hoverEnabled: true
+            onExited: parent.visible = false
+        }
         visible: false
-        width: encoderTxt.width
+        width: encoderTxt.width+dropButton.width-5
         height: 40
         color: "white"
         ColumnLayout{

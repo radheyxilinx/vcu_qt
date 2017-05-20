@@ -45,6 +45,10 @@
 #include "dirop.h"
 #include <maincontroller.h>
 
+void signalhandler(int sig){
+    QCoreApplication::exit(sig);
+}
+
 int main(int argc, char *argv[])
 {
     char *sources[] = {"File", "HDMI", "Test Pattern"};
@@ -52,6 +56,8 @@ int main(int argc, char *argv[])
     QApplication qapp(argc, argv);
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QQmlApplicationEngine engine;
+
+    signal(SIGINT, signalhandler);
 
     engine.rootContext()->setContextProperty("resoluteFrac",1);
     engine.rootContext()->setContextProperty("imageResolution",2160);
@@ -84,8 +90,11 @@ int main(int argc, char *argv[])
     mc.rootUIObj(engine.rootObjects().first());
     ctx->setContextProperty("controller", &mc);
 
+    QObject :: connect(&engine, SIGNAL(quit()), qApp, SLOT(quit()) );
+    QObject :: connect( qApp, SIGNAL(aboutToQuit()),&mc,SLOT(closeall()));
+
     DirOp currDir;
-    currDir.currentDir.setPath("/");
+    currDir.currentDir.setPath("/media/card/");
     ctx->setContextProperty("dirOPS", &currDir);
 #if 1 // Testing dirop
 

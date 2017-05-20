@@ -117,6 +117,7 @@ ApplicationWindow {
                     controlRectangle.visible = false
                 }
                 onDoubleClicked: {
+                    fileList.visible = false
                     inputRectangle.visible = false
                     controlRectangle.visible = false
                     graphPlot.visible = !graphPlot.visible
@@ -233,8 +234,12 @@ ApplicationWindow {
                         }
                         onClicked: {
                             inputSrcLst.showList = false
+                            controlLst.showList = false
+                            inputRectangle.visible = false
+                            controlRectangle.visible = false
                             root.play = !root.play;
-
+                            fileList.visible = false
+                            encoderDecoderPanel.visible = false
                             if(root.play){
                                 controller.updateInputParam(root.format, root.num_src, root.raw, root.src, root.device_type, "file://"+root.uri);
                                 controller.updateEncParam(root.bitrate, root.b_frame, root.enc_name, root.goP_len);
@@ -287,13 +292,16 @@ ApplicationWindow {
                             id: inputSrcLst
                             width: 150
                             height: parent.height
-                            color: "gray"
+                            color: root.play ? "lightGray" : "gray"
                             property var showList: false
                             property var browseSrc: false
-
+                            enabled: !root.play
+                            border.color: "black"
+                            border.width: 1
                             MouseArea{
                                 anchors.fill: parent
                                 onClicked: {
+                                    fileList.visible = false
                                     inputRectangle.visible = !inputRectangle.visible
                                     parent.showList = !parent.showList
                                     encoderDecoderPanel.visible = false
@@ -375,11 +383,15 @@ ApplicationWindow {
                             id: controlLst
                             width: 150
                             height: parent.height
-                            color: "gray"
+                            color: root.play ? "lightGray" : "gray"
+                            enabled: !root.play
                             property var showList: false
+                            border.color: "black"
+                            border.width: 1
                             MouseArea{
                                 anchors.fill: parent
                                 onClicked: {
+                                    fileList.visible = false
                                     encoderDecoderPanel.visible = false
                                     parent.showList = !parent.showList
                                     controlRectangle.visible = !controlRectangle.visible
@@ -437,6 +449,7 @@ ApplicationWindow {
                             width: 70
                             height: parent.height
                             text: "Control"
+                            enabled: !root.play
                             style: ButtonStyle{
                                 background: Rectangle {
                                     implicitWidth: 100
@@ -451,9 +464,12 @@ ApplicationWindow {
                                 }
                             }
                             onClicked: {
+                                fileList.visible = false
                                 encoderDecoderPanel.visible = !encoderDecoderPanel.visible
                                 inputSrcLst.showList = false
                                 inputRectangle.visible = false
+                                controlLst.showList = false
+                                controlRectangle.visible = false
                             }
                         }
                     }
@@ -495,7 +511,9 @@ ApplicationWindow {
                             }
                         }
                         onClicked: {
-
+                            controller.stop_pipeline();
+                            refreshTimer.stop()
+                            Qt.quit()
                         }
                     }
 
@@ -534,6 +552,7 @@ ApplicationWindow {
                             }
                         }
                         onClicked: {
+                            fileList.visible = false
                             titleBar.y = -100
                             inputRectangle.visible = false
                             controlRectangle.visible = false
@@ -555,22 +574,22 @@ ApplicationWindow {
                         height: parent.height-10
                         spacing: 10
                         Label{
-                            text: "Resolution: " + root.videoResolution
+                            text: "Resolution: " + "<b><i>" + root.videoResolution + "</i></b>"
                         }
                         Label{
-                            text: "Format: " + root.format
+                            text: "Format: " + "<b><i>" + root.format + "</i></b>"
                         }
                         Label{
-                            text: "FPS: " + root.fpsValue
+                            text: "FPS: " + "<b><i>" + root.fpsValue + "</i></b>"
                         }
                         Label{
-                            text: "Encoder Latency: " + root.encLatency + "mSec"
+                            text: "Encoder Latency: " + "<b><i>" + root.encLatency + "<b>mSec<b>" + "</i></b>"
                         }
                         Label{
-                            text: "Decoder Latency: " + root.decLatency + "mSec"
+                            text: "Decoder Latency: " + "<b><i>" + root.decLatency + "mSec" + "</i></b>"
                         }
                         Label{
-                            text: "Bitrate: " + root.bitrate/1000000 + "Mbps"
+                            text: "Bitrate: " + "<b><i>" + root.bitrate/1000000 + "Mbps" + "</i></b>"
                         }
                     }
                 }

@@ -45,7 +45,7 @@ import QtQuick.Controls.Styles 1.0
 Rectangle{
     onVisibleChanged: {
         if(visible){
-            var lst = dirOPS.changeFolder("/")
+            var lst = dirOPS.changeFolder("/media/card/")
             updateTable(lst)
         }
     }
@@ -284,6 +284,7 @@ Rectangle{
     }
     TextField{
         id: filterType
+        visible: false
         anchors{
             left: parent.left
             leftMargin: 10
@@ -295,7 +296,7 @@ Rectangle{
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                dirOPS.applyTypeFilter("*.so")
+                dirOPS.applyTypeFilter("")
             }
         }
     }
