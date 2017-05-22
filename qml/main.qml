@@ -383,8 +383,8 @@ ApplicationWindow {
                             id: controlLst
                             width: 150
                             height: parent.height
-                            color: root.play ? "lightGray" : "gray"
-                            enabled: !root.play
+                            color: ((root.src == "uridecodebin") || root.play) ? "lightGray" : "gray"
+                            enabled: (root.src == "uridecodebin") ? false : !root.play
                             property var showList: false
                             border.color: "black"
                             border.width: 1
@@ -449,7 +449,7 @@ ApplicationWindow {
                             width: 70
                             height: parent.height
                             text: "Control"
-                            enabled: !root.play
+                            enabled: (root.src == "uridecodebin") ? false : !root.play
                             style: ButtonStyle{
                                 background: Rectangle {
                                     implicitWidth: 100
