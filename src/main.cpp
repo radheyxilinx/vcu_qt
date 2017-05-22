@@ -51,8 +51,8 @@ void signalhandler(int sig){
 
 int main(int argc, char *argv[])
 {
-    char *sources[] = {"File", "HDMI", "Test Pattern"};
-    char *controls[] = {"HEVC Low", "HEVC Medium", "HEVC High", "AVC Low", "AVC Medium", "AVC High"};
+    char const *sources[] = {"File", "HDMI", "Test Pattern"};
+    char const *controls[] = {"HEVC Low", "HEVC Medium", "HEVC High", "AVC Low", "AVC Medium", "AVC High"};
     QApplication qapp(argc, argv);
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QQmlApplicationEngine engine;
