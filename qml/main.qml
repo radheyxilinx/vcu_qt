@@ -298,6 +298,7 @@ ApplicationWindow {
                             enabled: !root.play
                             border.color: "black"
                             border.width: 1
+                            radius: 2
                             MouseArea{
                                 anchors.fill: parent
                                 onClicked: {
@@ -388,6 +389,7 @@ ApplicationWindow {
                             property var showList: false
                             border.color: "black"
                             border.width: 1
+                            radius: 2
                             MouseArea{
                                 anchors.fill: parent
                                 onClicked: {
@@ -576,17 +578,42 @@ ApplicationWindow {
                         Label{
                             text: "<b>Resolution: </b>" + root.videoResolution
                         }
+                        Rectangle{
+                            width: 2
+                            height: 20
+                            color: "darkGray"
+                        }
                         Label{
                             text: "<b>Format: </b>" + root.format
+                        }
+                        Rectangle{
+                            width: 2
+                            height: 20
+                            color: "darkGray"
                         }
                         Label{
                             text: "<b>FPS: </b>" + root.fpsValue
                         }
+                        Rectangle{
+                            width: 2
+                            height: 20
+                            color: "darkGray"
+                        }
                         Label{
                             text: "<b>Encoder Latency: </b>" + root.encLatency + "mSec"
                         }
+                        Rectangle{
+                            width: 2
+                            height: 20
+                            color: "darkGray"
+                        }
                         Label{
                             text: "<b>Decoder Latency: </b>" + root.decLatency + "mSec"
+                        }
+                        Rectangle{
+                            width: 2
+                            height: 20
+                            color: "darkGray"
                         }
                         Label{
                             text: "<b>Bitrate: </b>" + root.bitrate/1000000 + "Mbps"
