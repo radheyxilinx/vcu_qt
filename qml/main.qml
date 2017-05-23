@@ -71,8 +71,7 @@ ApplicationWindow {
 
     property var videoResolution: "4k"
     property var fpsValue: 0
-    property var encLatency: 0
-    property var decLatency: 0
+    property var latency: 0
 
     property var videoInput: 0
     property var presetSelect: 0
@@ -600,7 +599,7 @@ ApplicationWindow {
                             color: "darkGray"
                         }
                         Label{
-                            text: "<b>Encoder Latency: </b>" + root.encLatency + "mSec"
+                            text: "<b>Latency: </b>" + root.latency + " ms"
                         }
                         Rectangle{
                             width: 2
@@ -608,15 +607,7 @@ ApplicationWindow {
                             color: "darkGray"
                         }
                         Label{
-                            text: "<b>Decoder Latency: </b>" + root.decLatency + "mSec"
-                        }
-                        Rectangle{
-                            width: 2
-                            height: 20
-                            color: "darkGray"
-                        }
-                        Label{
-                            text: "<b>Bitrate: </b>" + root.bitrate/1000000 + "Mbps"
+                            text: "<b>Bitrate: </b>" + root.bitrate/1000000 + " Mbps"
                         }
                     }
                 }

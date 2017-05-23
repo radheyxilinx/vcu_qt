@@ -213,11 +213,9 @@ void maincontroller :: stop_pipeline(){
 }
 
 void maincontroller :: updateLatency(){
-    double decLatency = 0.0;
-    double encLatency = 0.0;
-    vgst_calc_latency(&decLatency, &encLatency);
-    rootobject->setProperty("encLatency", encLatency);
-    rootobject->setProperty("decLatency", decLatency);
+    double latency = 0.0;
+    vgst_calc_latency(&latency);
+    rootobject->setProperty("latency", latency);
 }
 
 void maincontroller :: updateFPS(){
