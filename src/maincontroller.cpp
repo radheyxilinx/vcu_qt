@@ -197,10 +197,12 @@ void maincontroller :: updateInputParam(QString format, int num_src, bool raw, Q
 void maincontroller :: start_pipeline(){
     int err = vgst_config_options(&encoderParam, &inputParam);
     if(errorPopup(err)){
+        rootobject->setProperty("play", false);
         return;
     }
     err = vgst_start_pipeline();
     if(errorPopup(err)){
+        rootobject->setProperty("play", false);
         return;
     }
 }
@@ -208,6 +210,7 @@ void maincontroller :: start_pipeline(){
 void maincontroller :: stop_pipeline(){
     int err = vgst_stop_pipeline();
     if(errorPopup(err)){
+        rootobject->setProperty("play", true);
         return;
     }
 }
