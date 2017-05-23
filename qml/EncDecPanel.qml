@@ -56,6 +56,13 @@ Rectangle {
     border.width: 2
     radius: 5
 
+    MouseArea{
+        anchors.fill: parent
+        onClicked: {
+            bitRate.visible = false
+            encoderType.visible = false
+        }
+    }
     Label{
         anchors{
             left: parent.left
@@ -154,7 +161,7 @@ Rectangle {
         height: bitRateTxt.height
         Image{
             anchors.fill: parent
-            source: "qrc:///images/downArrow.png"
+            source: bitRate.visible ? "qrc:///images/upArrow.png" : "qrc:///images/downArrow.png"
         }
         MouseArea{
             anchors.fill: parent
@@ -251,6 +258,10 @@ Rectangle {
             width: 110
             height: 15
             text: qsTr("B Frame")
+            onClicked: {
+                bitRate.visible = false
+                encoderType.visible = false
+            }
         }
         Rectangle{
             id: framesCountLblContainer
@@ -485,7 +496,7 @@ Rectangle {
         height: encoderTxt.height
         Image{
             anchors.fill: parent
-            source: "qrc:///images/downArrow.png"
+            source: encoderType.visible ? "qrc:///images/upArrow.png" : "qrc:///images/downArrow.png"
         }
 
         MouseArea{
@@ -555,11 +566,6 @@ Rectangle {
         width: bitRateTxt.width+dropButton.width-5
         height: 85
         color: "white"
-        MouseArea{
-            anchors.fill: parent
-            hoverEnabled: true
-            onExited: parent.visible = false
-        }
 
         ColumnLayout{
             width: parent.width
@@ -727,11 +733,6 @@ Rectangle {
         anchors{
             left: encoderTxt.left
             top: encoderTxt.bottom
-        }
-        MouseArea{
-            anchors.fill: parent
-            hoverEnabled: true
-            onExited: parent.visible = false
         }
         visible: false
         width: encoderTxt.width+dropButton.width-5
