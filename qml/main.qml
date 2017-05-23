@@ -574,22 +574,22 @@ ApplicationWindow {
                         height: parent.height-10
                         spacing: 10
                         Label{
-                            text: "Resolution: " + "<b><i>" + root.videoResolution + "</i></b>"
+                            text: "<b>Resolution: </b>" + root.videoResolution
                         }
                         Label{
-                            text: "Format: " + "<b><i>" + root.format + "</i></b>"
+                            text: "<b>Format: </b>" + root.format
                         }
                         Label{
-                            text: "FPS: " + "<b><i>" + root.fpsValue + "</i></b>"
+                            text: "<b>FPS: </b>" + root.fpsValue
                         }
                         Label{
-                            text: "Encoder Latency: " + "<b><i>" + root.encLatency + "<b>mSec<b>" + "</i></b>"
+                            text: "<b>Encoder Latency: </b>" + root.encLatency + "mSec"
                         }
                         Label{
-                            text: "Decoder Latency: " + "<b><i>" + root.decLatency + "mSec" + "</i></b>"
+                            text: "<b>Decoder Latency: </b>" + root.decLatency + "mSec"
                         }
                         Label{
-                            text: "Bitrate: " + "<b><i>" + root.bitrate/1000000 + "Mbps" + "</i></b>"
+                            text: "<b>Bitrate: </b>" + root.bitrate/1000000 + "Mbps"
                         }
                     }
                 }
