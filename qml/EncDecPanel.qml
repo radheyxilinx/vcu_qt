@@ -44,9 +44,17 @@ import QtQuick.Controls.Styles 1.4
 
 Rectangle {
     property int tmpBitrate: 10000000
+    property bool tmpRaw: root.raw
     anchors{
         horizontalCenter: parent.horizontalCenter
         verticalCenter: parent.verticalCenter
+    }
+    onVisibleChanged: {
+        if(encoderDecoderPanel.visible){
+            tmpRaw = root.raw
+            radioButton.checked = root.raw
+            radioButton1.checked = !root.raw
+        }
     }
 
     width: 480
@@ -89,7 +97,6 @@ Rectangle {
 
         RadioButton {
             id: radioButton
-            checked: true
             text: qsTr("Raw")
             exclusiveGroup: frameTypeGroup
             onClicked: root.raw = true
@@ -531,7 +538,6 @@ Rectangle {
                 root.b_frame = bFrame.checked? framesCount.value :2
                 root.goP_len = goPLenTxt.text
                 root.enc_name = "omx" + encoderTxt.text.toLowerCase() + "enc"
-                root.raw = false
                 root.bitrate = tmpBitrate
             }
         }
@@ -553,6 +559,7 @@ Rectangle {
             encoderType.visible = false
             //            entropyType.visible = false
             encoderDecoderPanel.visible = false
+            root.raw = tmpRaw
         }
     }
 
