@@ -363,7 +363,7 @@ ApplicationWindow {
                                             break;
                                         case 1:
                                             root.src = "v4l2src"
-                                            root.device_type = 0
+                                            root.device_type = 2
                                             break;
                                         case 2:
                                             root.src = "v4l2src"
