@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
     QObject :: connect( qApp, SIGNAL(aboutToQuit()),&mc,SLOT(closeall()));
 
     DirOp currDir;
-    currDir.currentDir.setPath("/media/card/");
+    currDir.currentDir.setPath(ROOT_FILE_PATH);
     ctx->setContextProperty("dirOPS", &currDir);
 #if 1 // Testing dirop
 

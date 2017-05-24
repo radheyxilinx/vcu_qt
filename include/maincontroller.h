@@ -57,6 +57,7 @@ QT_CHARTS_USE_NAMESPACE
 
 #define SCREEN_HEIGHT 2160;
 #define SCREEN_WIDTH 3840;
+#define ROOT_FILE_PATH "/media/card"
 
 class maincontroller : public QObject
 {
