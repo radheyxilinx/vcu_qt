@@ -264,7 +264,7 @@ ApplicationWindow {
                             height: parent.height
                             Label{
                                 id: ipSrcLbl
-                                text: "No. of input source:"
+                                text: "Num. of input:"
                                 height: parent.height
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
