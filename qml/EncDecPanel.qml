@@ -58,7 +58,7 @@ Rectangle {
     }
 
     width: 480
-    height: 320
+    height: 270
     color: "#ffffff"
     border.color: "black"
     border.width: 2
@@ -89,6 +89,7 @@ Rectangle {
         anchors{
             right: parent.right
             rightMargin: 20
+            left: cancelButton.left
             top: parent.top
             topMargin: 10
         }
@@ -123,10 +124,10 @@ Rectangle {
     Label{
         id: bitRateLbl
         anchors{
-            left: parent.left
+            left:  parent.left
             leftMargin: 10
-            top: header.bottom
-            topMargin: 10
+            top: encoderLbl.bottom
+            topMargin: 15
         }
         width: 110
         height: 25
@@ -136,10 +137,9 @@ Rectangle {
     TextField{
         id: bitRateTxt
         anchors{
-            left: bitRateLbl.right
+            left:  bitRateLbl.right
             leftMargin: 5
-            top: header.bottom
-            topMargin: 10
+            top: bitRateLbl.top
         }
         width: 125
         height: 25
@@ -188,7 +188,7 @@ Rectangle {
             topMargin: 5
         }
         height: 1
-        color: "black"
+        color: "gray"
     }
     /*
     Label {
@@ -220,22 +220,7 @@ Rectangle {
 
     }
 */
-    Rectangle {
 
-        anchors{
-            left:  parent.left
-            leftMargin: 10
-            right: parent.right
-            rightMargin: 10
-            top: bitRateLbl.bottom
-            topMargin: 10
-        }
-        id: frameSupportBox
-        height: 75
-        Label{
-            text: "Frame Support: "
-            height: 20
-        }
         /*
         CheckBox {
             id: pFrame
@@ -253,41 +238,31 @@ Rectangle {
             onClicked: getGopStructure()
         }
 */
-        CheckBox {
+        Label {
             id: bFrame
             anchors{
                 left: parent.left
-                leftMargin: 80
-                top: parent.top
-                topMargin: 25
+                leftMargin: 10
+                top: bitRateLbl.bottom
+                topMargin: 20
             }
-            enabled: !root.raw
+            height: 25
             width: 110
-            height: 15
-            text: qsTr("B Frame")
-            onClicked: {
-                bitRate.visible = false
-                encoderType.visible = false
-            }
+            text: qsTr("B Frame: ")
         }
         Rectangle{
             id: framesCountLblContainer
             anchors{
-                left: bFrame.right
-                leftMargin: 5
-                top: parent.top
-                topMargin: 25
-
+                left: cancelButton.left
+                top: bFrame.top
             }
-            visible: bFrame.checked
-            width: 30
-            height: 20
+            width: cancelButton.width
+            height: 25
             border.color: "black"
             border.width: 1
             Label{
                 id: framesCountLbl
                 anchors.fill: parent
-                visible: bFrame.checked
                 enabled: !root.raw
                 text: qsTr(framesCount.value.toString())
                 verticalAlignment: Text.AlignVCenter
@@ -298,27 +273,23 @@ Rectangle {
         Slider {
             id: framesCount
             anchors{
-                left: framesCountLblContainer.right
-                leftMargin: 10
-                top: parent.top
-                topMargin: 25
-
+                left: bFrame.right
+                leftMargin: 5
+                top: bFrame.top
             }
             enabled: !root.raw
-            visible: bFrame.checked
             maximumValue: 4.0
             stepSize: 1.0
-            value : 2
+            value : 0
             style: SliderStyle {
                 groove: Rectangle {
-                    implicitWidth: 100
+                    implicitWidth: 150
                     implicitHeight: 5
                     color: "gray"
                     radius: 5
                 }
             }
         }
-    }
 
 
     Label {
@@ -328,22 +299,20 @@ Rectangle {
         anchors{
             left:  parent.left
             leftMargin: 10
-            top: frameSupportBox.bottom
-            topMargin: 10
+            top: bFrame.bottom
+            topMargin: 20
         }
         text: qsTr("GoP Length: ")
         verticalAlignment: Text.AlignVCenter
     }
 
     Rectangle{
-        width: 100
+        width: cancelButton.width
         height: 25
         id: goPLenTxtRect
         anchors{
-            left:  gopLenLbl.right
-            leftMargin: 5
-            top: frameSupportBox.bottom
-            topMargin: 10
+            left:  cancelButton.left
+            top: gopLenLbl.top
         }
         enabled: !root.raw
         border.color: "black"
@@ -359,25 +328,24 @@ Rectangle {
             }
             text: qsTr(gopLengthCount.value.toString())
             verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
         }
     }
     Slider {
         id: gopLengthCount
         anchors{
-            left: goPLenTxtRect.right
-            leftMargin: 10
-            top: frameSupportBox.bottom
-            topMargin: 10
-
+            left: gopLenLbl.right
+            leftMargin: 5
+            top: gopLenLbl.top
         }
         enabled: !root.raw
-        maximumValue: 1000
-        minimumValue: 10
+        maximumValue: 100
+        minimumValue: 1
         stepSize: 1.0
         value : 30
         style: SliderStyle {
             groove: Rectangle {
-                implicitWidth: 220
+                implicitWidth: 150
                 implicitHeight: 5
                 color: "gray"
                 radius: 5
@@ -392,7 +360,7 @@ Rectangle {
             topMargin: 5
         }
         height: 1
-        color: "black"
+        color: "gray"
     }
     /*
     Label {
@@ -458,10 +426,10 @@ Rectangle {
     Label {
         id: encoderLbl
         anchors{
-            left:  parent.left
+            left: parent.left
             leftMargin: 10
-            top: gopLenLbl.bottom
-            topMargin: 15
+            top: header.bottom
+            topMargin: 10
         }
         width: 110
         height: 25
@@ -472,9 +440,9 @@ Rectangle {
     TextField{
         id: encoderTxt
         anchors{
-            left:  encoderLbl.right
+            left: bitRateLbl.right
             leftMargin: 5
-            top: gopLenLbl.bottom
+            top: header.bottom
             topMargin: 10
         }
         enabled: !root.raw
@@ -515,6 +483,16 @@ Rectangle {
             }
         }
     }
+    Rectangle{
+        anchors{
+            left: parent.left
+            right: parent.right
+            top: encoderLbl.bottom
+            topMargin: 5
+        }
+        height: 1
+        color: "gray"
+    }
 
     Button {
         id: okButton
@@ -534,8 +512,7 @@ Rectangle {
                 encoderType.visible = false
                 //                entropyType.visible = false
                 encoderDecoderPanel.visible = false
-
-                root.b_frame = bFrame.checked? framesCount.value :2
+                root.b_frame = framesCount.value
                 root.goP_len = goPLenTxt.text
                 root.enc_name = "omx" + encoderTxt.text.toLowerCase() + "enc"
                 root.bitrate = tmpBitrate
