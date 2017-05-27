@@ -45,6 +45,19 @@ import QtQuick.Controls.Styles 1.4
 Rectangle {
     property int tmpBitrate: 10000000
     property bool tmpRaw: root.raw
+
+    property var tmpB_frame: root.b_frame
+    property var tmpEnc_name: root.enc_name
+    property int tmpGoP_len: root.goP_len
+    property int tmpEnc_enum: root.enc_enum
+    property var bitRateNames: [
+        {"bitrate":10000000, "bitrateName":"Low"},
+        {"bitrate":20000000, "bitrateName":"Medium Low"},
+        {"bitrate":30000000, "bitrateName":"Medium"},
+        {"bitrate":50000000, "bitrateName":"Medium High"},
+        {"bitrate":100000000, "bitrateName":"High"},
+    ]
+
     anchors{
         horizontalCenter: parent.horizontalCenter
         verticalCenter: parent.verticalCenter
@@ -54,6 +67,19 @@ Rectangle {
             tmpRaw = root.raw
             radioButton.checked = root.raw
             radioButton1.checked = !root.raw
+
+            tmpB_frame = root.b_frame
+            tmpEnc_name = root.enc_name
+            tmpGoP_len = root.goP_len
+            encoderTxt.text = (root.enc_enum == 2) ? "H264" : "H265"
+            gopLengthCount.value = root.goP_len
+            framesCount.value = root.b_frame
+            for(var i = 0; i < 5; i++){
+                if(root.bitrate === bitRateNames[i].bitrate){
+                    bitRateTxt.text = bitRateNames[i].bitrateName
+                    tmpBitrate = bitRateNames[i].bitrate
+                }
+            }
         }
     }
 
@@ -516,6 +542,7 @@ Rectangle {
                 root.goP_len = goPLenTxt.text
                 root.enc_name = "omx" + encoderTxt.text.toLowerCase() + "enc"
                 root.bitrate = tmpBitrate
+                root.enc_enum = tmpEnc_enum
             }
         }
     }
@@ -741,6 +768,7 @@ Rectangle {
                     onClicked: {
                         encoderTxt.text = "H264"
                         encoderType.visible = false
+                        tmpEnc_enum = 1
                     }
                 }
             }
@@ -760,6 +788,7 @@ Rectangle {
                     onClicked: {
                         encoderTxt.text = "H265"
                         encoderType.visible = false
+                        tmpEnc_enum = 2
                     }
                 }
             }

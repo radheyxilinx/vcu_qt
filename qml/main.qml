@@ -81,6 +81,7 @@ ApplicationWindow {
     property var b_frame: 0
     property var enc_name: "omxh264enc"
     property var goP_len: 30
+    property int enc_enum: 2
 
     property var format : "NV12"
     property var num_src : 1
@@ -244,7 +245,6 @@ ApplicationWindow {
                                 controller.updateEncParam(root.bitrate, root.b_frame, root.enc_name, root.goP_len);
                                 controller.start_pipeline();
                             }else{
-                                root.raw = true
                                 controller.stop_pipeline();
                             }
                         }
@@ -436,6 +436,7 @@ ApplicationWindow {
                                     delgate: this
                                     width: parent.width
                                     function clicked(indexval){
+                                        root.raw = false
                                         controlRectangle.visible = false
                                         controlLst.showList = false
                                         root.presetSelect = indexval
