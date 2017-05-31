@@ -215,12 +215,6 @@ void maincontroller :: stop_pipeline(){
     }
 }
 
-void maincontroller :: updateLatency(){
-    double latency = 0.0;
-    vgst_calc_latency(&latency);
-    rootobject->setProperty("latency", latency);
-}
-
 void maincontroller :: updateFPS(){
     int fpsValue = 0;
     vgst_calc_fps(&fpsValue);

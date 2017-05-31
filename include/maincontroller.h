@@ -103,7 +103,6 @@ public slots:
     void updateInputParam(QString, int, bool, QString, int, QString);
     void start_pipeline();
     void stop_pipeline();
-    void updateLatency();
     void updateFPS();
 };
 

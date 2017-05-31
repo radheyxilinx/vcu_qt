@@ -71,7 +71,6 @@ ApplicationWindow {
 
     property var videoResolution: "4k"
     property var fpsValue: 0
-    property var latency: 0
 
     property var videoInput: 0
     property var presetSelect: 0
@@ -600,14 +599,6 @@ ApplicationWindow {
                             color: "darkGray"
                         }
                         Label{
-                            text: "<b>Latency: </b>" + root.latency + " ms"
-                        }
-                        Rectangle{
-                            width: 2
-                            height: 20
-                            color: "darkGray"
-                        }
-                        Label{
                             text: "<b>Bitrate: </b>" + root.bitrate/1000000 + " Mbps"
                         }
                     }
@@ -787,7 +778,6 @@ ApplicationWindow {
                 controller.updatecpu(chart_line_CPU.series(0),chart_line_CPU.series(1),chart_line_CPU.series(2),chart_line_CPU.series(3))
                 if(root.play){
                     controller.updateThroughput(encoderBandWidthPlot.series(0),decoderBandWidthPlot.series(0))
-                    controller.updateLatency()
                     controller.updateFPS()
                 }
             }
