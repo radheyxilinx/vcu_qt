@@ -72,7 +72,7 @@ ApplicationWindow {
     property var videoResolution: "4k"
     property var fpsValue: 0
 
-    property var videoInput: 0
+    property var videoInput: 2
     property var presetSelect: 0
     property var plotDisplay: true
 
