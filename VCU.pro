@@ -1,3 +1,4 @@
+TARGET = vcu_qt
 QT += qml quick widgets core gui
 QT += charts
 
