@@ -115,14 +115,6 @@ ApplicationWindow {
                     inputRectangle.visible = false
                     controlRectangle.visible = false
                 }
-                onDoubleClicked: {
-                    fileList.visible = false
-                    inputRectangle.visible = false
-                    controlRectangle.visible = false
-                    graphPlot.visible = !graphPlot.visible
-                    titleBar.y = graphPlot.visible ? 0 : -100
-                    encoderDecoderPanel.visible = false
-                }
                 onPositionChanged: {
                     titleBar.y = 0
                     graphPlot.visible = true
