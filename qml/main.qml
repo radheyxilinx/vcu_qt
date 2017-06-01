@@ -599,7 +599,7 @@ ApplicationWindow {
                             color: "darkGray"
                         }
                         Label{
-                            text: "<b>Bitrate: </b>" + root.bitrate/1000000 + " Mbps"
+                            text: root.raw ? "<b>Bitrate: </b>NA" :"<b>Bitrate: </b>" + root.bitrate/1000000 + " Mbps"
                         }
                     }
                 }
