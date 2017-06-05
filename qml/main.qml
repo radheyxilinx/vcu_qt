@@ -114,12 +114,10 @@ ApplicationWindow {
                     controlLst.showList = false
                     inputRectangle.visible = false
                     controlRectangle.visible = false
-                }
-                onPositionChanged: {
+
                     titleBar.y = 0
                     graphPlot.visible = true
                 }
-
             }
 
             Rectangle{
@@ -545,12 +543,14 @@ ApplicationWindow {
                             }
                         }
                         onClicked: {
-                            fileList.visible = false
-                            titleBar.y = -100
-                            inputRectangle.visible = false
-                            controlRectangle.visible = false
-                            graphPlot.visible = false
-                            encoderDecoderPanel.visible = false
+                            if(root.play){
+                                fileList.visible = false
+                                titleBar.y = -100
+                                inputRectangle.visible = false
+                                controlRectangle.visible = false
+                                graphPlot.visible = false
+                                encoderDecoderPanel.visible = false
+                            }
                         }
                     }
 
