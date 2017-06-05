@@ -71,7 +71,7 @@ Rectangle {
             tmpB_frame = root.b_frame
             tmpEnc_name = root.enc_name
             tmpGoP_len = root.goP_len
-            encoderTxt.text = (root.enc_enum == 2) ? "H264" : "H265"
+            encoderTxt.text = (root.enc_enum == 2) ? "H265" : "H264"
             gopLengthCount.value = root.goP_len
             framesCount.value = root.b_frame
             for(var i = 0; i < 5; i++){

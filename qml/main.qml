@@ -805,5 +805,6 @@ ApplicationWindow {
         root.src = presetStructure[index].src
         root.device_type = presetStructure[index].device_type
         root.bitrate = presetStructure[index].bitrate
+        root.enc_enum = presetStructure[index].enc_enum
     }
 }
