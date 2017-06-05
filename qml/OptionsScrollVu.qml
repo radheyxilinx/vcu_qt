@@ -70,7 +70,7 @@ Rectangle{
                 Text {
                     text: modelData.shortName
                     anchors.left: parent.left
-                    anchors.leftMargin: 20
+                    anchors.leftMargin: 10
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 anchors.left: parent.left

@@ -235,14 +235,11 @@ Rectangle{
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
-
-            onExited: {
-
-            }
             onClicked:{
                 fileList.visible = false
                 fileName = ""
                 dirOPS.applyTypeFilter("*")
+                srcNameLbl.text = (root.device_type == 1) ? "Test Pattern" : "HDMI"
             }
         }
     }

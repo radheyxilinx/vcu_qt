@@ -249,19 +249,18 @@ ApplicationWindow {
                         spacing: 20
 
                         Rectangle{
-                            width: 170
+                            width: 130
                             height: parent.height
+                            color: "transparent"
                             Label{
                                 id: ipSrcLbl
-                                text: "Num. of input:"
-                                height: parent.height
+                                text: "<b>Num. of input:</b>"
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                                 anchors{
                                     left: parent.left
                                     leftMargin: 0
                                 }
-                                width: 150
                             }
                             TextField{
                                 text: "1"
@@ -270,166 +269,192 @@ ApplicationWindow {
                                     leftMargin: 5
                                 }
                                 width: 20
-                                height: parent.height
                                 enabled: false
                                 horizontalAlignment: Text.AlignHCenter
                             }
                         }
 
                         Rectangle{
-                            id: inputSrcLst
-                            width: 150
+                            width: 180
                             height: parent.height
-                            color: root.play ? "lightGray" : "gray"
-                            property var showList: false
-                            property var browseSrc: false
-                            enabled: !root.play
-                            border.color: "black"
-                            border.width: 1
-                            radius: 2
-                            MouseArea{
-                                anchors.fill: parent
-                                onClicked: {
-                                    fileList.visible = false
-                                    inputRectangle.visible = !inputRectangle.visible
-                                    parent.showList = !parent.showList
-                                    encoderDecoderPanel.visible = false
-                                    controlRectangle.visible = false
-                                    controlLst.showList = false
-                                }
-                            }
+                            color: "transparent"
                             Label{
                                 anchors.left: parent.left
-                                anchors.leftMargin: 20
-                                height: parent.height
-                                color: "white"
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                                text: "Input Source"
+                                width: 80
+                                text: "<b>Input: </b>"
                             }
-                            Image{
-                                anchors.right: parent.right
-                                anchors.rightMargin: 5
-                                width: parent.height
-                                height: parent.height
-                                source: inputSrcLst.showList ? "qrc:///images/upArrow.png" : "qrc:///images/downArrow.png"
-                            }
-
                             Rectangle{
-                                id: inputRectangle
-                                width: inputSrcLst.width
-                                anchors.left: inputSrcLst.left
-                                height: 60
-                                visible: false
-                                border.color: root.borderColors
-                                border.width: root.boarderWidths
-
-                                clip: true
-                                color: root.barColors
-                                anchors.top: inputSrcLst.bottom
-                                anchors.bottomMargin: 0
+                                id: inputSrcLst
+                                anchors.right: parent.right
+                                width: 130
+                                height: parent.height
+                                color: root.play ? "lightGray" : "gray"
+                                property var showList: false
+                                property var browseSrc: false
+                                enabled: !root.play
+                                border.color: "black"
+                                border.width: 1
+                                radius: 2
                                 MouseArea{
                                     anchors.fill: parent
-                                    hoverEnabled: true
-                                    onExited: {
-
+                                    onClicked: {
+                                        fileList.visible = false
+                                        inputRectangle.visible = !inputRectangle.visible
+                                        parent.showList = !parent.showList
+                                        encoderDecoderPanel.visible = false
+                                        controlRectangle.visible = false
+                                        controlLst.showList = false
                                     }
                                 }
+                                Label{
+                                    id: srcNameLbl
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 10
+                                    height: parent.height
+                                    color: "white"
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    text: "Test Pattern"
+                                }
+                                Image{
+                                    anchors.right: parent.right
+                                    anchors.rightMargin: 5
+                                    width: parent.height
+                                    height: parent.height
+                                    source: inputSrcLst.showList ? "qrc:///images/upArrow.png" : "qrc:///images/downArrow.png"
+                                }
 
-                                OptionsScrollVu{
-                                    id: videoSrcOptionsSV
-                                    anchors.fill: parent
-                                    listModel.model: videoSourceList
-                                    selecteItem: root.videoInput
-                                    delgate: this
-                                    width: parent.width
-                                    function clicked(indexval){
-                                        inputRectangle.visible = false
-                                        inputSrcLst.showList = false
-                                        switch (indexval){
-                                        case 0:
-                                            fileList.visible = true
-                                            break;
-                                        case 1:
-                                            root.src = "v4l2src"
-                                            root.device_type = 2
-                                            break;
-                                        case 2:
-                                            root.src = "v4l2src"
-                                            root.device_type = 1
-                                            break;
-                                        default:
-                                            root.src = "v4l2src"
-                                            root.device_type = 1
+                                Rectangle{
+                                    id: inputRectangle
+                                    width: inputSrcLst.width
+                                    anchors.left: inputSrcLst.left
+                                    height: 60
+                                    visible: false
+                                    border.color: root.borderColors
+                                    border.width: root.boarderWidths
+
+                                    clip: true
+                                    color: root.barColors
+                                    anchors.top: inputSrcLst.bottom
+                                    anchors.bottomMargin: 0
+                                    MouseArea{
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        onExited: {
+
                                         }
-                                        root.videoInput = indexval
+                                    }
+
+                                    OptionsScrollVu{
+                                        id: videoSrcOptionsSV
+                                        anchors.fill: parent
+                                        listModel.model: videoSourceList
+                                        selecteItem: root.videoInput
+                                        delgate: this
+                                        width: parent.width
+                                        function clicked(indexval){
+                                            inputRectangle.visible = false
+                                            inputSrcLst.showList = false
+                                            srcNameLbl.text = videoSourceList[indexval].shortName
+                                            switch (indexval){
+                                            case 0:
+                                                fileList.visible = true
+                                                root.device_type = 1
+                                                break;
+                                            case 1:
+                                                root.src = "v4l2src"
+                                                root.device_type = 2
+                                                break;
+                                            case 2:
+                                                root.src = "v4l2src"
+                                                root.device_type = 1
+                                                break;
+                                            default:
+                                                root.src = "v4l2src"
+                                                root.device_type = 1
+                                            }
+                                            root.videoInput = indexval
+                                        }
                                     }
                                 }
                             }
                         }
 
                         Rectangle{
-                            id: controlLst
-                            width: 150
+                            width: 210
                             height: parent.height
-                            color: ((root.src == "uridecodebin") || root.play) ? "lightGray" : "gray"
-                            enabled: (root.src == "uridecodebin") ? false : !root.play
-                            property var showList: false
-                            border.color: "black"
-                            border.width: 1
-                            radius: 2
-                            MouseArea{
-                                anchors.fill: parent
-                                onClicked: {
-                                    fileList.visible = false
-                                    encoderDecoderPanel.visible = false
-                                    parent.showList = !parent.showList
-                                    controlRectangle.visible = !controlRectangle.visible
-                                    inputRectangle.visible = false
-                                    inputSrcLst.showList = false
-                                }
-                            }
+                            color: "transparent"
                             Label{
                                 anchors.left: parent.left
-                                anchors.leftMargin: 20
-                                height: parent.height
-                                color: "white"
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                                text: "Preset"
+                                width: 80
+                                text: "<b>Preset: </b>"
                             }
-                            Image{
-                                anchors.right: parent.right
-                                anchors.rightMargin: 5
-                                width: parent.height
-                                height: parent.height
-                                source: controlLst.showList ? "qrc:///images/upArrow.png" : "qrc:///images/downArrow.png"
-                            }
-
                             Rectangle{
-                                id: controlRectangle
-                                width: parent.width
-                                height: 120
-                                visible: false
-                                anchors.left: parent.left
-                                border.color: root.borderColors
-                                border.width: root.boarderWidths
-                                clip: true
-                                color: root.barColors
-                                anchors.top: parent.bottom
-
-                                ControlVu{
+                                id: controlLst
+                                anchors.right: parent.right
+                                width: 150
+                                height: parent.height
+                                color: ((root.src == "uridecodebin") || root.play) ? "lightGray" : "gray"
+                                enabled: (root.src == "uridecodebin") ? false : !root.play
+                                property var showList: false
+                                border.color: "black"
+                                border.width: 1
+                                radius: 2
+                                MouseArea{
                                     anchors.fill: parent
-                                    listModel.model: controlList
-                                    selecteItem: root.presetSelect
-                                    delgate: this
+                                    onClicked: {
+                                        fileList.visible = false
+                                        encoderDecoderPanel.visible = false
+                                        parent.showList = !parent.showList
+                                        controlRectangle.visible = !controlRectangle.visible
+                                        inputRectangle.visible = false
+                                        inputSrcLst.showList = false
+                                    }
+                                }
+                                Label{
+                                    id: presetLbl
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 10
+                                    height: parent.height
+                                    color: "white"
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    text: "HEVC Low"
+                                }
+                                Image{
+                                    anchors.right: parent.right
+                                    anchors.rightMargin: 5
+                                    width: parent.height
+                                    height: parent.height
+                                    source: controlLst.showList ? "qrc:///images/upArrow.png" : "qrc:///images/downArrow.png"
+                                }
+
+                                Rectangle{
+                                    id: controlRectangle
                                     width: parent.width
-                                    function clicked(indexval){
-                                        root.raw = false
-                                        controlRectangle.visible = false
-                                        controlLst.showList = false
-                                        root.presetSelect = indexval
-                                        root.setPresets(indexval)
+                                    height: 120
+                                    visible: false
+                                    anchors.left: parent.left
+                                    border.color: root.borderColors
+                                    border.width: root.boarderWidths
+                                    clip: true
+                                    color: root.barColors
+                                    anchors.top: parent.bottom
+
+                                    ControlVu{
+                                        anchors.fill: parent
+                                        listModel.model: controlList
+                                        selecteItem: root.presetSelect
+                                        delgate: this
+                                        width: parent.width
+                                        function clicked(indexval){
+                                            root.raw = false
+                                            controlRectangle.visible = false
+                                            controlLst.showList = false
+                                            root.presetSelect = indexval
+                                            root.setPresets(indexval)
+                                            presetLbl.text = controlList[indexval].shortName
+                                        }
                                     }
                                 }
                             }

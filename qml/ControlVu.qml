@@ -71,7 +71,7 @@ Rectangle{
                     text: modelData.shortName
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 20
+                    anchors.leftMargin: 10
                 }
                 anchors.left: parent.left
                 width: ctrlVu.width
