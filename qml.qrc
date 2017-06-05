@@ -9,7 +9,6 @@
         <file>images/downArrow.png</file>
         <file>images/upArrow.png</file>
         <file>images/play_arrow.png</file>
-        <file>images/xilinxLogo.png</file>
         <file>images/fullScreen.png</file>
         <file>images/backFolder.png</file>
         <file>images/textFile.png</file>
@@ -23,5 +22,6 @@
         <file>images/error.png</file>
         <file>images/pause.png</file>
         <file>qml/PresetProperties.qml</file>
+        <file>images/xilinxLogo.png</file>
     </qresource>
 </RCC>

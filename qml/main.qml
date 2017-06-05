@@ -130,7 +130,7 @@ ApplicationWindow {
 
                 height: 90
                 color: "lightGray"
-                Image{
+                Rectangle{
                     id: logoImg
                     anchors{
                         left: parent.left
@@ -138,10 +138,14 @@ ApplicationWindow {
                         top: parent.top
                         topMargin: 0
                     }
-                    fillMode: Image.PreserveAspectCrop
                     width: 160
                     height: 55
-                    source: "qrc:///images/xilinxLogo.png"
+                    color: "white"
+                    Image{
+                        anchors.fill: parent
+                        fillMode: Image.PreserveAspectCrop
+                        source: "qrc:///images/xilinxLogo.png"
+                    }
                 }
                 Label{
                     id: prjTitle
