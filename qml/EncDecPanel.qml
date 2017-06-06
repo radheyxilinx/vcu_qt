@@ -50,6 +50,8 @@ Rectangle {
     property var tmpEnc_name: root.enc_name
     property int tmpGoP_len: root.goP_len
     property int tmpEnc_enum: root.enc_enum
+    property int tmpPresetSel: root.presetSelect
+    property bool tmpIsPreset: false
     property var bitRateNames: [
         {"bitrate":10000000, "bitrateName":"Low"},
         {"bitrate":20000000, "bitrateName":"Medium Low"},
@@ -72,6 +74,8 @@ Rectangle {
             tmpEnc_name = root.enc_name
             tmpGoP_len = root.goP_len
             encoderTxt.text = (root.enc_enum == 2) ? "H265" : "H264"
+            tmpPresetSel = root.presetSelect
+            tmpIsPreset = root.isPreset
             gopLengthCount.value = root.goP_len
             framesCount.value = root.b_frame
             for(var i = 0; i < 5; i++){
@@ -126,14 +130,25 @@ Rectangle {
             id: radioButton
             text: qsTr("Raw")
             exclusiveGroup: frameTypeGroup
-            onClicked: root.raw = true
+            onClicked: {
+                root.raw = true
+                tmpPresetSel = 7
+                root.setPresets(tmpPresetSel)
+                presetLbl.text = controlList[tmpPresetSel].shortName
+            }
         }
 
         RadioButton {
             id: radioButton1
             text: qsTr("Processed")
             exclusiveGroup: frameTypeGroup
-            onClicked: root.raw = false
+            onClicked: {
+                root.raw = false
+                root.isPreset = false
+                tmpPresetSel = 6
+                root.setPresets(tmpPresetSel)
+                presetLbl.text = controlList[tmpPresetSel].shortName
+            }
         }
     }
 
@@ -170,7 +185,7 @@ Rectangle {
         width: 125
         height: 25
         text: "Low"
-        enabled: !root.raw
+        enabled: !root.raw && !root.isPreset
         MouseArea{
             anchors.fill: parent
             onClicked: {
@@ -189,7 +204,7 @@ Rectangle {
             bottom: bitRateTxt.bottom
             top: bitRateTxt.top
         }
-        enabled: !root.raw
+        enabled: !root.raw && !root.isPreset
         width: bitRateTxt.height
         height: bitRateTxt.height
         Image{
@@ -289,7 +304,7 @@ Rectangle {
             Label{
                 id: framesCountLbl
                 anchors.fill: parent
-                enabled: !root.raw
+                enabled: !root.raw && !root.isPreset
                 text: qsTr(framesCount.value.toString())
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
@@ -303,7 +318,7 @@ Rectangle {
                 leftMargin: 5
                 top: bFrame.top
             }
-            enabled: !root.raw
+            enabled: !root.raw && !root.isPreset
             maximumValue: 4.0
             stepSize: 1.0
             value : 0
@@ -340,7 +355,7 @@ Rectangle {
             left:  cancelButton.left
             top: gopLenLbl.top
         }
-        enabled: !root.raw
+        enabled: !root.raw && !root.isPreset
         border.color: "black"
         Label{
             width: parent.width-4
@@ -364,7 +379,7 @@ Rectangle {
             leftMargin: 5
             top: gopLenLbl.top
         }
-        enabled: !root.raw
+        enabled: !root.raw && !root.isPreset
         maximumValue: 100
         minimumValue: 1
         stepSize: 1.0
@@ -471,7 +486,7 @@ Rectangle {
             top: header.bottom
             topMargin: 10
         }
-        enabled: !root.raw
+        enabled: !root.raw && !root.isPreset
         width: 125
         height: 25
         text: "H264"
@@ -492,7 +507,7 @@ Rectangle {
             bottom: encoderTxt.bottom
             top: encoderTxt.top
         }
-        enabled: !root.raw
+        enabled: !root.raw && !root.isPreset
         width: encoderTxt.height
         height: encoderTxt.height
         Image{
@@ -543,6 +558,8 @@ Rectangle {
                 root.enc_name = "omx" + encoderTxt.text.toLowerCase() + "enc"
                 root.bitrate = tmpBitrate
                 root.enc_enum = tmpEnc_enum
+                root.presetSelect = tmpPresetSel
+                presetList.resetSource(root.presetSelect)
             }
         }
     }
@@ -564,6 +581,10 @@ Rectangle {
             //            entropyType.visible = false
             encoderDecoderPanel.visible = false
             root.raw = tmpRaw
+            root.setPresets(root.presetSelect)
+            presetList.resetSource(root.presetSelect)
+            presetLbl.text = controlList[root.presetSelect].shortName
+            root.isPreset = tmpIsPreset
         }
     }
 

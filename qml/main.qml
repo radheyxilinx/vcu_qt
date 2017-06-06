@@ -59,6 +59,7 @@ ApplicationWindow {
 
     property alias fileinfoListModel: fileList.fileListModel
     property bool play: false
+    property bool isPreset: false
 
     property var errorMessageText: ""
     property var errorNameText: ""
@@ -73,7 +74,7 @@ ApplicationWindow {
     property var fpsValue: 0
 
     property var videoInput: 2
-    property var presetSelect: 0
+    property var presetSelect: 7
     property var plotDisplay: true
 
     property int bitrate: 10000000
@@ -423,7 +424,7 @@ ApplicationWindow {
                                     color: "white"
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
-                                    text: "HEVC Low"
+                                    text: presetLbl.text = controlList[root.presetSelect].shortName
                                 }
                                 Image{
                                     anchors.right: parent.right
@@ -436,7 +437,7 @@ ApplicationWindow {
                                 Rectangle{
                                     id: controlRectangle
                                     width: parent.width
-                                    height: 120
+                                    height: 160
                                     visible: false
                                     anchors.left: parent.left
                                     border.color: root.borderColors
@@ -446,13 +447,24 @@ ApplicationWindow {
                                     anchors.top: parent.bottom
 
                                     ControlVu{
+                                        id: presetList
                                         anchors.fill: parent
                                         listModel.model: controlList
                                         selecteItem: root.presetSelect
                                         delgate: this
                                         width: parent.width
                                         function clicked(indexval){
-                                            root.raw = false
+                                            if(indexval == 7){
+                                                root.raw = true
+                                                isPreset = false
+                                            }else if(indexval == 6){
+                                                root.raw = false
+                                                isPreset = false
+                                                encoderDecoderPanel.visible = true
+                                            }else{
+                                                root.raw = false
+                                                isPreset = true
+                                            }
                                             controlRectangle.visible = false
                                             controlLst.showList = false
                                             root.presetSelect = indexval
