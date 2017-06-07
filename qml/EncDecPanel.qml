@@ -158,7 +158,7 @@ Rectangle {
         width: 110
         height: 25
         verticalAlignment: Text.AlignVCenter
-        text: "Bit Rate: "
+        text: "Bitrate: "
     }
     TextField{
         id: bitRateTxt
@@ -589,54 +589,15 @@ Rectangle {
                 Label{
                     anchors.left: parent.left
                     anchors.leftMargin: 5
-                    text: "High"
+                    text: "Low"
                     verticalAlignment: Text.AlignVCenter
                 }
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        bitRateTxt.text = "High"
+                        bitRateTxt.text = "Low"
                         bitRate.visible = false
-                        tmpBitrate = 100000000
-                    }
-                }
-            }
-
-            Rectangle{
-                width: parent.width
-                height: parent.height/3-2
-                color: "lightGray"
-                Label{
-                    anchors.left: parent.left
-                    anchors.leftMargin: 5
-                    text: "Medium High"
-                    verticalAlignment: Text.AlignVCenter
-                }
-                MouseArea{
-                    anchors.fill: parent
-                    onClicked: {
-                        bitRateTxt.text = "Medium High"
-                        bitRate.visible = false
-                        tmpBitrate = 50000000
-                    }
-                }
-            }
-            Rectangle{
-                width: parent.width
-                height: parent.height/3-2
-                color: "lightGray"
-                Label{
-                    anchors.left: parent.left
-                    anchors.leftMargin: 5
-                    text: "Medium"
-                    verticalAlignment: Text.AlignVCenter
-                }
-                MouseArea{
-                    anchors.fill: parent
-                    onClicked: {
-                        bitRateTxt.text = "Medium"
-                        bitRate.visible = false
-                        tmpBitrate = 30000000
+                        tmpBitrate = 10000000
                     }
                 }
             }
@@ -666,15 +627,53 @@ Rectangle {
                 Label{
                     anchors.left: parent.left
                     anchors.leftMargin: 5
-                    text: "Low"
+                    text: "Medium"
                     verticalAlignment: Text.AlignVCenter
                 }
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        bitRateTxt.text = "Low"
+                        bitRateTxt.text = "Medium"
                         bitRate.visible = false
-                        tmpBitrate = 10000000
+                        tmpBitrate = 30000000
+                    }
+                }
+            }
+            Rectangle{
+                width: parent.width
+                height: parent.height/3-2
+                color: "lightGray"
+                Label{
+                    anchors.left: parent.left
+                    anchors.leftMargin: 5
+                    text: "Medium High"
+                    verticalAlignment: Text.AlignVCenter
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        bitRateTxt.text = "Medium High"
+                        bitRate.visible = false
+                        tmpBitrate = 50000000
+                    }
+                }
+            }
+            Rectangle{
+                width: parent.width
+                height: parent.height/3-2
+                color: "lightGray"
+                Label{
+                    anchors.left: parent.left
+                    anchors.leftMargin: 5
+                    text: "High"
+                    verticalAlignment: Text.AlignVCenter
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        bitRateTxt.text = "High"
+                        bitRate.visible = false
+                        tmpBitrate = 100000000
                     }
                 }
             }
