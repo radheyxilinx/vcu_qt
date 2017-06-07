@@ -274,7 +274,7 @@ Rectangle {
             }
             height: 25
             width: 110
-            text: qsTr("B Frame: ")
+            text: qsTr("B-frame: ")
         }
         Rectangle{
             id: framesCountLblContainer
