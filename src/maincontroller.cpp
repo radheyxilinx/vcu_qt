@@ -216,7 +216,5 @@ void maincontroller :: stop_pipeline(){
 }
 
 void maincontroller :: updateFPS(){
-    int fpsValue = 0;
-    vgst_calc_fps(&fpsValue);
-    rootobject->setProperty("fpsValue", fpsValue);
+    rootobject->setProperty("fpsValue", vgst_calc_fps());
 }

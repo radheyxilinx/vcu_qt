@@ -800,6 +800,8 @@ ApplicationWindow {
                 if(root.play){
                     controller.updateThroughput(encoderBandWidthPlot.series(0),decoderBandWidthPlot.series(0))
                     controller.updateFPS()
+                }else{
+                    root.fpsValue = 0
                 }
             }
         }
