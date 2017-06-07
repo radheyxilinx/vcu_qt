@@ -119,7 +119,6 @@ Rectangle {
         anchors{
             right: parent.right
             rightMargin: 20
-            left: cancelButton.left
             top: parent.top
             topMargin: 10
         }
@@ -128,7 +127,7 @@ Rectangle {
 
         RadioButton {
             id: radioButton
-            text: qsTr("Raw")
+            text: qsTr("Passthrough")
             exclusiveGroup: frameTypeGroup
             onClicked: {
                 root.raw = true
