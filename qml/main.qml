@@ -74,7 +74,7 @@ ApplicationWindow {
     property var fpsValue: 0
 
     property var videoInput: 2
-    property var presetSelect: 7
+    property var presetSelect: 0
     property var plotDisplay: true
 
     property int bitrate: 10000000
@@ -397,7 +397,6 @@ ApplicationWindow {
                             onCheckedChanged: {
                                 if(passtroughCB.checked){
                                     root.raw = true
-                                    root.presetSelect = 7
                                 }else{
                                     root.raw = false
                                     if(root.presetSelect > 6){
@@ -429,8 +428,8 @@ ApplicationWindow {
                                 anchors.right: parent.right
                                 width: 150
                                 height: parent.height
-                                color: ((root.src == "uridecodebin") || root.play) ? "lightGray" : "gray"
-                                enabled: (root.src == "uridecodebin") ? false : !root.play
+                                color: ((root.src == "uridecodebin") || passtroughCB.checked || root.play) ? "lightGray" : "gray"
+                                enabled: ((root.src == "uridecodebin") || passtroughCB.checked) ? false : !root.play
                                 property var showList: false
                                 border.color: "black"
                                 border.width: 1
@@ -467,7 +466,7 @@ ApplicationWindow {
                                 Rectangle{
                                     id: controlRectangle
                                     width: parent.width
-                                    height: 160
+                                    height: 140
                                     visible: false
                                     anchors.left: parent.left
                                     border.color: root.borderColors
@@ -490,11 +489,7 @@ ApplicationWindow {
                                             root.setPresets(indexval)
                                             presetLbl.text = controlList[indexval].shortName
                                             presetList.resetSource(root.presetSelect)
-                                            if(indexval == 7){
-                                                root.raw = true
-                                                isPreset = false
-                                                passtroughCB.checked = true
-                                            }else if(indexval == 6){
+                                            if(indexval == 6){
                                                 root.raw = false
                                                 isPreset = false
                                                 encoderDecoderPanel.visible = true
@@ -503,6 +498,7 @@ ApplicationWindow {
                                                 root.raw = false
                                                 isPreset = true
                                                 passtroughCB.checked = false
+                                                encoderDecoderPanel.tmpPresetSel = indexval
                                             }
                                         }
                                     }

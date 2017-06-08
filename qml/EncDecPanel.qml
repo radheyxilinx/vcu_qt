@@ -48,6 +48,7 @@ Rectangle {
     property var tmpEnc_name: root.enc_name
     property int tmpGoP_len: root.goP_len
     property int tmpEnc_enum: root.enc_enum
+    property int tmpPresetSel: 0
     property var bitRateNames: [
         {"bitrate":10000000, "bitrateName":"Low"},
         {"bitrate":20000000, "bitrateName":"Medium Low"},
@@ -512,6 +513,7 @@ Rectangle {
                 root.enc_name = "omx" + encoderTxt.text.toLowerCase() + "enc"
                 root.bitrate = tmpBitrate
                 root.enc_enum = tmpEnc_enum
+                tmpPresetSel = root.presetSelect
             }
         }
     }
@@ -532,6 +534,13 @@ Rectangle {
             encoderType.visible = false
             //            entropyType.visible = false
             encoderDecoderPanel.visible = false
+            root.presetSelect = tmpPresetSel
+            root.setPresets(root.presetSelect)
+            presetLbl.text = controlList[root.presetSelect].shortName
+            presetList.resetSource(root.presetSelect)
+            if(root.presetSelect != 6){
+                root.isPreset = true
+            }
         }
     }
 

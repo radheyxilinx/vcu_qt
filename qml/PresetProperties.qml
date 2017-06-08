@@ -52,7 +52,6 @@ Item {
         {"name":"HEVC Low", "bitrate":lowBitRate, "b_frame":2, "enc_enum":2, "enc_name":"omxh265enc", "goP_len":30, "src":"v4l2src", "device_type":1},
         {"name":"HEVC Medium", "bitrate":mediumBitRate, "b_frame":2, "enc_enum":2, "enc_name":"omxh265enc", "goP_len":30, "src":"v4l2src", "device_type":1},
         {"name":"HEVC High", "bitrate":highBitRate, "b_frame":2, "enc_enum":2, "enc_name":"omxh265enc", "goP_len":30, "src":"v4l2src", "device_type":1},
-        {"name":"Custom", "bitrate":root.bitrate, "b_frame":root.b_frame, "enc_enum":root.enc_enum, "enc_name":root.enc_name, "goP_len":root.goP_len, "src":root.src, "device_type":root.device_type},
-        {"name":"None", "bitrate":root.bitrate, "b_frame":root.b_frame, "enc_enum":root.enc_enum, "enc_name":root.enc_name, "goP_len":root.goP_len, "src":root.src, "device_type":root.device_type}
+        {"name":"Custom", "bitrate":root.bitrate, "b_frame":root.b_frame, "enc_enum":root.enc_enum, "enc_name":root.enc_name, "goP_len":root.goP_len, "src":root.src, "device_type":root.device_type}
     ]
 }
