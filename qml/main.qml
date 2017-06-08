@@ -164,7 +164,7 @@ ApplicationWindow {
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
-                    text: "Zynq UltraScale+MPSoC Video Codec Unit Targeted Reference Design"
+                    text: "Zynq UltraScale+ MPSoC VCU Targeted Reference design"
                 }
                 Image{
                     id: logo1Img
