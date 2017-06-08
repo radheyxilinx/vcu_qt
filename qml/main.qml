@@ -260,6 +260,7 @@ ApplicationWindow {
                             Label{
                                 id: ipSrcLbl
                                 text: "<b>Num. of input:</b>"
+                                height: parent.height
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                                 anchors{
@@ -286,6 +287,8 @@ ApplicationWindow {
                             Label{
                                 anchors.left: parent.left
                                 width: 80
+                                height: parent.height
+                                verticalAlignment: Text.AlignVCenter
                                 text: "<b>Input: </b>"
                             }
                             Rectangle{
@@ -385,6 +388,31 @@ ApplicationWindow {
                             }
                         }
 
+                        CheckBox{
+                            id: passtroughCB
+                            text: "<b>Passthrough</b>"
+                            checked: true
+                            height: parent.height
+                            enabled: (root.src == "uridecodebin") ? false : !root.play
+                            onCheckedChanged: {
+                                if(passtroughCB.checked){
+                                    root.raw = true
+                                    root.presetSelect = 7
+                                }else{
+                                    root.raw = false
+                                    if(root.presetSelect > 6){
+                                        root.isPreset = false
+                                        root.presetSelect = 6
+                                    }else{
+                                        root.isPreset = true
+                                    }
+                                }
+                                root.setPresets(root.presetSelect)
+                                presetLbl.text = controlList[root.presetSelect].shortName
+                                presetList.resetSource(root.presetSelect)
+                            }
+                        }
+
                         Rectangle{
                             width: 210
                             height: parent.height
@@ -392,6 +420,8 @@ ApplicationWindow {
                             Label{
                                 anchors.left: parent.left
                                 width: 80
+                                height: parent.height
+                                verticalAlignment: Text.AlignVCenter
                                 text: "<b>Preset: </b>"
                             }
                             Rectangle{
@@ -454,22 +484,26 @@ ApplicationWindow {
                                         delgate: this
                                         width: parent.width
                                         function clicked(indexval){
-                                            if(indexval == 7){
-                                                root.raw = true
-                                                isPreset = false
-                                            }else if(indexval == 6){
-                                                root.raw = false
-                                                isPreset = false
-                                                encoderDecoderPanel.visible = true
-                                            }else{
-                                                root.raw = false
-                                                isPreset = true
-                                            }
                                             controlRectangle.visible = false
                                             controlLst.showList = false
                                             root.presetSelect = indexval
                                             root.setPresets(indexval)
                                             presetLbl.text = controlList[indexval].shortName
+                                            presetList.resetSource(root.presetSelect)
+                                            if(indexval == 7){
+                                                root.raw = true
+                                                isPreset = false
+                                                passtroughCB.checked = true
+                                            }else if(indexval == 6){
+                                                root.raw = false
+                                                isPreset = false
+                                                encoderDecoderPanel.visible = true
+                                                passtroughCB.checked = false
+                                            }else{
+                                                root.raw = false
+                                                isPreset = true
+                                                passtroughCB.checked = false
+                                            }
                                         }
                                     }
                                 }

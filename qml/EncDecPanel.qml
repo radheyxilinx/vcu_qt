@@ -44,14 +44,10 @@ import QtQuick.Controls.Styles 1.4
 
 Rectangle {
     property int tmpBitrate: 10000000
-    property bool tmpRaw: root.raw
-
     property var tmpB_frame: root.b_frame
     property var tmpEnc_name: root.enc_name
     property int tmpGoP_len: root.goP_len
     property int tmpEnc_enum: root.enc_enum
-    property int tmpPresetSel: root.presetSelect
-    property bool tmpIsPreset: false
     property var bitRateNames: [
         {"bitrate":10000000, "bitrateName":"Low"},
         {"bitrate":20000000, "bitrateName":"Medium Low"},
@@ -66,16 +62,10 @@ Rectangle {
     }
     onVisibleChanged: {
         if(encoderDecoderPanel.visible){
-            tmpRaw = root.raw
-            radioButton.checked = root.raw
-            radioButton1.checked = !root.raw
-
             tmpB_frame = root.b_frame
             tmpEnc_name = root.enc_name
             tmpGoP_len = root.goP_len
             encoderTxt.text = (root.enc_enum == 2) ? "H265" : "H264"
-            tmpPresetSel = root.presetSelect
-            tmpIsPreset = root.isPreset
             gopLengthCount.value = root.goP_len
             framesCount.value = root.b_frame
             for(var i = 0; i < 5; i++){
@@ -114,41 +104,6 @@ Rectangle {
         width: parent.width
         height: 30
         id: header
-    }
-    RowLayout{
-        anchors{
-            right: parent.right
-            rightMargin: 20
-            top: parent.top
-            topMargin: 10
-        }
-        height: 30
-        ExclusiveGroup { id: frameTypeGroup }
-
-        RadioButton {
-            id: radioButton
-            text: qsTr("Passthrough")
-            exclusiveGroup: frameTypeGroup
-            onClicked: {
-                root.raw = true
-                tmpPresetSel = 7
-                root.setPresets(tmpPresetSel)
-                presetLbl.text = controlList[tmpPresetSel].shortName
-            }
-        }
-
-        RadioButton {
-            id: radioButton1
-            text: qsTr("Processed")
-            exclusiveGroup: frameTypeGroup
-            onClicked: {
-                root.raw = false
-                root.isPreset = false
-                tmpPresetSel = 6
-                root.setPresets(tmpPresetSel)
-                presetLbl.text = controlList[tmpPresetSel].shortName
-            }
-        }
     }
 
     Rectangle{
@@ -557,8 +512,6 @@ Rectangle {
                 root.enc_name = "omx" + encoderTxt.text.toLowerCase() + "enc"
                 root.bitrate = tmpBitrate
                 root.enc_enum = tmpEnc_enum
-                root.presetSelect = tmpPresetSel
-                presetList.resetSource(root.presetSelect)
             }
         }
     }
@@ -579,11 +532,6 @@ Rectangle {
             encoderType.visible = false
             //            entropyType.visible = false
             encoderDecoderPanel.visible = false
-            root.raw = tmpRaw
-            root.setPresets(root.presetSelect)
-            presetList.resetSource(root.presetSelect)
-            presetLbl.text = controlList[root.presetSelect].shortName
-            root.isPreset = tmpIsPreset
         }
     }
 
