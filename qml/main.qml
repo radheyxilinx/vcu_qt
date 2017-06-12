@@ -231,10 +231,9 @@ ApplicationWindow {
                             controlLst.showList = false
                             inputRectangle.visible = false
                             controlRectangle.visible = false
-                            root.play = !root.play;
                             fileList.visible = false
                             encoderDecoderPanel.visible = false
-                            if(root.play){
+                            if(!root.play){
                                 controller.updateInputParam(root.format, root.num_src, root.raw, root.src, root.device_type, "file://"+root.uri);
                                 controller.updateEncParam(root.bitrate, root.b_frame, root.enc_name, root.goP_len);
                                 controller.start_pipeline();

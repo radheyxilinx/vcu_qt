@@ -204,6 +204,8 @@ void maincontroller :: start_pipeline(){
     if(errorPopup(err)){
         rootobject->setProperty("play", false);
         return;
+    }else{
+        rootobject->setProperty("play", true);
     }
 }
 
@@ -212,6 +214,8 @@ void maincontroller :: stop_pipeline(){
     if(errorPopup(err)){
         rootobject->setProperty("play", true);
         return;
+    }else{
+        rootobject->setProperty("play", false);
     }
 }
 
