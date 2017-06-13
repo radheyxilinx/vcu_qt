@@ -510,7 +510,7 @@ ApplicationWindow {
                             width: 70
                             height: parent.height
                             text: "Control"
-                            enabled: (root.src == "uridecodebin") ? false : !root.play
+                            enabled: ((root.src == "uridecodebin") || passtroughCB.checked) ? false : !root.play
                             style: ButtonStyle{
                                 background: Rectangle {
                                     implicitWidth: 100
