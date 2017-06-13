@@ -408,6 +408,13 @@ ApplicationWindow {
                                 root.setPresets(root.presetSelect)
                                 presetLbl.text = controlList[root.presetSelect].shortName
                                 presetList.resetSource(root.presetSelect)
+
+                                fileList.visible = false
+                                encoderDecoderPanel.visible = false
+                                inputSrcLst.showList = false
+                                inputRectangle.visible = false
+                                controlLst.showList = false
+                                controlRectangle.visible = false
                             }
                         }
 
