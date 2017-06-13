@@ -366,7 +366,6 @@ ApplicationWindow {
                                             switch (indexval){
                                             case 0:
                                                 fileList.visible = true
-                                                root.device_type = 1
                                                 break;
                                             case 1:
                                                 root.src = "v4l2src"
