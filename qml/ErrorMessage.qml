@@ -114,15 +114,14 @@ Rectangle{
 
             //			}
             Rectangle{
-                //				anchors.left: errorImage.right
+                anchors.left: parent.left
                 anchors.leftMargin: 20 * 1
-                width: parent.width - 200
+                width: parent.width - 40
                 anchors.top: parent.top
                 anchors.topMargin: 20 * 1
                 color: "transparent"
                 height: parent.height - (40 * 1)
                 Text {
-                    anchors.leftMargin: 10
                     anchors.left: parent.left
                     id: errorMessageLbl
                     text: messageText
