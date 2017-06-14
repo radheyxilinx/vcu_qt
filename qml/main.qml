@@ -59,7 +59,6 @@ ApplicationWindow {
 
     property alias fileinfoListModel: fileList.fileListModel
     property bool play: false
-    property bool isPreset: false
 
     property var errorMessageText: ""
     property var errorNameText: ""
@@ -398,10 +397,8 @@ ApplicationWindow {
                                 }else{
                                     root.raw = false
                                     if(root.presetSelect > 6){
-                                        root.isPreset = false
                                         root.presetSelect = 6
                                     }else{
-                                        root.isPreset = true
                                     }
                                 }
                                 root.setPresets(root.presetSelect)
@@ -496,12 +493,10 @@ ApplicationWindow {
                                             presetList.resetSource(root.presetSelect)
                                             if(indexval == 6){
                                                 root.raw = false
-                                                isPreset = false
                                                 encoderDecoderPanel.visible = true
                                                 passtroughCB.checked = false
                                             }else{
                                                 root.raw = false
-                                                isPreset = true
                                                 passtroughCB.checked = false
                                                 encoderDecoderPanel.tmpPresetSel = indexval
                                             }
