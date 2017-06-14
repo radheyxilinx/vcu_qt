@@ -74,7 +74,7 @@ ApplicationWindow {
     property var fpsValue: 0
 
     property var videoInput: 2
-    property var presetSelect: 0
+    property var presetSelect: 5
     property var plotDisplay: true
 
     property int bitrate: 10000000
