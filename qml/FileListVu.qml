@@ -55,6 +55,7 @@ Rectangle{
     anchors.verticalCenter: parent.verticalCenter
     property alias fileListModel: listView.model
     property var fileName: ""
+    property var selectedDir: ""
     width: 600
     height: 400
     color: "lightGray"
@@ -196,8 +197,10 @@ Rectangle{
         onClicked: {
             if(!libraryModel.get(row).itemType){
                 fileName = libraryModel.get(row).itemName
+                selectedDir = ""
             }else{
                 fileName = ""
+                selectedDir = libraryModel.get(row).itemName
             }
         }
         ListModel {
@@ -272,9 +275,12 @@ Rectangle{
                     root.uri = filePathLbl.text + "/" + fileName
                     root.src = "uridecodebin"
                     fileList.visible = false
-                    dirOPS.applyTypeFilter("*")
                 }else{
-                    dirOPS.applyTypeFilter("*")
+                    if(selectedDir.length){
+                        var lst = dirOPS.changeFolder(selectedDir)
+                        updateTable(lst)
+                        selectedDir = ""
+                    }
                 }
             }
         }
