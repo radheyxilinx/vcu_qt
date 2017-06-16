@@ -53,7 +53,7 @@ Rectangle{
     property var tmpEnc_name: root.enc_name
     property var tmpGoP_len: root.goP_len
     property var tmpEnc_enum: root.enc_enum
-    property var tmpPresetSel: 0
+    property var tmpPresetSel: 5
     property var bitRateNames: [
         {"bitrate":10000000, "bitrateName":"Low"},
         {"bitrate":20000000, "bitrateName":"Medium Low"},

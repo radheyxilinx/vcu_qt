@@ -402,7 +402,7 @@ ApplicationWindow {
                                     }
                                 }
                                 root.setPresets(root.presetSelect)
-                                presetLbl.text = controlList[root.presetSelect].shortName
+                                presetLbl.text = passtroughCB.checked?"None": controlList[root.presetSelect].shortName
                                 presetList.resetSource(root.presetSelect)
 
                                 fileList.visible = false
@@ -455,7 +455,7 @@ ApplicationWindow {
                                     color: "white"
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
-                                    text: presetLbl.text = controlList[root.presetSelect].shortName
+                                    text: passtroughCB.checked ? "None" : presetLbl.text = controlList[root.presetSelect].shortName
                                 }
                                 Image{
                                     anchors.right: parent.right
