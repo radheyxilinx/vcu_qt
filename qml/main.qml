@@ -697,6 +697,7 @@ ApplicationWindow {
                             id: axisYcpu
                             min: 0
                             max: 100
+                            labelFormat: "%d"
                             labelsFont.pointSize: 10 * resoluteFrac
                             labelsColor: "white"
                             gridLineColor: "white"
@@ -756,7 +757,8 @@ ApplicationWindow {
                         ValueAxis {
                             id: axisYEncBW
                             min: 0
-                            max: 8
+                            max: 24
+                            labelFormat: "%d"
                             labelsFont.pointSize: 10 * resoluteFrac
                             labelsColor: "white"
                             gridLineColor: "white"
@@ -799,7 +801,8 @@ ApplicationWindow {
                         ValueAxis {
                             id: axisYDecBW
                             min: 0
-                            max: 8
+                            max: 24
+                            labelFormat: "%d"
                             labelsFont.pointSize: 10 * resoluteFrac
                             labelsColor: "white"
                             gridLineColor: "white"
