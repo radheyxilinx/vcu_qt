@@ -77,7 +77,7 @@ ApplicationWindow {
     property var presetSelect: 5
     property var plotDisplay: true
 
-    property int bitrate: 10000000
+    property int bitrate: 100000000
     property var b_frame: 0
     property var enc_name: "omxh264enc"
     property var goP_len: 30
