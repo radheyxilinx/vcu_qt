@@ -249,7 +249,7 @@ Rectangle{
                     fileList.visible = false
                     fileName = ""
                     dirOPS.applyTypeFilter("*")
-                    srcNameLbl.text = (root.device_type == 1) ? "Test Pattern" : "HDMI"
+                    srcNameLbl.text = (root.src == "uridecodebin") ? "File" : ((root.device_type == 1) ? "Test Pattern" : "HDMI")
                 }
             }
         }
