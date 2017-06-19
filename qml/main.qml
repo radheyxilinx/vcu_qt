@@ -662,7 +662,7 @@ ApplicationWindow {
                             color: "darkGray"
                         }
                         Label{
-                            text: root.raw ? "<b>Bitrate: </b>NA" :"<b>Bitrate: </b>" + root.bitrate/1000000 + " Mbps"
+                            text:  ((root.src == "uridecodebin") || root.raw) ? "<b>Bitrate: </b>NA" :"<b>Bitrate: </b>" + root.bitrate/1000000 + " Mbps"
                         }
                     }
                 }
