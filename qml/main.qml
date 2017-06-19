@@ -234,12 +234,16 @@ ApplicationWindow {
                             fileList.visible = false
                             encoderDecoderPanel.visible = false
                             if(!root.play){
+                                playBtn.enabled = false
                                 controller.updateInputParam(root.format, root.num_src, root.raw, root.src, root.device_type, "file://"+root.uri);
                                 controller.updateEncParam(root.bitrate, root.b_frame, root.enc_name, root.goP_len);
                                 controller.start_pipeline();
+                                playBtn.enabled = true
                             }else{
+                                playBtn.enabled = false
                                 controller.stop_pipeline();
                                 root.errorFound = false;
+                                playBtn.enabled = true
                             }
                         }
                     }
