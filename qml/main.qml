@@ -84,7 +84,7 @@ ApplicationWindow {
 
     property var format : "NV12"
     property var num_src : 1
-    property var raw : true
+    property var raw : passtroughCB.checked
     property var src : "v4l2src"
     property var device_type : 1
     property var uri : ""
@@ -388,7 +388,7 @@ ApplicationWindow {
                         CheckBox{
                             id: passtroughCB
                             text: "<b>Passthrough</b>"
-                            checked: true
+                            checked: false
                             height: parent.height
                             enabled: (root.src == "uridecodebin") ? false : !root.play
                             onCheckedChanged: {
