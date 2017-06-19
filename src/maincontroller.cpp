@@ -55,7 +55,7 @@ void maincontroller :: inits(){
     inputParam.height = SCREEN_HEIGHT;
     inputParam.width = SCREEN_WIDTH;
 
-    perfmon_init_all(PERF_SAMPLE_INTERVAL_COUNTER);
+    perf_monitor_init();
 }
 void maincontroller :: rootUIObj(QObject * item){
     rootobject = item;
@@ -73,7 +73,7 @@ bool maincontroller:: errorPopup(int errorno){
 }
 
 void maincontroller::closeall() {
-    perfmon_deinit_all(PERF_SAMPLE_INTERVAL_COUNTER);
+    perf_monitor_deinit();
 }
 
 void maincontroller :: updatecpu( QAbstractSeries *cpu1, QAbstractSeries *cpu2, QAbstractSeries *cpu3, QAbstractSeries *cpu4) {
@@ -146,11 +146,8 @@ void maincontroller :: updateThroughput(QAbstractSeries *videoSrcAS, QAbstractSe
     QXYSeries *videoSrcSeries = static_cast<QXYSeries *>(videoSrcAS);
     QXYSeries *acceleratorSeries = static_cast<QXYSeries *>(acceleratorAS);
 
-    data[videoSrc] = (float)((perfmon_get_countervalue(PS_DDRAPM_SLOT_4, 8, PERF_SAMPLE_INTERVAL_COUNTER) + perfmon_get_countervalue(PS_DDRAPM_SLOT_4, 9, PERF_SAMPLE_INTERVAL_COUNTER))* 8 / 1000000000.0);
-    data[filter] = (float)((perfmon_get_countervalue(PS_DDRAPM_SLOT_5, 0, PERF_SAMPLE_INTERVAL_COUNTER) + perfmon_get_countervalue(PS_DDRAPM_SLOT_5, 1, PERF_SAMPLE_INTERVAL_COUNTER))* 8 / 1000000000.0);
-
-    perfmon_reset_countervalue(PS_DDRAPM_SLOT_4, PERF_SAMPLE_INTERVAL_COUNTER);
-    perfmon_reset_countervalue(PS_DDRAPM_SLOT_5, PERF_SAMPLE_INTERVAL_COUNTER);
+    data[videoSrc] = (float)((perf_monitor_get_rd_wr_cnt(E_APM0) + perf_monitor_get_rd_wr_cnt(E_APM1))* 8 / 1000000000.0);
+    data[filter] = (float)((perf_monitor_get_rd_wr_cnt(E_APM2) + perf_monitor_get_rd_wr_cnt(E_APM3))* 8 / 1000000000.0);
 
     if(videoSrcList.length() > 60){
         videoSrcList.removeFirst();
@@ -160,9 +157,9 @@ void maincontroller :: updateThroughput(QAbstractSeries *videoSrcAS, QAbstractSe
     filterList.append(data[filter]);
 
     QString str1;
-    str1.sprintf("Encoder Bandwidth Utilization (%2.0f Gbps)", data[videoSrc]);
+    str1.sprintf("Encoder Bandwidth Utilization (%2.2f Gbps)", data[videoSrc]);
     QString str2;
-    str2.sprintf("Decoder Bandwidth Utilization (%2.0f Gbps)", data[filter]);
+    str2.sprintf("Decoder Bandwidth Utilization (%2.2f Gbps)", data[filter]);
 
     videoSrcSeries->setName(str1);
     acceleratorSeries->setName(str2);

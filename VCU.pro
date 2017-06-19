@@ -68,7 +68,7 @@ LIBS += \
         -lQt5PrintSupport \
         -lQt5OpenGL \
         -lQt5Svg \
-        -lperfmon \
+        -lvcu_apm_lib \
 	-lvcu_gst_lib \
         -lgstreamer-1.0 \
 	-lgthread-2.0 \

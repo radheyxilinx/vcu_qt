@@ -839,8 +839,8 @@ ApplicationWindow {
             repeat: true
             onTriggered: {
                 controller.updatecpu(chart_line_CPU.series(0),chart_line_CPU.series(1),chart_line_CPU.series(2),chart_line_CPU.series(3))
+                controller.updateThroughput(encoderBandWidthPlot.series(0),decoderBandWidthPlot.series(0))
                 if(root.play){
-                    controller.updateThroughput(encoderBandWidthPlot.series(0),decoderBandWidthPlot.series(0))
                     controller.updateFPS()
                 }else{
                     root.fpsValue = 0

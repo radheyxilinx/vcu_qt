@@ -88,7 +88,7 @@ class maincontroller : public QObject
     QObject * rootobject;
 
     vgst_enc_params encoderParam;
-    vgst_input_param inputParam;
+    vgst_input_params inputParam;
 
 public:
     void rootUIObj(QObject * item);
