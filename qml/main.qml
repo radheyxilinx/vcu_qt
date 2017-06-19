@@ -59,6 +59,7 @@ ApplicationWindow {
 
     property alias fileinfoListModel: fileList.fileListModel
     property bool play: false
+    property bool errorFound: false
 
     property var errorMessageText: ""
     property var errorNameText: ""
@@ -238,6 +239,7 @@ ApplicationWindow {
                                 controller.start_pipeline();
                             }else{
                                 controller.stop_pipeline();
+                                root.errorFound = false;
                             }
                         }
                     }
@@ -843,8 +845,9 @@ ApplicationWindow {
             onTriggered: {
                 controller.updatecpu(chart_line_CPU.series(0),chart_line_CPU.series(1),chart_line_CPU.series(2),chart_line_CPU.series(3))
                 controller.updateThroughput(encoderBandWidthPlot.series(0),decoderBandWidthPlot.series(0))
-                if(root.play){
+                if(root.play && !root.errorFound){
                     controller.updateFPS()
+                    controller.pollError();
                 }else{
                     root.fpsValue = 0
                 }

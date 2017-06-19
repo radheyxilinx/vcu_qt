@@ -219,3 +219,11 @@ void maincontroller :: stop_pipeline(){
 void maincontroller :: updateFPS(){
     rootobject->setProperty("fpsValue", vgst_calc_fps());
 }
+
+void maincontroller :: pollError(){
+    int err = vgst_poll_event(VGST_EVENT_ERR);
+    if(errorPopup(err)){
+        rootobject->setProperty("errorFound", true);
+        return;
+    }
+}

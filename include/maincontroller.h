@@ -104,6 +104,7 @@ public slots:
     void start_pipeline();
     void stop_pipeline();
     void updateFPS();
+    void pollError();
 };
 
 #endif // MAINCONTROLLER_H
