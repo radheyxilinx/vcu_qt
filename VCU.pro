@@ -42,7 +42,7 @@ QMAKE_EXTRA_TARGETS += mkdirs
 INCLUDEPATH += \
         include \
         ../vcu_gst_lib/include \
-	../perfmon_lib/include \
+	../vcu_apm_lib/include \
         ${SYSROOT}/usr/include/gstreamer-1.0 \
         ${SYSROOT}/usr/include/gstreamer-1.0/gst \
         ${SYSROOT}/usr/include/glib-2.0 \
@@ -58,8 +58,8 @@ INCLUDEPATH += \
 QMAKE_LIBDIR_FLAGS += \
         -L../vcu_gst_lib/Release \
         -L../vcu_gst_lib/Debug \
-	-L../perfmon_lib/Release \
-	-L../perfmon_lib/Debug \
+	-L../vcu_apm_lib/Release \
+	-L../vcu_apm_lib/Debug \
         -L=/usr/lib \
         -L=/${SYSROOT}/usr/lib \
         -L=/${SYSROOT}/usr/lib/gstreamer-1.0
