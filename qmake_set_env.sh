@@ -17,7 +17,7 @@ OE_QMAKE_LINK='aarch64-linux-gnu-g++  -Wl,--hash-style=gnu ' \
 OE_QMAKE_STRIP='echo' \
 SYSROOT=$SYSROOT \
 PATH=$PETALINUX/components/yocto/source/aarch64/buildtools/sysroots/x86_64-petalinux-linux/usr/bin/qt5:$PATH \
-QT_CONF_PATH=$TRD_HOME/qtVCU.conf
+QT_CONF_PATH=$TRD_HOME/apu/vcu_qt/qt.conf
 
 # test existence of SYSROOT directory
 if [ ! -d "$SYSROOT" ]
@@ -27,4 +27,4 @@ fi
 
 # generate Makefile
 echo "To generate the Makefile, run the following command chosing the desired Qt project file:"
-echo "qmake \$TRD_HOME/VCU.pro -r -spec linux-oe-g++"
+echo "qmake \$TRD_HOME/apu/vcu_qt/VCU.pro -r -spec linux-oe-g++"
