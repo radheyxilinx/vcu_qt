@@ -79,7 +79,7 @@ ApplicationWindow {
 
     property int bitrate: 100000000
     property var b_frame: 0
-    property var enc_name: "omxh264enc"
+    property var enc_name: "omxh265enc"
     property var goP_len: 30
     property int enc_enum: 2
 
