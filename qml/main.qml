@@ -784,7 +784,7 @@ ApplicationWindow {
                         LineSeries {
                             axisX: axisXEncBW
                             axisY: axisYEncBW
-                            name: "Encoder Bandwidth Utilization(Gbps)"
+                            name: "Encoder Memory Bandwidth(0.00 Gbps)"
 
                         }
                     }
@@ -827,7 +827,7 @@ ApplicationWindow {
                         LineSeries {
                             axisX: axisXDecBW
                             axisY: axisYDecBW
-                            name: "Decoder Bandwidth Utilization(Gbps)"
+                            name: "Decoder Memory Bandwidth (0.00 Gbps)"
                         }
                     }
                 }

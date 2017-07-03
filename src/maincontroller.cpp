@@ -157,9 +157,9 @@ void maincontroller :: updateThroughput(QAbstractSeries *videoSrcAS, QAbstractSe
     filterList.append(data[filter]);
 
     QString str1;
-    str1.sprintf("Encoder Bandwidth Utilization (%2.2f Gbps)", data[videoSrc]);
+    str1.sprintf("Encoder Memory Bandwidth (%2.2f Gbps)", data[videoSrc]);
     QString str2;
-    str2.sprintf("Decoder Bandwidth Utilization (%2.2f Gbps)", data[filter]);
+    str2.sprintf("Dcoder Memory Bandwidth (%2.2f Gbps)", data[filter]);
 
     videoSrcSeries->setName(str1);
     acceleratorSeries->setName(str2);
