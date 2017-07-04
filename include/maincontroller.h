@@ -63,20 +63,13 @@ class maincontroller : public QObject
 {
     Q_OBJECT
     enum CpuData{
-        Cpu1,
-        Cpu2,
-        Cpu3,
-        Cpu4,
+        Cpu,
         NCpuData
     };
-    CPUStat *cpuStat1;
-    CPUStat *cpuStat2;
-    CPUStat *cpuStat3;
-    CPUStat *cpuStat4;
-    QVector<qreal> cpu1List;
-    QVector<qreal> cpu2List;
-    QVector<qreal> cpu3List;
-    QVector<qreal> cpu4List;
+    CPUStat *cpuStat;
+
+    QVector<qreal> cpuList;
+
     enum MemData{
         videoSrc,
         filter,
@@ -97,7 +90,7 @@ public slots:
     void inits();
     void closeall();
     bool errorPopup(int);
-    void updatecpu(QAbstractSeries *cpu1, QAbstractSeries *cpu2, QAbstractSeries *cpu3, QAbstractSeries *cpu4);
+    void updatecpu(QAbstractSeries *cpu);
     void updateThroughput(QAbstractSeries *videoSrc, QAbstractSeries *accelerator);
     void updateEncParam(int, int, QString, int);
     void updateInputParam(QString, int, bool, QString, int, QString);

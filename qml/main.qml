@@ -697,7 +697,6 @@ ApplicationWindow {
                         anchors.fill: parent
                         theme: ChartView.ChartThemeBlueCerulean
                         antialiasing: true
-                        title: "CPU Utilization(%)"
 
                         ValueAxis {
                             id: axisYcpu
@@ -720,27 +719,9 @@ ApplicationWindow {
                         }
 
                         LineSeries {
-                            name: "CPU 1"
+                            name: "CPU Utilization(0.00%)"
                             axisX: axisXcpu
                             axisY: axisYcpu
-                        }
-                        LineSeries {
-                            name: "CPU 2"
-                            axisX: axisXcpu
-                            axisY: axisYcpu
-                            color: "red"
-                        }
-                        LineSeries {
-                            name: "CPU 3"
-                            axisX: axisXcpu
-                            axisY: axisYcpu
-                            color: "green"
-                        }
-                        LineSeries {
-                            name: "CPU 4"
-                            axisX: axisXcpu
-                            axisY: axisYcpu
-                            color: "blue"
                         }
                     }
                 }
@@ -847,7 +828,7 @@ ApplicationWindow {
             running: true
             repeat: true
             onTriggered: {
-                controller.updatecpu(chart_line_CPU.series(0),chart_line_CPU.series(1),chart_line_CPU.series(2),chart_line_CPU.series(3))
+                controller.updatecpu(chart_line_CPU.series(0))
                 controller.updateThroughput(encoderBandWidthPlot.series(0),decoderBandWidthPlot.series(0))
                 if(root.play && !root.errorFound){
                     controller.updateFPS()
