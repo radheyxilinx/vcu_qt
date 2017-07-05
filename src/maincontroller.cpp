@@ -106,8 +106,8 @@ void maincontroller :: updateThroughput(QAbstractSeries *videoSrcAS, QAbstractSe
     QXYSeries *videoSrcSeries = static_cast<QXYSeries *>(videoSrcAS);
     QXYSeries *acceleratorSeries = static_cast<QXYSeries *>(acceleratorAS);
 
-    data[videoSrc] = (float)((perf_monitor_get_rd_wr_cnt(E_APM0) + perf_monitor_get_rd_wr_cnt(E_APM1))* 8 / 1000000000.0);
-    data[filter] = (float)((perf_monitor_get_rd_wr_cnt(E_APM2) + perf_monitor_get_rd_wr_cnt(E_APM3))* 8 / 1000000000.0);
+    data[videoSrc] = (float)((perf_monitor_get_rd_wr_cnt(E_APM0) + perf_monitor_get_rd_wr_cnt(E_APM1))* BYTE_TO_GBIT);
+    data[filter] = (float)((perf_monitor_get_rd_wr_cnt(E_APM2) + perf_monitor_get_rd_wr_cnt(E_APM3))* BYTE_TO_GBIT);
 
     if(videoSrcList.length() > 60){
         videoSrcList.removeFirst();
