@@ -51,7 +51,7 @@ Rectangle{
     property int selecteItem: 0
     property var delgate: this
 
-    height: repeateListControl.count * resoluteFrac
+    height: repeateListControl.count
     anchors.topMargin: 0
     anchors.leftMargin: 0
     id: ctrlVu

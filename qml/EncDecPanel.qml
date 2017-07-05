@@ -150,7 +150,6 @@ Rectangle{
                 anchors.fill: parent
                 onClicked: {
                     bitRate.visible = !bitRate.visible
-                    //                entropyType.visible = false
                     encoderType.visible = false
                 }
             }
@@ -175,7 +174,6 @@ Rectangle{
                 anchors.fill: parent
                 onClicked: {
                     bitRate.visible = !bitRate.visible
-                    //                entropyType.visible = false
                     encoderType.visible = false
                 }
             }
@@ -191,54 +189,7 @@ Rectangle{
             height: 1
             color: "gray"
         }
-        /*
-    Label {
-        anchors{
-            left:  parent.left
-            leftMargin: 10
-            top: bitRateLbl.bottom
-            topMargin: 10
-        }
-        id: gopStructLbl
-        width: 110
-        height: 25
-        verticalAlignment: Text.AlignVCenter
-        text: qsTr("GoP Structure: ")
-    }
 
-
-    TextField{
-        width: 150
-        height: 25
-        anchors{
-            left:  gopStructLbl.right
-            leftMargin: 5
-            top: bitRateLbl.bottom
-            topMargin: 10
-        }
-        placeholderText: "length"
-        text: "IBBP"
-
-    }
-*/
-
-        /*
-        CheckBox {
-            id: pFrame
-            anchors{
-                left: parent.left
-                leftMargin: 80
-                top: parent.top
-                topMargin: 25
-            }
-
-            width: 110
-            height: 15
-            checked: true
-            text: qsTr("P-Frame")
-            onClicked: getGopStructure()
-        }
-*/
         Label {
             id: bFrame
             anchors{
@@ -379,67 +330,7 @@ Rectangle{
             height: 1
             color: "gray"
         }
-        /*
-    Label {
-        id: entropyLbl
-        anchors{
-            left:  parent.left
-            leftMargin: 10
-            top: gopLenLbl.bottom
-            topMargin: 15
-        }
-        width: 110
-        height: 25
-        verticalAlignment: Text.AlignVCenter
-        text: qsTr("Entropy Type: ")
-    }
 
-    TextField{
-        id: entropyTxt
-        anchors{
-            left:  entropyLbl.right
-            leftMargin: 5
-            top: gopLenLbl.bottom
-            topMargin: 10
-        }
-//        horizontalAlignment: Text.AlignHCenter
-        width: 125
-        height: 25
-        text: "CABAC"
-        MouseArea{
-            anchors.fill: parent
-            onClicked: {
-                entropyType.visible = !entropyType.visible
-                bitRate.visible = false
-                encoderType.visible = false
-            }
-        }
-    }
-
-    Button {
-        anchors{
-            left: entropyTxt.right
-            leftMargin: -2
-            bottom: entropyTxt.bottom
-            top: entropyTxt.top
-        }
-        width: entropyTxt.height
-        height: entropyTxt.height
-        Image{
-            anchors.fill: parent
-            source: "qrc:///images/downArrow.png"
-        }
-
-        MouseArea{
-            anchors.fill: parent
-            onClicked: {
-                entropyType.visible = !entropyType.visible
-                bitRate.visible = false
-                encoderType.visible = false
-            }
-        }
-    }
-*/
         Label {
             id: encoderLbl
             anchors{
@@ -471,7 +362,6 @@ Rectangle{
                 onClicked: {
                     encoderType.visible = !encoderType.visible
                     bitRate.visible = false
-                    //                entropyType.visible = false
                 }
             }
         }
@@ -496,7 +386,6 @@ Rectangle{
                 onClicked: {
                     encoderType.visible = !encoderType.visible
                     bitRate.visible = false
-                    //                entropyType.visible = false
                 }
             }
         }
@@ -527,7 +416,6 @@ Rectangle{
                 onClicked: {
                     bitRate.visible = false
                     encoderType.visible = false
-                    //                entropyType.visible = false
                     encoderDecoderPanel.visible = false
                     root.b_frame = framesCount.value
                     root.goP_len = goPLenTxt.text
@@ -553,7 +441,6 @@ Rectangle{
             onClicked:{
                 bitRate.visible = false
                 encoderType.visible = false
-                //            entropyType.visible = false
                 encoderDecoderPanel.visible = false
                 root.presetSelect = tmpPresetSel
                 root.setPresets(root.presetSelect)
@@ -704,64 +591,6 @@ Rectangle{
                 }
             }
         }
-
-        /*
-    Rectangle{
-        id: entropyType
-        anchors{
-            left: entropyTxt.left
-            top: entropyTxt.bottom
-        }
-        visible: false
-        width: entropyTxt.width
-        height: 40
-        color: "white"
-        ColumnLayout{
-            width: parent.width
-            height: parent.height
-            spacing: 1
-            Rectangle{
-                width: parent.width
-                height: parent.height/2
-                color: "lightGray"
-                Label{
-                    anchors.left: parent.left
-                    anchors.leftMargin: 5
-                    text: "CABAC"
-//                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                }
-                MouseArea{
-                    anchors.fill: parent
-                    onClicked: {
-                        entropyTxt.text = "CABAC"
-                        entropyType.visible = false
-                    }
-                }
-            }
-
-            Rectangle{
-                width: parent.width
-                height: parent.height/2
-                color: "lightGray"
-                Label{
-                    anchors.left: parent.left
-                    anchors.leftMargin: 5
-                    text: "CAVLC"
-//                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                }
-                MouseArea{
-                    anchors.fill: parent
-                    onClicked: {
-                        entropyTxt.text = "CAVLC"
-                        entropyType.visible = false
-                    }
-                }
-            }
-        }
-    }
-*/
 
         Rectangle{
             id: encoderType

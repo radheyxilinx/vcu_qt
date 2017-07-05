@@ -59,11 +59,6 @@ int main(int argc, char *argv[])
 
     signal(SIGINT, signalhandler);
 
-    engine.rootContext()->setContextProperty("resoluteFrac",1);
-    engine.rootContext()->setContextProperty("imageResolution",2160);
-    engine.rootContext()->setContextProperty("imageResolutionHeight", 1920);
-    engine.rootContext()->setContextProperty("imageResolutionWidth", 1080);
-
     QVariantList sourceList;
     QVariantMap map;
     for(unsigned int i = 0; i < (sizeof(sources)/sizeof(sources[0])); i++){
@@ -96,12 +91,6 @@ int main(int argc, char *argv[])
     DirOp currDir;
     currDir.currentDir.setPath(ROOT_FILE_PATH);
     ctx->setContextProperty("dirOPS", &currDir);
-#if 1 // Testing dirop
 
-    //    currDir.listDirectory();
-    //    currDir.changeFolder(QString("bin"));
-    //    currDir.listDirectory();
-    //    currDir.initGStreamer();
-#endif
     return qapp.exec();
 }

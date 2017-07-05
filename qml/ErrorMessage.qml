@@ -61,40 +61,25 @@ Rectangle{
         anchors.centerIn: parent
         id: errorHolderPopup
         color: root.barColors
-        width: 500 * resoluteFrac
-        height: 150 * resoluteFrac
+        width: 500
+        height: 150
         border.color: root.borderColors
         border.width: root.boarderWidths
         // header
         Rectangle{
             anchors.top: parent.top
             width: parent.width
-            height: 30 * resoluteFrac
+            height: 30
             color: root.barTitleColorsPut
             id: baseErrorPopupHeader
             Label{
                 text: errorName
-                anchors.leftMargin: 16 * resoluteFrac
+                anchors.leftMargin: 16
                 anchors.left: parent.left
-                font.pixelSize: 16 * resoluteFrac
+                font.pixelSize: 16
                 font.bold: true
                 anchors.verticalCenter: parent.verticalCenter
             }
-            /*Button{
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.right: parent.right
-                iconSource: "qrc:///imgs/images/popclose@"+imageResolution+".png"
-                style: ButtonStyle{
-                    background: Rectangle{
-                        color: "transparent"
-                    }
-                }
-                onClicked: {
-                    messageText = ""
-                    errorName = ""
-                }
-
-            }*/
         }
 
         Rectangle{
@@ -102,17 +87,6 @@ Rectangle{
             width: parent.width
             height: parent.height - baseErrorPopupHeader.height
             color: "#ffffff"
-            //			Image {
-            //				id: errorImage
-            ////				source: "qrc:///imgs/images/error.png"
-            //				anchors.leftMargin: 20 * resoluteFrac
-            //				anchors.left: parent.left
-            //				anchors.top: parent.top
-            //				anchors.topMargin: 20 * resoluteFrac
-            //				width: toolBarHeight - (30 * resoluteFrac)
-            //				height: toolBarHeight - (30 * resoluteFrac)
-
-            //			}
             Rectangle{
                 anchors.left: parent.left
                 anchors.leftMargin: 20 * 1
@@ -134,8 +108,8 @@ Rectangle{
                 }
 
                 Rectangle{
-                    width: 60 * resoluteFrac
-                    height: 20 * resoluteFrac
+                    width: 60
+                    height: 20
                     anchors.top: parent.top
                     anchors.topMargin: 60 * 1
                     anchors.right: parent.right

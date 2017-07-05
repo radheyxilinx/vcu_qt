@@ -703,7 +703,7 @@ ApplicationWindow {
                             min: 0
                             max: 100
                             labelFormat: "%d"
-                            labelsFont.pointSize: 10 * resoluteFrac
+                            labelsFont.pointSize: 10
                             labelsColor: "white"
                             gridLineColor: "white"
                             lineVisible: false
@@ -715,7 +715,7 @@ ApplicationWindow {
                             labelsVisible: false
                             gridLineColor: "white"
                             lineVisible: false
-                            labelsFont.pointSize: 1 * resoluteFrac
+                            labelsFont.pointSize: 1
                         }
 
                         LineSeries {
@@ -746,7 +746,7 @@ ApplicationWindow {
                             min: 0
                             max: 24
                             labelFormat: "%d"
-                            labelsFont.pointSize: 10 * resoluteFrac
+                            labelsFont.pointSize: 10
                             labelsColor: "white"
                             gridLineColor: "white"
                             lineVisible: false
@@ -758,7 +758,7 @@ ApplicationWindow {
                             labelsVisible: false
                             gridLineColor: "white"
                             lineVisible: false
-                            labelsFont.pointSize: 1 * resoluteFrac
+                            labelsFont.pointSize: 1
                         }
 
 
@@ -790,7 +790,7 @@ ApplicationWindow {
                             min: 0
                             max: 24
                             labelFormat: "%d"
-                            labelsFont.pointSize: 10 * resoluteFrac
+                            labelsFont.pointSize: 10
                             labelsColor: "white"
                             gridLineColor: "white"
                             lineVisible: false
@@ -802,7 +802,7 @@ ApplicationWindow {
                             labelsVisible: false
                             gridLineColor: "white"
                             lineVisible: false
-                            labelsFont.pointSize: 1 * resoluteFrac
+                            labelsFont.pointSize: 1
                         }
 
                         LineSeries {
