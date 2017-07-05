@@ -371,16 +371,20 @@ ApplicationWindow {
                                             switch (indexval){
                                             case 0:
                                                 fileList.visible = true
+                                                presetLbl.text = "None"
                                                 break;
                                             case 1:
+                                                presetLbl.text =  controlList[root.presetSelect].shortName
                                                 root.src = "v4l2src"
                                                 root.device_type = 2
                                                 break;
                                             case 2:
+                                                presetLbl.text =  controlList[root.presetSelect].shortName
                                                 root.src = "v4l2src"
                                                 root.device_type = 1
                                                 break;
                                             default:
+                                                presetLbl.text =  controlList[root.presetSelect].shortName
                                                 root.src = "v4l2src"
                                                 root.device_type = 1
                                             }
@@ -461,7 +465,7 @@ ApplicationWindow {
                                     color: "white"
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
-                                    text: passtroughCB.checked ? "None" : presetLbl.text = controlList[root.presetSelect].shortName
+                                    text: ((root.src == "uridecodebin") || passtroughCB.checked)? "None" : presetLbl.text = controlList[root.presetSelect].shortName
                                 }
                                 Image{
                                     anchors.right: parent.right

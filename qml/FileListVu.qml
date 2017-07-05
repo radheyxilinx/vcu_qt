@@ -250,6 +250,7 @@ Rectangle{
                     fileName = ""
                     dirOPS.applyTypeFilter("*")
                     srcNameLbl.text = (root.src == "uridecodebin") ? "File" : ((root.device_type == 1) ? "Test Pattern" : "HDMI")
+                    text: ((root.src == "uridecodebin") || passtroughCB.checked)? "None" : presetLbl.text = controlList[root.presetSelect].shortName
                 }
             }
         }
