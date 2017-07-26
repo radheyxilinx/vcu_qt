@@ -23,5 +23,10 @@
         <file>images/pause.png</file>
         <file>qml/PresetProperties.qml</file>
         <file>images/xilinxLogo.png</file>
+        <file>qml/OutputDropDown.qml</file>
+        <file>qml/EncParamTab.qml</file>
+        <file>qml/FileTab.qml</file>
+        <file>qml/StreamOutTab.qml</file>
+        <file>qml/ConfigProperty.qml</file>
     </qresource>
 </RCC>

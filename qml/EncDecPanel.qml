@@ -43,17 +43,27 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
 Rectangle{
+    id: settingsPanel
     anchors.fill: parent
     color: "transparent"
     MouseArea{
         anchors.fill: parent
     }
-    property var tmpBitrate: 10000000
+    property var tmpBitrate: root.bitrate
     property var tmpB_frame: root.b_frame
     property var tmpEnc_name: root.enc_name
     property var tmpGoP_len: root.goP_len
     property var tmpEnc_enum: root.enc_enum
     property var tmpPresetSel: 5
+    property var tmpProfile: root.profile
+    property var tmpQPMode:root.qpMode
+    property var tmpRateControl: root.rateControl
+    property var tmpL2Cache: root.l2Cache
+    property var tmpsliceCount: root.sliceCount
+    property var tmpHostIP: root.hostIP
+    property var tmpSinkType: root.sinkType
+    property var tmpFileDuration: root.fileDuration
+    property var tmpOpFilePath: root.outputFilePath
     property var bitRateNames: [
         {"bitrate":10000000, "bitrateName":"Low"},
         {"bitrate":20000000, "bitrateName":"Medium Low"},
@@ -68,33 +78,40 @@ Rectangle{
         }
         onVisibleChanged: {
             if(encoderDecoderPanel.visible){
+                tmpBitrate = root.bitrate
                 tmpB_frame = root.b_frame
                 tmpEnc_name = root.enc_name
                 tmpGoP_len = root.goP_len
-                encoderTxt.text = (root.enc_enum == 2) ? "H265" : "H264"
-                gopLengthCount.value = root.goP_len
-                framesCount.value = root.b_frame
+                tmpEnc_enum = root.enc_enum
+                tmpProfile = root.profile
+                tmpQPMode = root.qpMode
+                tmpRateControl = root.rateControl
+                tmpL2Cache = root.l2Cache
+                tmpsliceCount = root.sliceCount
+                tmpHostIP = root.hostIP
+                tmpSinkType = root.sinkType
+                tmpFileDuration = root.fileDuration
+                tmpOpFilePath = root.outputFilePath
+
                 for(var i = 0; i < 5; i++){
                     if(root.bitrate === bitRateNames[i].bitrate){
-                        bitRateTxt.text = bitRateNames[i].bitrateName
                         tmpBitrate = bitRateNames[i].bitrate
                     }
                 }
             }
         }
 
-        width: 480
-        height: 270
+        width: 500
+        height: 460
         color: "#ffffff"
-        border.color: "black"
+        border.color: "gray"
         border.width: 2
         radius: 5
 
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                bitRate.visible = false
-                encoderType.visible = false
+
             }
         }
         Label{
@@ -104,12 +121,28 @@ Rectangle{
                 topMargin: 10
                 top: parent.top
             }
-            text: "Encoder Parameter"
+            text: "Encoder parameter and sink configuration"
             font.bold: true
             font.pointSize: 13
             width: parent.width
             height: 30
             id: header
+        }
+
+        Button {
+            id: closeTabBtn
+            anchors{
+                right: parent.right
+                rightMargin: 15
+                top: parent.top
+                topMargin: 15
+            }
+            width: 20
+            height: 20
+            text: qsTr("X")
+            onClicked:{
+                encoderDecoderPanel.visible = false
+            }
         }
 
         Rectangle{
@@ -122,284 +155,165 @@ Rectangle{
             color: "black"
         }
 
-        Label{
-            id: bitRateLbl
-            anchors{
-                left:  parent.left
-                leftMargin: 10
-                top: encoderLbl.bottom
-                topMargin: 15
-            }
-            width: 110
-            height: 25
-            verticalAlignment: Text.AlignVCenter
-            text: "Bitrate: "
-        }
-        TextField{
-            id: bitRateTxt
-            anchors{
-                left:  bitRateLbl.right
-                leftMargin: 5
-                top: bitRateLbl.top
-            }
-            width: 125
-            height: 25
-            text: "Low"
-            enabled: !root.raw
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    bitRate.visible = !bitRate.visible
-                    encoderType.visible = false
-                }
-            }
-        }
-
-        Button {
-            id: dropButton
-            anchors{
-                left: bitRateTxt.right
-                leftMargin: -2
-                bottom: bitRateTxt.bottom
-                top: bitRateTxt.top
-            }
-            enabled: !root.raw
-            width: bitRateTxt.height
-            height: bitRateTxt.height
-            Image{
-                anchors.fill: parent
-                source: bitRate.visible ? "qrc:///images/upArrow.png" : "qrc:///images/downArrow.png"
-            }
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    bitRate.visible = !bitRate.visible
-                    encoderType.visible = false
-                }
-            }
-        }
-
-        Rectangle{
+        Row{
+            id: tabRow
             anchors{
                 left: parent.left
+                leftMargin: 2
                 right: parent.right
-                top: bitRateLbl.bottom
-                topMargin: 5
+                rightMargin: 2
+                top: header.bottom
+                topMargin: 2
             }
-            height: 1
-            color: "gray"
-        }
+            width: parent.width-5
+            height: 25
+            Rectangle{
+                id: tab1
+                height: parent.height
+                width: parent.width/3
+                color: "transparent"
+                border.color: "black"
+                border.width: 1
+                Label{
+                    anchors.fill: parent
+                    text: "Encoder Paramter"
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                Rectangle{
+                    id: tab1UL
+                    anchors.left: parent.left
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 1
+                    height: 1
+                    width: parent.width
+                    color: "black"
+                    visible: false
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        tab1UL.visible = false
+                        tab2UL.visible = true
+                        tab3UL.visible = true
+                        tab1.color = "transparent"
+                        tab2.color = "lightgray"
+                        tab3.color = "lightgray"
+                        encParamTabV.visible = true
+                        fileTabV.visible = false
+                        streamOutTabV.visible = false
+                    }
+                }
+            }
+            Rectangle{
+                id: tab2
+                height: parent.height
+                width: parent.width/3
+                color: "lightgray"
+                border.color: "black"
+                border.width: 1
+                Label{
+                    anchors.fill: parent
+                    text: "Record"
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                Rectangle{
+                    id: tab2UL
+                    anchors.left: parent.left
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 1
+                    height: 1
+                    width: parent.width
+                    color: "black"
+                    visible: true
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        tab1UL.visible = true
+                        tab2UL.visible = false
+                        tab3UL.visible = true
+                        tab1.color = "lightgray"
+                        tab2.color = "transparent"
+                        tab3.color = "lightgray"
+                        fileTabV.visible = true
+                        encParamTabV.visible = false
+                        streamOutTabV.visible = false
+                    }
+                }
+            }
+            Rectangle{
+                id: tab3
+                height: parent.height
+                width: parent.width/3
+                color: "lightgray"
+                border.color: "black"
+                border.width: 1
 
-        Label {
-            id: bFrame
-            anchors{
-                left: parent.left
-                leftMargin: 10
-                top: bitRateLbl.bottom
-                topMargin: 20
-            }
-            height: 25
-            width: 110
-            text: qsTr("B-frame: ")
-        }
-        Rectangle{
-            id: framesCountLblContainer
-            anchors{
-                left: cancelButton.left
-                top: bFrame.top
-            }
-            width: cancelButton.width
-            height: 25
-            border.color: "black"
-            border.width: 1
-            Label{
-                id: framesCountLbl
-                anchors.fill: parent
-                enabled: !root.raw
-                text: qsTr(framesCount.value.toString())
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                onTextChanged: {
-                    if(root.b_frame != framesCount.value){
-                        root.presetSelect = 6
-                        root.setPresets(root.presetSelect)
-                        presetLbl.text = controlList[root.presetSelect].shortName
-                        presetList.resetSource(root.presetSelect)
+                Label{
+                    anchors.fill: parent
+                    text: "Stream Out"
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                Rectangle{
+                    id: tab3UL
+                    anchors.left: parent.left
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 1
+                    height: 1
+                    width: parent.width
+                    color: "black"
+                    visible: true
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        tab1UL.visible = true
+                        tab2UL.visible = true
+                        tab3UL.visible = false
+                        tab1.color = "lightgray"
+                        tab2.color = "lightgray"
+                        tab3.color = "transparent"
+                        streamOutTabV.visible = true
+                        fileTabV.visible = false
+                        encParamTabV.visible = false
                     }
                 }
             }
         }
 
-        Slider {
-            id: framesCount
-            anchors{
-                left: bFrame.right
-                leftMargin: 5
-                top: bFrame.top
-            }
-            enabled: !root.raw
-            maximumValue: 4.0
-            stepSize: 1.0
-            value : 0
-            style: SliderStyle {
-                groove: Rectangle {
-                    implicitWidth: 150
-                    implicitHeight: 5
-                    color: "gray"
-                    radius: 5
-                }
-            }
-        }
-
-
-        Label {
-            id: gopLenLbl
-            width: 110
-            height: 25
-            anchors{
-                left:  parent.left
-                leftMargin: 10
-                top: bFrame.bottom
-                topMargin: 20
-            }
-            text: qsTr("GoP Length: ")
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        Rectangle{
-            width: cancelButton.width
-            height: 25
-            id: goPLenTxtRect
-            anchors{
-                left:  cancelButton.left
-                top: gopLenLbl.top
-            }
-            enabled: !root.raw
-            border.color: "black"
-            Label{
-                width: parent.width-4
-                height: parent.height-4
-                id: goPLenTxt
-                anchors{
-                    left:  parent.left
-                    leftMargin: 2
-                    top: parent.top
-                    topMargin: 2
-                }
-                text: qsTr(gopLengthCount.value.toString())
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                onTextChanged: {
-                    if(root.goP_len != gopLengthCount.value){
-                        root.presetSelect = 6
-                        root.setPresets(root.presetSelect)
-                        presetLbl.text = controlList[root.presetSelect].shortName
-                        presetList.resetSource(root.presetSelect)
-                    }
-                }
-            }
-        }
-        Slider {
-            id: gopLengthCount
-            anchors{
-                left: gopLenLbl.right
-                leftMargin: 5
-                top: gopLenLbl.top
-            }
-            enabled: !root.raw
-            maximumValue: 100
-            minimumValue: 1
-            stepSize: 1.0
-            value : 30
-            style: SliderStyle {
-                groove: Rectangle {
-                    implicitWidth: 150
-                    implicitHeight: 5
-                    color: "gray"
-                    radius: 5
-                }
-            }
-        }
-        Rectangle{
+        EncParamTab{
+            id: encParamTabV
+            visible: true
             anchors{
                 left: parent.left
-                right: parent.right
-                top: gopLenLbl.bottom
-                topMargin: 5
+                leftMargin: 3
+                top: tabRow.bottom
+                topMargin: -1
             }
-            height: 1
-            color: "gray"
         }
-
-        Label {
-            id: encoderLbl
+        FileTab{
+            id: fileTabV
+            visible: false
             anchors{
                 left: parent.left
-                leftMargin: 10
-                top: header.bottom
-                topMargin: 10
-            }
-            width: 110
-            height: 25
-            verticalAlignment: Text.AlignVCenter
-            text: qsTr("Encoder Type: ")
-        }
-
-        TextField{
-            id: encoderTxt
-            anchors{
-                left: bitRateLbl.right
-                leftMargin: 5
-                top: header.bottom
-                topMargin: 10
-            }
-            enabled: !root.raw
-            width: 125
-            height: 25
-            text: "H264"
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    encoderType.visible = !encoderType.visible
-                    bitRate.visible = false
-                }
+                leftMargin: 3
+                top: tabRow.bottom
+                topMargin: -1
             }
         }
-
-        Button {
-            anchors{
-                left: encoderTxt.right
-                leftMargin: -2
-                bottom: encoderTxt.bottom
-                top: encoderTxt.top
-            }
-            enabled: !root.raw
-            width: encoderTxt.height
-            height: encoderTxt.height
-            Image{
-                anchors.fill: parent
-                source: encoderType.visible ? "qrc:///images/upArrow.png" : "qrc:///images/downArrow.png"
-            }
-
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    encoderType.visible = !encoderType.visible
-                    bitRate.visible = false
-                }
-            }
-        }
-        Rectangle{
+        StreamOutTab{
+            id: streamOutTabV
+            visible: false
             anchors{
                 left: parent.left
-                right: parent.right
-                top: encoderLbl.bottom
-                topMargin: 5
+                leftMargin: 3
+                top: tabRow.bottom
+                topMargin: -1
             }
-            height: 1
-            color: "gray"
         }
-
         Button {
             id: okButton
             anchors{
@@ -414,15 +328,7 @@ Rectangle{
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    bitRate.visible = false
-                    encoderType.visible = false
                     encoderDecoderPanel.visible = false
-                    root.b_frame = framesCount.value
-                    root.goP_len = goPLenTxt.text
-                    root.enc_name = "omx" + encoderTxt.text.toLowerCase() + "enc"
-                    root.bitrate = tmpBitrate
-                    root.enc_enum = tmpEnc_enum
-                    tmpPresetSel = root.presetSelect
                 }
             }
         }
@@ -439,224 +345,25 @@ Rectangle{
             height: 30
             text: qsTr("Cancel")
             onClicked:{
-                bitRate.visible = false
-                encoderType.visible = false
                 encoderDecoderPanel.visible = false
                 root.presetSelect = tmpPresetSel
                 root.setPresets(root.presetSelect)
-                presetLbl.text = controlList[root.presetSelect].shortName
-                presetList.resetSource(root.presetSelect)
-            }
-        }
 
-        Rectangle{
-            id: bitRate
-            anchors{
-                left: bitRateTxt.left
-                top: bitRateTxt.bottom
-            }
-            visible: false
-            width: bitRateTxt.width+dropButton.width-5
-            height: 85
-            color: "white"
-
-            ColumnLayout{
-                width: parent.width
-                height: parent.height
-                spacing: 1
-                Rectangle{
-                    width: parent.width
-                    height: parent.height/3-2
-                    color: "lightGray"
-                    Label{
-                        anchors.left: parent.left
-                        anchors.leftMargin: 5
-                        text: "Low"
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    MouseArea{
-                        anchors.fill: parent
-                        onClicked: {
-                            bitRateTxt.text = "Low"
-                            bitRate.visible = false
-                            tmpBitrate = 10000000
-                            if(tmpBitrate != root.bitrate){
-                                root.presetSelect = 6
-                                root.setPresets(root.presetSelect)
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
-                            }
-                        }
-                    }
-                }
-                Rectangle{
-                    width: parent.width
-                    height: parent.height/3-2
-                    color: "lightGray"
-                    Label{
-                        anchors.left: parent.left
-                        anchors.leftMargin: 5
-                        text: "Medium Low"
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    MouseArea{
-                        anchors.fill: parent
-                        onClicked: {
-                            bitRateTxt.text = "Medium Low"
-                            bitRate.visible = false
-                            tmpBitrate = 20000000
-                            if(tmpBitrate != root.bitrate){
-                                root.presetSelect = 6
-                                root.setPresets(root.presetSelect)
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
-                            }
-                        }
-                    }
-                }
-                Rectangle{
-                    width: parent.width
-                    height: parent.height/3-2
-                    color: "lightGray"
-                    Label{
-                        anchors.left: parent.left
-                        anchors.leftMargin: 5
-                        text: "Medium"
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    MouseArea{
-                        anchors.fill: parent
-                        onClicked: {
-                            bitRateTxt.text = "Medium"
-                            bitRate.visible = false
-                            tmpBitrate = 30000000
-                            if(tmpBitrate != root.bitrate){
-                                root.presetSelect = 6
-                                root.setPresets(root.presetSelect)
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
-                            }
-                        }
-                    }
-                }
-                Rectangle{
-                    width: parent.width
-                    height: parent.height/3-2
-                    color: "lightGray"
-                    Label{
-                        anchors.left: parent.left
-                        anchors.leftMargin: 5
-                        text: "Medium High"
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    MouseArea{
-                        anchors.fill: parent
-                        onClicked: {
-                            bitRateTxt.text = "Medium High"
-                            bitRate.visible = false
-                            tmpBitrate = 50000000
-                            if(tmpBitrate != root.bitrate){
-                                root.presetSelect = 6
-                                root.setPresets(root.presetSelect)
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
-                            }
-                        }
-                    }
-                }
-                Rectangle{
-                    width: parent.width
-                    height: parent.height/3-2
-                    color: "lightGray"
-                    Label{
-                        anchors.left: parent.left
-                        anchors.leftMargin: 5
-                        text: "High"
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    MouseArea{
-                        anchors.fill: parent
-                        onClicked: {
-                            bitRateTxt.text = "High"
-                            bitRate.visible = false
-                            tmpBitrate = 100000000
-                            if(tmpBitrate != root.bitrate){
-                                root.presetSelect = 6
-                                root.setPresets(root.presetSelect)
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        Rectangle{
-            id: encoderType
-            anchors{
-                left: encoderTxt.left
-                top: encoderTxt.bottom
-            }
-            visible: false
-            width: encoderTxt.width+dropButton.width-5
-            height: 40
-            color: "white"
-            ColumnLayout{
-                width: parent.width
-                height: parent.height
-                spacing: 1
-                Rectangle{
-                    width: parent.width
-                    height: parent.height/2
-                    color: "lightGray"
-                    Label{
-                        anchors.left: parent.left
-                        anchors.leftMargin: 5
-                        text: "H264"
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    MouseArea{
-                        anchors.fill: parent
-                        onClicked: {
-                            encoderTxt.text = "H264"
-                            encoderType.visible = false
-                            tmpEnc_enum = 1
-                            if(tmpEnc_enum != root.enc_enum){
-                                root.presetSelect = 6
-                                root.setPresets(root.presetSelect)
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
-                            }
-                        }
-                    }
-                }
-
-                Rectangle{
-                    width: parent.width
-                    height: parent.height/2
-                    color: "lightGray"
-                    Label{
-                        anchors.left: parent.left
-                        anchors.leftMargin: 5
-                        text: "H265"
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    MouseArea{
-                        anchors.fill: parent
-                        onClicked: {
-                            encoderTxt.text = "H265"
-                            encoderType.visible = false
-                            tmpEnc_enum = 2
-                            if(tmpEnc_enum != root.enc_enum){
-                                root.presetSelect = 6
-                                root.setPresets(root.presetSelect)
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
-                            }
-                        }
-                    }
-                }
+                root.b_frame = tmpB_frame
+                root.goP_len = tmpGoP_len
+                root.enc_name = tmpEnc_name
+                root.bitrate = tmpBitrate
+                root.enc_enum = tmpEnc_enum
+                tmpPresetSel = root.presetSelect
+                root.profile = tmpProfile
+                root.qpMode = tmpQPMode
+                root.rateControl = tmpRateControl
+                root.l2Cache = tmpL2Cache
+                root.sliceCount = tmpsliceCount
+                root.hostIP = tmpHostIP
+                root.sinkType = tmpSinkType
+                root.fileDuration = tmpFileDuration
+                root.outputFilePath = tmpOpFilePath
             }
         }
     }

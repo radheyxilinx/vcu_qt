@@ -135,11 +135,16 @@ void maincontroller :: updateThroughput(QAbstractSeries *videoSrcAS, QAbstractSe
     acceleratorSeries->replace(accelpoints);
 }
 
-void maincontroller :: updateEncParam(int bitRate, int bFrameCount, QString encName, int gopLength){
-    encoderParam.bitrate = bitRate;
+void maincontroller :: updateEncParam(int bitRate, int bFrameCount, QString encName, int gopLength, int profile, int qpMode, int rateControlmode, bool l2Cache, int slice){
+   encoderParam.bitrate = bitRate;
     encoderParam.b_frame = bFrameCount;
     encoderParam.enc_name = g_strdup(encName.toLatin1().data());
     encoderParam.GoP_len = gopLength;
+    encoderParam.profile = profile;
+    encoderParam.qp_mode = qpMode;
+    encoderParam.rc_mode = rateControlmode;
+    encoderParam.enable_l2Cache = l2Cache;
+    encoderParam.slice = slice;
 }
 
 void maincontroller :: updateInputParam(QString format, int num_src, bool raw, QString src, int device_type, QString uri){
@@ -151,8 +156,22 @@ void maincontroller :: updateInputParam(QString format, int num_src, bool raw, Q
     inputParam.uri = g_strdup(uri.toLatin1().data());
 }
 
+void maincontroller :: updateOutputParam(QString fileOut, QString hostIp, int duration, int sinkType){
+    outputParam.file_out = g_strdup(fileOut.toLatin1().data());
+    outputParam.host_ip = g_strdup(hostIp.toLatin1().data());
+    outputParam.duration = duration;
+    outputParam.sink_type = sinkType;
+}
+
 void maincontroller :: start_pipeline(){
-    int err = vgst_config_options(&encoderParam, &inputParam);
+
+    qDebug() << "->>\n" << "Bitrate: " << encoderParam.bitrate << "B_Frame: " << encoderParam.b_frame << "Encoder Name:"<< encoderParam.enc_name << "Gop Length: " << encoderParam.GoP_len
+           << "profile: " << encoderParam.profile << "qpMode: " << encoderParam.qp_mode << "rateControl: " << encoderParam.rc_mode << "l2Cache" << encoderParam.enable_l2Cache
+           << "Slice: " << encoderParam.slice << "\n" << "Output param:    \n" << "Host IP: " << outputParam.host_ip << "fileout: " << outputParam.file_out
+           << "sinkType:  " << outputParam.sink_type << "duration: " << outputParam.duration;
+
+
+    int err = vgst_config_options(&encoderParam, &inputParam, &outputParam);
     if(errorPopup(err)){
         rootobject->setProperty("play", false);
         return;

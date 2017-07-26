@@ -37,70 +37,52 @@
  * AT ALL TIMES.
  *******************************************************************************/
 
-/*
- * This file defines video QT application Drop down scroll view custom component.
- */
-
 import QtQuick 2.0
-import QtQuick.Controls 1.1
-import QtQuick.Controls.Styles 1.0
-import QtQuick.Layouts 1.0
 
-Rectangle{
-    property alias listModel: repeateListControl
-    property int selecteItem: 0
-    property var delgate: this
-    height: repeateListControl.count
-    anchors.topMargin: 0
-    anchors.leftMargin: 0
-    id: ctrlVu
+Item {
+    property bool play: false
+    property bool errorFound: false
 
-    Behavior on height{
-        NumberAnimation {
-            duration: 0
-            easing.type: Easing.Linear
-        }
-    }
-    ColumnLayout{
-        spacing: 0
-        Repeater{
-            id: repeateListControl
-            Rectangle{
-                Text {
-                    text: modelData.shortName
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                }
-                anchors.left: parent.left
-                width: ctrlVu.width
-                height: 20
-                color: selecteItem == index ? root.cellHighlightColor : root.cellColor
+    property var errorMessageText: ""
+    property var errorNameText: ""
+    property var barColors: "#1FF7F7F0"
+    property var barTitleColorsPut: "#F0AAAAAA"
+    property var cellColor: "#FFEEEEEE"
+    property var cellHighlightColor: "#FFAAAAAA"
+    property var borderColors: "#F0AAAAAA"
+    property int boarderWidths: 1
 
-                MouseArea{
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
-                    onClicked:{
+    property var videoResolution: "4k"
+    property var fpsValue: 0
 
-                        for(var i = 0; i< repeateListControl.count; i++){
-                            repeateListControl.itemAt(i).color = root.cellColor
-                        }
-                        parent.color = root.cellHighlightColor
-                        delgate.clicked(index)
-                    }
-                }
-            }
-        }
-    }
-    function resetSource(index){
-        for(var i = 0; i< repeateListControl.count; i++){
-            if(i == index){
-                repeateListControl.itemAt(i).color = root.cellHighlightColor
-            }
-            else{
-                repeateListControl.itemAt(i).color = root.cellColor
-            }
-        }
-    }
+    property var videoInput: 2
+    property var presetSelect: 5
+    property var outputSelect: 0
+    property var plotDisplay: true
+
+    property int bitrate: 100
+    property var bitrateUnit: "Mbps"
+    property var b_frame: 0
+    property var enc_name: "omxh265enc"
+    property var goP_len: 30
+    property int enc_enum: 2
+    property var profile: 1
+    property var qpMode: 0
+    property var rateControl: 1
+    property var l2Cache: true
+    property var sliceCount: 135
+    property var ipAddress: "127.0.0.1"
+    property var hostIP: "192.138.234.130"
+    property var port: 5004
+    property var fileDuration: 1
+
+    property var format : "NV12"
+    property var num_src : 1
+    property var raw : !(encoderCB.checked || decoderCB.checked)
+    property var src : "v4l2src"
+    property var device_type : 1
+    property var uri : ""
+    property var sinkType: 2
+    property var outputFilePath: "/media/card/"
+    property var outputFileName: "VCU-" + Qt.formatDateTime(new Date(), "yyyyMMddHHmm") + ".mp4"
 }

@@ -47,13 +47,14 @@ import QtQuick.Controls.Styles 1.0
 import QtQuick.Layouts 1.0
 
 Rectangle{
-    property alias listModel: repeateListControl
+    property alias listModel: repeateListOutput
     property int selecteItem: 0
     property var delgate: this
-    height: repeateListControl.count
+
+    height: repeateListOutput.count
     anchors.topMargin: 0
     anchors.leftMargin: 0
-    id: ctrlVu
+    id: outputVu
 
     Behavior on height{
         NumberAnimation {
@@ -64,7 +65,7 @@ Rectangle{
     ColumnLayout{
         spacing: 0
         Repeater{
-            id: repeateListControl
+            id: repeateListOutput
             Rectangle{
                 Text {
                     text: modelData.shortName
@@ -73,7 +74,7 @@ Rectangle{
                     anchors.leftMargin: 10
                 }
                 anchors.left: parent.left
-                width: ctrlVu.width
+                width: outputVu.width
                 height: 20
                 color: selecteItem == index ? root.cellHighlightColor : root.cellColor
 
@@ -83,8 +84,8 @@ Rectangle{
                     cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
                     onClicked:{
 
-                        for(var i = 0; i< repeateListControl.count; i++){
-                            repeateListControl.itemAt(i).color = root.cellColor
+                        for(var i = 0; i< repeateListOutput.count; i++){
+                            repeateListOutput.itemAt(i).color = root.cellColor
                         }
                         parent.color = root.cellHighlightColor
                         delgate.clicked(index)
@@ -94,12 +95,12 @@ Rectangle{
         }
     }
     function resetSource(index){
-        for(var i = 0; i< repeateListControl.count; i++){
+        for(var i = 0; i< repeateListOutput.count; i++){
             if(i == index){
-                repeateListControl.itemAt(i).color = root.cellHighlightColor
+                repeateListOutput.itemAt(i).color = root.cellHighlightColor
             }
             else{
-                repeateListControl.itemAt(i).color = root.cellColor
+                repeateListOutput.itemAt(i).color = root.cellColor
             }
         }
     }

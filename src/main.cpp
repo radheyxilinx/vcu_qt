@@ -51,8 +51,9 @@ void signalhandler(int sig){
 
 int main(int argc, char *argv[])
 {
-    char const *sources[] = {"File", "HDMI", "Test Pattern"};
-    char const *controls[] = {"AVC Low", "AVC Medium", "AVC High", "HEVC Low", "HEVC Medium", "HEVC High", "Custom"};
+    QStringList  sources = {"File", "HDMI", "Test Pattern"};
+    QStringList outputSinkArr = {"Stream", "Record", "Display Port"};
+    QStringList controls = {"AVC Low", "AVC Medium", "AVC High", "HEVC Low", "HEVC Medium", "HEVC High", "Custom"};
     QApplication qapp(argc, argv);
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QQmlApplicationEngine engine;
@@ -61,23 +62,34 @@ int main(int argc, char *argv[])
 
     QVariantList sourceList;
     QVariantMap map;
-    for(unsigned int i = 0; i < (sizeof(sources)/sizeof(sources[0])); i++){
+    for(int i = 0; i < sources.size(); i++){
         map.insert("shortName", sources[i]);
         sourceList.append(map);
     }
+    QVariantList outputSinkList;
+    QVariantMap mapOPLst;
+    for(int i = 0; i < outputSinkArr.size(); i++){
+        mapOPLst.insert("shortName", outputSinkArr[i]);
+        outputSinkList.append(mapOPLst);
+    }
     QVariantList controlList;
     QVariantMap mapCtrl;
-    for(unsigned int i = 0; i < (sizeof(controls)/sizeof(controls[0])); i++){
+    for(int i = 0; i < controls.size(); i++){
         mapCtrl.insert("shortName", controls[i]);
         controlList.append(mapCtrl);
     }
 
     engine.rootContext()->setContextProperty("videoSourcesCount",4);
     engine.rootContext()->setContextProperty("videoSourceList",QVariant::fromValue(sourceList));
+    engine.rootContext()->setContextProperty("outputSinkList",QVariant::fromValue(outputSinkList));
     engine.rootContext()->setContextProperty("controlList",QVariant::fromValue(controlList));
 
-    engine.load(QUrl(QLatin1String("qrc:/qml/main.qml")));
+    QDir opDir(ROOT_FILE_PATH "/" RECORD_DIR);
+    opDir.mkpath(".");
+    QString opFilePath = QString(ROOT_FILE_PATH).append(RECORD_DIR);
+    engine.rootContext()->setContextProperty("outputFilePath", QVariant(opFilePath));
 
+    engine.load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 
     QQmlContext *ctx = engine.rootContext();
     maincontroller mc;

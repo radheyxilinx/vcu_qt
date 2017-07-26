@@ -59,6 +59,7 @@ QT_CHARTS_USE_NAMESPACE
 #define SCREEN_WIDTH 3840;
 #define ROOT_FILE_PATH "/media/card"
 #define BYTE_TO_GBIT (8 / 1000000000.0)
+#define RECORD_DIR "/VCU_Records"
 
 class maincontroller : public QObject
 {
@@ -82,7 +83,8 @@ class maincontroller : public QObject
     QObject * rootobject;
 
     vgst_enc_params encoderParam;
-    vgst_input_params inputParam;
+    vgst_ip_params inputParam;
+    vgst_op_params outputParam;
 
 public:
     void rootUIObj(QObject * item);
@@ -93,8 +95,9 @@ public slots:
     bool errorPopup(int);
     void updatecpu(QAbstractSeries *cpu);
     void updateThroughput(QAbstractSeries *videoSrc, QAbstractSeries *accelerator);
-    void updateEncParam(int, int, QString, int);
+    void updateEncParam(int, int, QString, int, int, int, int, bool, int);
     void updateInputParam(QString, int, bool, QString, int, QString);
+    void updateOutputParam(QString, QString, int, int);
     void start_pipeline();
     void stop_pipeline();
     void updateFPS();

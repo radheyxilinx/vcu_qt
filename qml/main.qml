@@ -49,6 +49,8 @@ import QtQuick 2.2
 import QtQuick.Layouts 1.2
 import "./"
 
+import QtQuick 2.0
+
 ApplicationWindow {
     visible: true
     width: 1800
@@ -57,38 +59,56 @@ ApplicationWindow {
     color: "transparent"
     id: root
 
+    ConfigProperty{
+        id: configuration
+    }
+
     property alias fileinfoListModel: fileList.fileListModel
-    property bool play: false
-    property bool errorFound: false
+    property bool play: configuration.play
+    property bool errorFound: configuration.errorFound
 
-    property var errorMessageText: ""
-    property var errorNameText: ""
-    property var barColors: "#1FF7F7F0"
-    property var barTitleColorsPut: "#F0AAAAAA"
-    property var cellColor: "#FFEEEEEE"
-    property var cellHighlightColor: "#FFAAAAAA"
-    property var borderColors: "#F0AAAAAA"
-    property int boarderWidths: 1
+    property var errorMessageText: configuration.errorMessageText
+    property var errorNameText: configuration.errorNameText
+    property var barColors: configuration.barColors
+    property var barTitleColorsPut: configuration.barTitleColorsPut
+    property var cellColor: configuration.cellColor
+    property var cellHighlightColor: configuration.cellHighlightColor
+    property var borderColors: configuration.borderColors
+    property int boarderWidths: configuration.boarderWidths
 
-    property var videoResolution: "4k"
-    property var fpsValue: 0
+    property var videoResolution: configuration.videoResolution
+    property var fpsValue:configuration.fpsValue
 
-    property var videoInput: 2
-    property var presetSelect: 5
-    property var plotDisplay: true
+    property var videoInput: configuration.videoInput
+    property var presetSelect: configuration.presetSelect
+    property var outputSelect: configuration.outputSelect
+    property var plotDisplay: configuration.plotDisplay
 
-    property int bitrate: 100000000
-    property var b_frame: 0
-    property var enc_name: "omxh265enc"
-    property var goP_len: 30
-    property int enc_enum: 2
+    property int bitrate: configuration.bitrate
+    property var bitrateUnit: configuration.bitrateUnit
+    property var b_frame: configuration.b_frame
+    property var enc_name: configuration.enc_name
+    property var goP_len: configuration.goP_len
+    property int enc_enum: configuration.enc_enum
+    property var profile: configuration.profile
+    property var qpMode: configuration.qpMode
+    property var rateControl: configuration.rateControl
+    property var l2Cache: configuration.l2Cache
+    property var sliceCount: configuration.sliceCount
+    property var ipAddress: configuration.ipAddress
+    property var hostIP: configuration.hostIP
+    property var port: configuration.port
+    property var fileDuration: configuration.fileDuration
 
-    property var format : "NV12"
-    property var num_src : 1
-    property var raw : passtroughCB.checked
-    property var src : "v4l2src"
-    property var device_type : 1
-    property var uri : ""
+    property var format : configuration.format
+    property var num_src : configuration.num_src
+    property var raw : configuration.raw
+    property var src : configuration.src
+    property var device_type : configuration.device_type
+    property var uri : configuration.uri
+    property var sinkType: configuration.sinkType
+//    property var outputFilePath: //configuration.outputFilePath
+    property var outputFileName: configuration.outputFileName
 
     property alias presetStructure: presetValues.presetStruct
 
@@ -112,9 +132,9 @@ ApplicationWindow {
                 hoverEnabled: true
                 onClicked: {
                     inputSrcLst.showList = false
-                    controlLst.showList = false
+                    outputLst.showList = false
                     inputRectangle.visible = false
-                    controlRectangle.visible = false
+                    outputRectangle.visible = false
 
                     titleBar.y = 0
                     graphPlot.visible = true
@@ -228,15 +248,23 @@ ApplicationWindow {
                         }
                         onClicked: {
                             inputSrcLst.showList = false
-                            controlLst.showList = false
+                            outputLst.showList = false
                             inputRectangle.visible = false
-                            controlRectangle.visible = false
+                            outputRectangle.visible = false
                             fileList.visible = false
                             encoderDecoderPanel.visible = false
                             if(!root.play){
                                 playBtn.enabled = false
+                                if(encoderCB.checked == decoderCB.checked){
+                                    root.sinkType = 2
+                                }else{
+                                    root.sinkType = outputSelect
+                                }
+                                var opFile = outputFilePath + "/" + root.outputFileName// + root.fileExtention
+
                                 controller.updateInputParam(root.format, root.num_src, root.raw, root.src, root.device_type, "file://"+root.uri);
-                                controller.updateEncParam(root.bitrate, root.b_frame, root.enc_name, root.goP_len);
+                                controller.updateOutputParam(opFile, root.hostIP, root.fileDuration, root.sinkType);
+                                controller.updateEncParam((root.bitrate * ((root.bitrateUnit == "Mbps") ? 1000000 : 1000)), root.b_frame, root.enc_name, root.goP_len, root.profile, root.qpMode, root.rateControl, root.l2Cache, root.sliceCount);
                                 controller.start_pipeline();
                                 playBtn.enabled = true
                             }else{
@@ -314,8 +342,8 @@ ApplicationWindow {
                                         inputRectangle.visible = !inputRectangle.visible
                                         parent.showList = !parent.showList
                                         encoderDecoderPanel.visible = false
-                                        controlRectangle.visible = false
-                                        controlLst.showList = false
+                                        outputRectangle.visible = false
+                                        outputLst.showList = false
                                     }
                                 }
                                 Label{
@@ -371,22 +399,27 @@ ApplicationWindow {
                                             switch (indexval){
                                             case 0:
                                                 fileList.visible = true
-                                                presetLbl.text = "None"
                                                 break;
                                             case 1:
-                                                presetLbl.text =  controlList[root.presetSelect].shortName
                                                 root.src = "v4l2src"
                                                 root.device_type = 2
+                                                encoderCB.enabled = true
+                                                decoderCB.enabled = true
+                                                outputLbl.text = (encoderCB.checked && !decoderCB.checked) ? outputSinkList[outputSelect].shortName : outputSinkList[2].shortName
                                                 break;
                                             case 2:
-                                                presetLbl.text =  controlList[root.presetSelect].shortName
                                                 root.src = "v4l2src"
                                                 root.device_type = 1
+                                                encoderCB.enabled = true
+                                                decoderCB.enabled = true
+                                                outputLbl.text = (encoderCB.checked && !decoderCB.checked) ? outputSinkList[outputSelect].shortName : outputSinkList[2].shortName
                                                 break;
                                             default:
-                                                presetLbl.text =  controlList[root.presetSelect].shortName
                                                 root.src = "v4l2src"
                                                 root.device_type = 1
+                                                encoderCB.enabled = true
+                                                decoderCB.enabled = true
+                                                outputLbl.text = (encoderCB.checked && !decoderCB.checked) ? outputSinkList[outputSelect].shortName : outputSinkList[2].shortName
                                             }
                                             root.videoInput = indexval
                                         }
@@ -395,90 +428,118 @@ ApplicationWindow {
                             }
                         }
 
-                        CheckBox{
-                            id: passtroughCB
-                            text: "<b>Passthrough</b>"
-                            checked: false
+                        Rectangle{
                             height: parent.height
-                            enabled: (root.src == "uridecodebin") ? false : !root.play
-                            onCheckedChanged: {
-                                if(passtroughCB.checked){
-                                    root.raw = true
-                                }else{
-                                    root.raw = false
-                                    if(root.presetSelect > 6){
-                                        root.presetSelect = 6
+                            width: 80
+                            color: "transparent"
+                            CheckBox{
+                                id: encoderCB
+                                text: "<b>Encode</b>"
+                                anchors.verticalCenter: parent.verticalCenter
+                                checked: true
+                                enabled: (root.src == "uridecodebin") ? false : !root.play
+                                onCheckedChanged: {
+                                    inputRectangle.visible = false
+                                    inputSrcLst.showList = false
+                                    outputLst.showList = false
+                                    outputRectangle.visible = false
+                                    if(!encoderCB.checked){
+                                        decoderCB.checked = false
+                                    }
+                                    if(encoderCB.checked == decoderCB.checked){
+                                        outputLbl.text = outputSinkList[2].shortName
+                                        root.sinkType = 2
                                     }else{
+                                        outputLbl.text = outputSinkList[outputSelect].shortName
                                     }
                                 }
-                                root.setPresets(root.presetSelect)
-                                presetLbl.text = passtroughCB.checked?"None": controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
-
-                                fileList.visible = false
-                                encoderDecoderPanel.visible = false
-                                inputSrcLst.showList = false
-                                inputRectangle.visible = false
-                                controlLst.showList = false
-                                controlRectangle.visible = false
                             }
                         }
 
                         Rectangle{
-                            width: 210
+                            height: parent.height
+                            width: 80
+                            color: "transparent"
+                            enabled: encoderCB.checked
+                            CheckBox{
+                                id: decoderCB
+                                text: "<b>Decode</b>"
+                                checked: true
+                                anchors.verticalCenter: parent.verticalCenter
+                                enabled: (root.src == "uridecodebin") ? false : !root.play
+                                onCheckedChanged: {
+                                    inputRectangle.visible = false
+                                    inputSrcLst.showList = false
+                                    outputLst.showList = false
+                                    outputRectangle.visible = false
+                                    if(encoderCB.checked == decoderCB.checked){
+                                        outputLbl.text = outputSinkList[2].shortName
+                                        root.sinkType = 2
+                                    }else{
+                                        outputLbl.text = outputSinkList[outputSelect].shortName
+                                    }
+                                }
+                            }
+                        }
+
+                        Rectangle{
+                            width: 250
                             height: parent.height
                             color: "transparent"
                             Label{
                                 anchors.left: parent.left
-                                width: 80
+                                width: 100
                                 height: parent.height
                                 verticalAlignment: Text.AlignVCenter
-                                text: "<b>Preset: </b>"
+                                text: "<b>Output Sink: </b>"
                             }
                             Rectangle{
-                                id: controlLst
+                                id: outputLst
                                 anchors.right: parent.right
                                 width: 150
                                 height: parent.height
-                                color: ((root.src == "uridecodebin") || passtroughCB.checked || root.play) ? "lightGray" : "gray"
-                                enabled: ((root.src == "uridecodebin") || passtroughCB.checked) ? false : !root.play
+                                color: ((root.src == "uridecodebin") || (encoderCB.checked == decoderCB.checked) || root.play) ? "lightGray" : "gray"
+                                enabled: (root.src == "uridecodebin") ? false : !root.play
                                 property var showList: false
                                 border.color: "black"
                                 border.width: 1
                                 radius: 2
+
                                 MouseArea{
                                     anchors.fill: parent
                                     onClicked: {
-                                        fileList.visible = false
-                                        encoderDecoderPanel.visible = false
-                                        parent.showList = !parent.showList
-                                        controlRectangle.visible = !controlRectangle.visible
-                                        inputRectangle.visible = false
-                                        inputSrcLst.showList = false
+                                        if(encoderCB.checked && !decoderCB.checked){
+                                            fileList.visible = false
+                                            encoderDecoderPanel.visible = false
+                                            outputLst.showList = !outputLst.showList
+                                            outputRectangle.visible = !outputRectangle.visible
+                                            inputRectangle.visible = false
+                                            inputSrcLst.showList = false
+                                        }
                                     }
                                 }
                                 Label{
-                                    id: presetLbl
+                                    id: outputLbl
                                     anchors.left: parent.left
                                     anchors.leftMargin: 10
                                     height: parent.height
                                     color: "white"
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
-                                    text: ((root.src == "uridecodebin") || passtroughCB.checked)? "None" : presetLbl.text = controlList[root.presetSelect].shortName
+                                    text: outputSinkList[2].shortName
                                 }
                                 Image{
                                     anchors.right: parent.right
                                     anchors.rightMargin: 5
                                     width: parent.height
                                     height: parent.height
-                                    source: controlLst.showList ? "qrc:///images/upArrow.png" : "qrc:///images/downArrow.png"
+                                    source: outputLst.showList ? "qrc:///images/upArrow.png" : "qrc:///images/downArrow.png"
                                 }
 
                                 Rectangle{
-                                    id: controlRectangle
+                                    id: outputRectangle
                                     width: parent.width
-                                    height: 140
+                                    height: 40
                                     visible: false
                                     anchors.left: parent.left
                                     border.color: root.borderColors
@@ -487,28 +548,27 @@ ApplicationWindow {
                                     color: root.barColors
                                     anchors.top: parent.bottom
 
-                                    ControlVu{
-                                        id: presetList
+                                    OutputDropDown{
+                                        id: outputList
                                         anchors.fill: parent
-                                        listModel.model: controlList
+                                        listModel.model: outputSinkList
                                         selecteItem: root.presetSelect
                                         delgate: this
                                         width: parent.width
                                         function clicked(indexval){
-                                            controlRectangle.visible = false
-                                            controlLst.showList = false
-                                            root.presetSelect = indexval
-                                            root.setPresets(indexval)
-                                            presetLbl.text = controlList[indexval].shortName
-                                            presetList.resetSource(root.presetSelect)
-                                            if(indexval == 6){
-                                                root.raw = false
-                                                encoderDecoderPanel.visible = true
-                                                passtroughCB.checked = false
-                                            }else{
-                                                root.raw = false
-                                                passtroughCB.checked = false
-                                                encoderDecoderPanel.tmpPresetSel = indexval
+                                            outputRectangle.visible = false
+                                            outputLst.showList = false
+                                            root.outputSelect = indexval
+                                            outputLbl.text = outputSinkList[indexval].shortName
+                                            switch(indexval){
+                                            case 0:
+                                                root.sinkType = 0
+                                                break
+                                            case 1:
+                                                root.sinkType = 1
+                                                break
+                                            default:
+                                                root.sinkType = 2
                                             }
                                         }
                                     }
@@ -521,27 +581,28 @@ ApplicationWindow {
                             width: 70
                             height: parent.height
                             text: "Control"
-                            enabled: ((root.src == "uridecodebin") || passtroughCB.checked) ? false : !root.play
+                            enabled: (root.src == "uridecodebin") ? false : !root.play
                             style: ButtonStyle{
                                 background: Rectangle {
                                     implicitWidth: 100
                                     implicitHeight: 25
-                                    border.width: control.activeFocus ? 2 : 1
+                                    border.width: controlBtn.activeFocus ? 2 : 1
                                     border.color: "#888"
                                     radius: 4
                                     gradient: Gradient {
-                                        GradientStop { position: 0 ; color: control.pressed ? "#ccc" : "#eee" }
-                                        GradientStop { position: 1 ; color: control.pressed ? "#aaa" : "#ccc" }
+                                        GradientStop { position: 0 ; color: controlBtn.down ? "#ccc" : "#eee" }
+                                        GradientStop { position: 1 ; color: controlBtn.down ? "#aaa" : "#ccc" }
                                     }
                                 }
                             }
                             onClicked: {
+                                root.outputFileName = "VCU-" + Qt.formatDateTime(new Date(), "yyyyMMddHHmm") + ".mp4"
                                 fileList.visible = false
                                 encoderDecoderPanel.visible = !encoderDecoderPanel.visible
                                 inputSrcLst.showList = false
                                 inputRectangle.visible = false
-                                controlLst.showList = false
-                                controlRectangle.visible = false
+                                outputLst.showList = false
+                                outputRectangle.visible = false
                             }
                         }
                     }
@@ -628,7 +689,7 @@ ApplicationWindow {
                                 fileList.visible = false
                                 titleBar.y = -100
                                 inputRectangle.visible = false
-                                controlRectangle.visible = false
+                                outputRectangle.visible = false
                                 graphPlot.visible = false
                                 encoderDecoderPanel.visible = false
                             }
@@ -672,7 +733,7 @@ ApplicationWindow {
                             color: "darkGray"
                         }
                         Label{
-                            text:  ((root.src == "uridecodebin") || root.raw) ? "<b>Bitrate: </b>NA" :"<b>Bitrate: </b>" + root.bitrate/1000000 + " Mbps"
+                            text:  ((root.src == "uridecodebin") || root.raw) ? "<b>Bitrate: </b>NA" :"<b>Bitrate: </b>" + root.bitrate + root.bitrateUnit
                         }
                     }
                 }
@@ -867,12 +928,12 @@ ApplicationWindow {
         }
     }
     function setPresets(index){
-        root.b_frame =  presetStructure[index].b_frame
-        root.enc_name = presetStructure[index].enc_name
-        root.goP_len = presetStructure[index].goP_len
-        root.src = presetStructure[index].src
-        root.device_type = presetStructure[index].device_type
-        root.bitrate = presetStructure[index].bitrate
-        root.enc_enum = presetStructure[index].enc_enum
+//        root.b_frame =  presetStructure[index].b_frame
+//        root.enc_name = presetStructure[index].enc_name
+//        root.goP_len = presetStructure[index].goP_len
+//        root.src = presetStructure[index].src
+//        root.device_type = presetStructure[index].device_type
+//        root.bitrate = presetStructure[index].bitrate
+//        root.enc_enum = presetStructure[index].enc_enum
     }
 }
