@@ -41,17 +41,24 @@ import QtQuick 2.0
 
 Item {
 
-    property int lowBitRate: 10000000
-    property int mediumBitRate: 30000000
-    property int highBitRate: 100000000
+    property int lowBitRate: 10
+    property int mediumBitRate: 30
+    property int highBitRate: 100
 
     property var presetStruct: [
-        {"name":"AVC Low", "bitrate":lowBitRate, "b_frame":0, "enc_enum":1, "enc_name":"omxh264enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type},
-        {"name":"AVC Medium", "bitrate":mediumBitRate, "b_frame":0, "enc_enum":1, "enc_name":"omxh264enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type},
-        {"name":"AVC High", "bitrate":highBitRate, "b_frame":0, "enc_enum":1, "enc_name":"omxh264enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type},
-        {"name":"HEVC Low", "bitrate":lowBitRate, "b_frame":0, "enc_enum":2, "enc_name":"omxh265enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type},
-        {"name":"HEVC Medium", "bitrate":mediumBitRate, "b_frame":0, "enc_enum":2, "enc_name":"omxh265enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type},
-        {"name":"HEVC High", "bitrate":highBitRate, "b_frame":0, "enc_enum":2, "enc_name":"omxh265enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type},
-        {"name":"Custom", "bitrate":root.bitrate, "b_frame":root.b_frame, "enc_enum":root.enc_enum, "enc_name":root.enc_name, "goP_len":root.goP_len, "src":root.src, "device_type":root.device_type}
+        {"name":"AVC Low", "bitrate":lowBitRate, "b_frame":0, "enc_enum":1, "enc_name":"omxh264enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type,
+        "bitrateUnit":"Mbps", "profile":1, "qpMode":0, "rateControl":1, "l2Cache":true, "sliceCount":135, "ipAddress":"127.0.0.1", "hostIP":"192.138.234.130", "port":5004, "fileDuration":1},
+        {"name":"AVC Medium", "bitrate":mediumBitRate, "b_frame":0, "enc_enum":1, "enc_name":"omxh264enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type,
+        "bitrateUnit":"Mbps", "profile":1, "qpMode":1, "rateControl":1, "l2Cache":true, "sliceCount":135, "ipAddress":"127.0.0.1", "hostIP":"192.138.234.131", "port":5004, "fileDuration":1},
+        {"name":"AVC High", "bitrate":highBitRate, "b_frame":0, "enc_enum":1, "enc_name":"omxh264enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type,
+        "bitrateUnit":"Mbps", "profile":1, "qpMode":1, "rateControl":1, "l2Cache":true, "sliceCount":135, "ipAddress":"127.0.0.1", "hostIP":"192.138.234.132", "port":5004, "fileDuration":1},
+        {"name":"HEVC Low", "bitrate":lowBitRate, "b_frame":0, "enc_enum":2, "enc_name":"omxh265enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type,
+        "bitrateUnit":"Mbps", "profile":1, "qpMode":1, "rateControl":1, "l2Cache":true, "sliceCount":22, "ipAddress":"127.0.0.1", "hostIP":"192.138.234.133", "port":5004, "fileDuration":1},
+        {"name":"HEVC Medium", "bitrate":mediumBitRate, "b_frame":0, "enc_enum":2, "enc_name":"omxh265enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type,
+        "bitrateUnit":"Mbps", "profile":1, "qpMode":0, "rateControl":1, "l2Cache":true, "sliceCount":22, "ipAddress":"127.0.0.1", "hostIP":"192.138.234.134", "port":5004, "fileDuration":1},
+        {"name":"HEVC High", "bitrate":highBitRate, "b_frame":0, "enc_enum":2, "enc_name":"omxh265enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type,
+        "bitrateUnit":"Mbps", "profile":1, "qpMode":0, "rateControl":1, "l2Cache":true, "sliceCount":22, "ipAddress":"127.0.0.1", "hostIP":"192.138.234.135", "port":5004, "fileDuration":1},
+        {"name":"Custom", "bitrate":root.bitrate, "b_frame":root.b_frame, "enc_enum":root.enc_enum, "enc_name":root.enc_name, "goP_len":root.goP_len, "src":root.src, "device_type":root.device_type,
+        "bitrateUnit":root.bitrateUnit, "profile":root.profile, "qpMode":root.qpMode, "rateControl":root.rateControl, "l2Cache":root.l2Cache, "sliceCount":root.sliceCount, "ipAddress":root.ipAddress, "hostIP":root.hostIP, "port":root.port, "fileDuration":root.fileDuration}
     ]
 }

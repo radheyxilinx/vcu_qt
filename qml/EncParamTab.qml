@@ -50,51 +50,7 @@ Rectangle{
 
     onVisibleChanged: {
         if(visible){
-            bitRateCount.value = root.bitrate
-            framesCount.value = root.b_frame
-            sliceCount.value = root.sliceCount
-            gopLengthCount.value = root.goP_len
-            if(1 == root.enc_enum){
-                h264Radio.checked = true
-            }else{
-                h265Radio.checked = true
-            }
-
-            switch (root.profile) {
-            case 0:
-                profileBaseline.checked = true
-                break;
-            case 1:
-                profileMain.checked = true
-                break
-            case 2:
-                profileHigh.checked = true
-                break
-            default:
-                profileMain.checked = true
-                break
-            }
-            if(0 == root.qpMode){
-                qpModeUniform.checked = true
-            }else{
-                qpModeAuto.checked = true
-            }
-            switch (root.rateControl){
-            case 1:
-                 vbrRadio.checked = true
-                break;
-            case 2:
-                cbrRadio.checked = true
-                break;
-            default:
-                vbrRadio.checked = true
-                break;
-            }
-            if(0 == root.l2Cache){
-                disableL2Cache.checked = true
-            }else{
-                enableL2Cache.checked = true
-            }
+            setPresetValues()
         }
     }
 
@@ -159,7 +115,7 @@ Rectangle{
                     source: controlLst.showList ? "qrc:///images/upArrow.png" : "qrc:///images/downArrow.png"
                 }
 
-                           }
+            }
 
         }
 
@@ -792,17 +748,64 @@ Rectangle{
                 controlLst.showList = false
                 root.presetSelect = indexval
                 root.setPresets(indexval)
+                setPresetValues()
                 presetLbl.text = controlList[indexval].shortName
                 presetList.resetSource(root.presetSelect)
                 if(indexval == 6){
                     root.raw = false
                     encoderDecoderPanel.visible = true
-                    passtroughCB.checked = false
                 }else{
                     root.raw = false
                     encoderDecoderPanel.tmpPresetSel = indexval
                 }
             }
+        }
+    }
+    function setPresetValues(){
+        bitRateCount.value = root.bitrate
+        framesCount.value = root.b_frame
+        sliceCount.value = root.sliceCount
+        gopLengthCount.value = root.goP_len
+        if(1 == root.enc_enum){
+            h264Radio.checked = true
+        }else{
+            h265Radio.checked = true
+        }
+
+        switch (root.profile) {
+        case 0:
+            profileBaseline.checked = true
+            break;
+        case 1:
+            profileMain.checked = true
+            break
+        case 2:
+            profileHigh.checked = true
+            break
+        default:
+            profileMain.checked = true
+            break
+        }
+        if(0 == root.qpMode){
+            qpModeUniform.checked = true
+        }else{
+            qpModeAuto.checked = true
+        }
+        switch (root.rateControl){
+        case 1:
+             vbrRadio.checked = true
+            break;
+        case 2:
+            cbrRadio.checked = true
+            break;
+        default:
+            vbrRadio.checked = true
+            break;
+        }
+        if(0 == root.l2Cache){
+            disableL2Cache.checked = true
+        }else{
+            enableL2Cache.checked = true
         }
     }
 }

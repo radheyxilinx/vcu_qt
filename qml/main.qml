@@ -928,12 +928,22 @@ ApplicationWindow {
         }
     }
     function setPresets(index){
-//        root.b_frame =  presetStructure[index].b_frame
-//        root.enc_name = presetStructure[index].enc_name
-//        root.goP_len = presetStructure[index].goP_len
-//        root.src = presetStructure[index].src
-//        root.device_type = presetStructure[index].device_type
-//        root.bitrate = presetStructure[index].bitrate
-//        root.enc_enum = presetStructure[index].enc_enum
+        root.b_frame =  presetStructure[index].b_frame
+        root.enc_name = presetStructure[index].enc_name
+        root.goP_len = presetStructure[index].goP_len
+        root.src = presetStructure[index].src
+        root.device_type = presetStructure[index].device_type
+        root.bitrate = presetStructure[index].bitrate
+        root.enc_enum = presetStructure[index].enc_enum
+        root.bitrateUnit = presetStructure[index].bitrateUnit
+        root.profile = presetStructure[index].profile
+        root.qpMode = presetStructure[index].qpMode
+        root.rateControl = presetStructure[index].rateControl
+        root.l2Cache = presetStructure[index].l2Cache
+        root.sliceCount = presetStructure[index].sliceCount
+        root.ipAddress = presetStructure[index].ipAddress
+        root.hostIP = presetStructure[index].hostIP
+        root.port = presetStructure[index].port
+        root.fileDuration = presetStructure[index].fileDuration
     }
 }

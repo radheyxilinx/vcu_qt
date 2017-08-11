@@ -136,7 +136,7 @@ Rectangle{
                 }
                 width: 150
                 height: 25
-                text: settingsPanel.tmpHostIP
+                text: root.hostIP
                 verticalAlignment: Text.AlignVCenter
                 enabled: !root.raw
                 MouseArea{
