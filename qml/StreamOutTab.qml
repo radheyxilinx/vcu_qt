@@ -41,11 +41,22 @@ import QtQuick 2.7
 import QtQuick.Layouts 1.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
-
+import QtQuick 2.0
 Rectangle{
     width: parent.width-6
     height: parent.height-110
     color: "transparent"
+    MouseArea{
+        anchors.fill: parent
+        onClicked: numberPad.visible = false
+    }
+    onVisibleChanged: {
+        if(visible){
+
+        }else{
+            numberPad.visible = false
+        }
+    }
 
     Column{
         anchors.top: parent.top
@@ -142,7 +153,7 @@ Rectangle{
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-
+                        numberPad.visible =  !numberPad.visible
                     }
                 }
             }
@@ -219,6 +230,48 @@ Rectangle{
                     anchors.fill: parent
                     onClicked: {
 
+                    }
+                }
+            }
+        }
+    }
+
+    Rectangle{
+        id: numberPad
+        visible: false
+        anchors.left: parent.left
+        anchors.leftMargin: 130
+        anchors.top: parent.top
+        anchors.topMargin: 75
+        height: 145
+        width: 110
+        color: "lightGray"
+        MouseArea{
+            anchors.fill: parent
+        }
+
+        Grid {
+            anchors.left: parent.left
+            anchors.leftMargin: 5
+            anchors.top: parent.top
+            anchors.topMargin: 5
+            columns: 3
+            columnSpacing: 5
+            rowSpacing: 5
+
+            Repeater{
+                model: ["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0", "<"]
+                Button {
+                    text: modelData
+                    width: 30
+                    height: 30
+                    onClicked: {
+                        if("<" != modelData){
+                            hostIpTxt.text = hostIpTxt.text + modelData
+                        }else{
+                            hostIpTxt.text = hostIpTxt.text.substring(0, hostIpTxt.text.length-1)
+                        }
+                        root.hostIP = hostIpTxt.text
                     }
                 }
             }
