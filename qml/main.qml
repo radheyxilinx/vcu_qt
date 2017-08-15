@@ -107,7 +107,6 @@ ApplicationWindow {
     property var device_type : configuration.device_type
     property var uri : configuration.uri
     property var sinkType: configuration.sinkType
-//    property var outputFilePath: //configuration.outputFilePath
     property var outputFileName: configuration.outputFileName
 
     property alias presetStructure: presetValues.presetStruct
@@ -581,7 +580,7 @@ ApplicationWindow {
                             width: 70
                             height: parent.height
                             text: "Control"
-                            enabled: (root.src == "uridecodebin") ? false : !root.play
+                            enabled: ((root.src == "uridecodebin") || root.raw) ? false : !root.play
                             style: ButtonStyle{
                                 background: Rectangle {
                                     implicitWidth: 100

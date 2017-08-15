@@ -59,7 +59,7 @@ QT_CHARTS_USE_NAMESPACE
 #define SCREEN_WIDTH 3840;
 #define ROOT_FILE_PATH "/media/card"
 #define BYTE_TO_GBIT (8 / 1000000000.0)
-#define RECORD_DIR "/VCU_Records"
+#define RECORD_DIR "VCU_Records"
 
 class maincontroller : public QObject
 {

@@ -70,10 +70,10 @@ Item {
     property var qpMode: 0
     property var rateControl: 1
     property var l2Cache: true
-    property var sliceCount: 135
+    property var sliceCount: 22
     property var ipAddress: "127.0.0.1"
-    property var hostIP: "192.138.234.130"
-    property var port: 5004
+    property var hostIP: "172.23.98.14"
+    property var port: 50000
     property var fileDuration: 1
 
     property var format : "NV12"
@@ -83,6 +83,5 @@ Item {
     property var device_type : 1
     property var uri : ""
     property var sinkType: 2
-    property var outputFilePath: "/media/card/"
     property var outputFileName: "VCU-" + Qt.formatDateTime(new Date(), "yyyyMMddHHmm") + ".mp4"
 }

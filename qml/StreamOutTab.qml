@@ -223,7 +223,7 @@ Rectangle{
                 }
                 width: 125
                 height: 25
-                text: "8554"
+                text: root.port
                 verticalAlignment: Text.AlignVCenter
                 enabled: !root.raw
                 MouseArea{

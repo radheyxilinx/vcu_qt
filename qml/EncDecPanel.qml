@@ -92,6 +92,7 @@ Rectangle{
                 tmpSinkType = root.sinkType
                 tmpFileDuration = root.fileDuration
                 tmpOpFilePath = root.outputFilePath
+//                tmpPresetSel = root.presetSelect
 
                 for(var i = 0; i < 5; i++){
                     if(root.bitrate === bitRateNames[i].bitrate){
@@ -354,7 +355,6 @@ Rectangle{
                 root.enc_name = tmpEnc_name
                 root.bitrate = tmpBitrate
                 root.enc_enum = tmpEnc_enum
-                tmpPresetSel = root.presetSelect
                 root.profile = tmpProfile
                 root.qpMode = tmpQPMode
                 root.rateControl = tmpRateControl
@@ -363,7 +363,6 @@ Rectangle{
                 root.hostIP = tmpHostIP
                 root.sinkType = tmpSinkType
                 root.fileDuration = tmpFileDuration
-                root.outputFilePath = tmpOpFilePath
             }
         }
     }

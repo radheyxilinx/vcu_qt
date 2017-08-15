@@ -155,8 +155,13 @@ Rectangle{
                     exclusiveGroup: encTypeGroup
                     width: 80
                     onCheckedChanged: {
-                        sliceCount.value = 0
                         if(checked){
+                            if(1 != root.enc_enum){
+                                root.presetSelect = 6
+                                presetLbl.text = controlList[root.presetSelect].shortName
+                                presetList.resetSource(root.presetSelect)
+                            }
+                            sliceCount.value = 1
                             root.enc_enum = 1
                             root.enc_name =  "omxh264enc"
                             profileBaseline.checked = true
@@ -164,6 +169,7 @@ Rectangle{
                         }
                     }
                 }
+
                 RadioButton{
                     id: h265Radio
                     width: 80
@@ -171,8 +177,13 @@ Rectangle{
                     checked: true
                     exclusiveGroup: encTypeGroup
                     onCheckedChanged: {
-                        sliceCount.value = 0
                         if(checked){
+                            if(2 != root.enc_enum){
+                                root.presetSelect = 6
+                                presetLbl.text = controlList[root.presetSelect].shortName
+                                presetList.resetSource(root.presetSelect)
+                            }
+                            sliceCount.value = 1
                             root.enc_enum= 2
                             root.enc_name =  "omxh265enc"
                             profileMain.checked = true
@@ -219,6 +230,11 @@ Rectangle{
                     visible: !h265Radio.checked
                     onCheckedChanged: {
                         if(checked){
+                            if(root.profile != 0){
+                                root.presetSelect = 6
+                                presetLbl.text = controlList[root.presetSelect].shortName
+                                presetList.resetSource(root.presetSelect)
+                            }
                             root.profile = 0
                         }
                     }
@@ -231,6 +247,11 @@ Rectangle{
                     exclusiveGroup: profileGroup
                     onCheckedChanged: {
                         if(checked){
+                            if(root.profile != 1){
+                                root.presetSelect = 6
+                                presetLbl.text = controlList[root.presetSelect].shortName
+                                presetList.resetSource(root.presetSelect)
+                            }
                             root.profile = 1
                         }
                     }
@@ -243,6 +264,11 @@ Rectangle{
                     visible: !h265Radio.checked
                     onCheckedChanged: {
                         if(checked){
+                            if(root.profile != 2){
+                                root.presetSelect = 6
+                                presetLbl.text = controlList[root.presetSelect].shortName
+                                presetList.resetSource(root.presetSelect)
+                            }
                             root.profile = 2
                         }
                     }
@@ -287,6 +313,11 @@ Rectangle{
                     checked: true
                     onCheckedChanged: {
                         if(checked){
+                            if(root.qpMode){
+                                root.presetSelect = 6
+                                presetLbl.text = controlList[root.presetSelect].shortName
+                                presetList.resetSource(root.presetSelect)
+                            }
                             root.qpMode = 0
                         }
                     }
@@ -298,6 +329,11 @@ Rectangle{
                     exclusiveGroup: qpModeGroup
                     onCheckedChanged: {
                         if(checked){
+                            if(!root.qpMode){
+                                root.presetSelect = 6
+                                presetLbl.text = controlList[root.presetSelect].shortName
+                                presetList.resetSource(root.presetSelect)
+                            }
                             root.qpMode = 1
                         }
                     }
@@ -340,6 +376,11 @@ Rectangle{
                     checked: true
                     onCheckedChanged: {
                         if(checked){
+                            if(root.rateControl != 2){
+                                root.presetSelect = 6
+                                presetLbl.text = controlList[root.presetSelect].shortName
+                                presetList.resetSource(root.presetSelect)
+                            }
                             root.rateControl = 2
                         }
                     }
@@ -351,6 +392,11 @@ Rectangle{
                     exclusiveGroup: ratecontrolGroup
                     onCheckedChanged: {
                         if(checked){
+                            if(root.rateControl != 1){
+                                root.presetSelect = 6
+                                presetLbl.text = controlList[root.presetSelect].shortName
+                                presetList.resetSource(root.presetSelect)
+                            }
                             root.rateControl = 1
                         }
                     }
@@ -396,6 +442,11 @@ Rectangle{
                     width: 80
                     onCheckedChanged: {
                         if(checked){
+                            if(!root.l2Cache){
+                                root.presetSelect = 6
+                                presetLbl.text = controlList[root.presetSelect].shortName
+                                presetList.resetSource(root.presetSelect)
+                            }
                             root.l2Cache = 1
                         }
                     }
@@ -407,6 +458,11 @@ Rectangle{
                     width: 80
                     onCheckedChanged: {
                         if(checked){
+                            if(root.l2Cache){
+                                root.presetSelect = 6
+                                presetLbl.text = controlList[root.presetSelect].shortName
+                                presetList.resetSource(root.presetSelect)
+                            }
                             root.l2Cache = 0
                         }
                     }
@@ -450,7 +506,6 @@ Rectangle{
                         if(root.bitrate!= bitRateCount.value){
                             root.bitrate = bitRateCount.value
                             root.presetSelect = 6
-                            root.setPresets(root.presetSelect)
                             presetLbl.text = controlList[root.presetSelect].shortName
                             presetList.resetSource(root.presetSelect)
                         }
@@ -465,7 +520,6 @@ Rectangle{
                     leftMargin: 5
                     top: parent.top
                 }
-                enabled: !root.raw
                 minimumValue: 1
                 maximumValue: 1000
                 stepSize: 1.0
@@ -551,7 +605,6 @@ Rectangle{
                         if(root.b_frame != framesCount.value){
                             root.b_frame = framesCount.value
                             root.presetSelect = 6
-                            root.setPresets(root.presetSelect)
                             presetLbl.text = controlList[root.presetSelect].shortName
                             presetList.resetSource(root.presetSelect)
                         }
@@ -569,7 +622,7 @@ Rectangle{
                 enabled: !root.raw
                 maximumValue: 4.0
                 stepSize: 1.0
-                value : 0
+                value : root.b_frame
                 style: SliderStyle {
                     groove: Rectangle {
                         implicitWidth: 150
@@ -614,7 +667,6 @@ Rectangle{
                         if(root.sliceCount != sliceCount.value){
                             root.sliceCount = sliceCount.value
                             root.presetSelect = 6
-                            root.setPresets(root.presetSelect)
                             presetLbl.text = controlList[root.presetSelect].shortName
                             presetList.resetSource(root.presetSelect)
                         }
@@ -632,7 +684,7 @@ Rectangle{
                 minimumValue: 1
                 maximumValue: h264Radio.checked ? 135 : 22
                 stepSize: 1.0
-                value : 1
+                value : root.sliceCount
                 style: SliderStyle {
                     groove: Rectangle {
                         implicitWidth: 150
@@ -688,7 +740,6 @@ Rectangle{
                         if(root.goP_len != gopLengthCount.value){
                             root.goP_len = gopLengthCount.value
                             root.presetSelect = 6
-                            root.setPresets(root.presetSelect)
                             presetLbl.text = controlList[root.presetSelect].shortName
                             presetList.resetSource(root.presetSelect)
                         }
@@ -706,7 +757,7 @@ Rectangle{
                 maximumValue: 100
                 minimumValue: 1
                 stepSize: 1.0
-                value : 30
+                value : root.goP_len
                 style: SliderStyle {
                     groove: Rectangle {
                         implicitWidth: 150
@@ -762,6 +813,8 @@ Rectangle{
         }
     }
     function setPresetValues(){
+        tmpPresetSel = root.presetSelect
+        presetLbl.text = controlList[root.presetSelect].shortName
         bitRateCount.value = root.bitrate
         framesCount.value = root.b_frame
         sliceCount.value = root.sliceCount
@@ -786,10 +839,10 @@ Rectangle{
             profileMain.checked = true
             break
         }
-        if(0 == root.qpMode){
-            qpModeUniform.checked = true
-        }else{
+        if(1 == root.qpMode){
             qpModeAuto.checked = true
+        }else{
+            qpModeUniform.checked = true
         }
         switch (root.rateControl){
         case 1:
@@ -802,10 +855,10 @@ Rectangle{
             vbrRadio.checked = true
             break;
         }
-        if(0 == root.l2Cache){
-            disableL2Cache.checked = true
-        }else{
+        if(1 == root.l2Cache){
             enableL2Cache.checked = true
+        }else{
+            disableL2Cache.checked = true
         }
     }
 }
