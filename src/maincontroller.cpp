@@ -45,6 +45,9 @@
 #include <unistd.h>
 #include <gst/gst.h>
 #include "perfapm.h"
+#include <QHostAddress>
+#include <QNetworkInterface>
+#include <QNetworkAddressEntry>
 
 void maincontroller :: inits(){
     cpuStat = new CPUStat("cpu");
@@ -204,5 +207,17 @@ void maincontroller :: pollError(){
     if(errorPopup(err)){
         rootobject->setProperty("errorFound", true);
         return;
+    }
+}
+
+void maincontroller :: getLocalIpAddress(){
+    QList<QNetworkInterface> interface = QNetworkInterface::allInterfaces();
+    for (int i = 0; i <interface.size(); i++){
+        QNetworkInterface item = interface.at(i);
+        QList<QNetworkAddressEntry> entryList = item.addressEntries();
+        if(entryList.size() && (item.name().toStdString() == "eth0")){
+            if((entryList.at(0).ip().toString().length() >= 7) && (entryList.at(0).ip().toString().length() <= 15))
+            rootobject->setProperty("ipAddress", entryList.at(0).ip().toString());
+        }
     }
 }

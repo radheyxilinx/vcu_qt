@@ -102,6 +102,7 @@ public slots:
     void stop_pipeline();
     void updateFPS();
     void pollError();
+    void getLocalIpAddress();
 };
 
 #endif // MAINCONTROLLER_H

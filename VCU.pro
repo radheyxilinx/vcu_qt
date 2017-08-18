@@ -1,6 +1,7 @@
 TARGET = vcu_qt
 QT += qml quick widgets core gui
 QT += charts
+QT += network
 
 CONFIG += c++11
 CONFIG += qwt

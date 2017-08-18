@@ -892,6 +892,7 @@ ApplicationWindow {
             running: true
             repeat: true
             onTriggered: {
+                controller.getLocalIpAddress()
                 controller.updatecpu(chart_line_CPU.series(0))
                 controller.updateThroughput(encoderBandWidthPlot.series(0),decoderBandWidthPlot.series(0))
                 if(root.play && !root.errorFound){

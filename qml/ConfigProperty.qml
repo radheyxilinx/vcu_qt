@@ -71,7 +71,7 @@ Item {
     property var rateControl: 1
     property var l2Cache: true
     property var sliceCount: 22
-    property var ipAddress: "127.0.0.1"
+    property var ipAddress: "Not Connected"
     property var hostIP: "172.23.98.14"
     property var port: 50000
     property var fileDuration: 1
