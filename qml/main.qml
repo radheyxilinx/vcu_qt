@@ -645,6 +645,7 @@ ApplicationWindow {
                         onClicked: {
                             controller.stop_pipeline();
                             refreshTimer.stop()
+                            controller.uninitAll()
                             Qt.quit()
                         }
                     }

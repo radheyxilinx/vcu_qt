@@ -74,7 +74,10 @@ LIBS += \
         -lgstreamer-1.0 \
 	-lgthread-2.0 \
         -lgobject-2.0 \
-        -lglib-2.0
+        -lglib-2.0 \
+        -lmediactl \
+        -lv4l2subdev
+
 
 CONFIG += "release"
 

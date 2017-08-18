@@ -103,6 +103,7 @@ public slots:
     void updateFPS();
     void pollError();
     void getLocalIpAddress();
+    void uninitAll();
 };
 
 #endif // MAINCONTROLLER_H

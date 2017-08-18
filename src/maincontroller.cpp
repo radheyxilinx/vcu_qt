@@ -50,6 +50,7 @@
 #include <QNetworkAddressEntry>
 
 void maincontroller :: inits(){
+    vgst_init();
     cpuStat = new CPUStat("cpu");
 
     inputParam.height = SCREEN_HEIGHT;
@@ -220,4 +221,8 @@ void maincontroller :: getLocalIpAddress(){
             rootobject->setProperty("ipAddress", entryList.at(0).ip().toString());
         }
     }
+}
+
+void maincontroller :: uninitAll(){
+    vgst_uninit();
 }
