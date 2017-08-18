@@ -52,7 +52,8 @@ Rectangle{
     }
     onVisibleChanged: {
         if(visible){
-
+            hostIpTxt.text = root.hostIP
+            portTxt.text = root.port
         }else{
             numberPad.visible = false
         }
@@ -153,6 +154,7 @@ Rectangle{
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
+                        numberPad.state = "hostIpEdit"
                         numberPad.visible =  !numberPad.visible
                     }
                 }
@@ -214,14 +216,14 @@ Rectangle{
                 verticalAlignment: Text.AlignVCenter
                 text: "Port: "
             }
-            Label{
+            TextField{
                 id: portTxt
                 anchors{
                     left:  portLbl.right
                     leftMargin: 5
                     top: parent.top
                 }
-                width: 125
+                width: 150
                 height: 25
                 text: root.port
                 verticalAlignment: Text.AlignVCenter
@@ -229,7 +231,8 @@ Rectangle{
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-
+                        numberPad.state = "portEdit"
+                        numberPad.visible =  !numberPad.visible
                     }
                 }
             }
@@ -250,6 +253,24 @@ Rectangle{
             anchors.fill: parent
         }
 
+        states: [
+            State {
+                name: "hostIpEdit"
+                PropertyChanges {
+                    target: numberPad
+                    anchors.topMargin: 75
+                }
+            },
+
+            State {
+                name: "portEdit"
+                PropertyChanges {
+                    target: numberPad
+                    anchors.topMargin: 140
+                }
+            }
+        ]
+
         Grid {
             anchors.left: parent.left
             anchors.leftMargin: 5
@@ -267,11 +288,20 @@ Rectangle{
                     height: 30
                     onClicked: {
                         if("<" != modelData){
-                            hostIpTxt.text = hostIpTxt.text + modelData
+                            if(numberPad.state == "hostIpEdit"){
+                                hostIpTxt.text = hostIpTxt.text + modelData
+                            }else{
+                                portTxt.text = portTxt.text + modelData
+                            }
                         }else{
-                            hostIpTxt.text = hostIpTxt.text.substring(0, hostIpTxt.text.length-1)
+                            if(numberPad.state == "hostIpEdit"){
+                                hostIpTxt.text = hostIpTxt.text.substring(0, hostIpTxt.text.length-1)
+                            }else{
+                                portTxt.text = portTxt.text.substring(0, portTxt.text.length - 1)
+                            }
                         }
                         root.hostIP = hostIpTxt.text
+                        root.port = portTxt.text
                     }
                 }
             }

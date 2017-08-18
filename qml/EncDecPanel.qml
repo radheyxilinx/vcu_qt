@@ -64,6 +64,7 @@ Rectangle{
     property var tmpSinkType: root.sinkType
     property var tmpFileDuration: root.fileDuration
     property var tmpOpFilePath: root.outputFilePath
+    property var tmpPort: root.port
     property var bitRateNames: [
         {"bitrate":10000000, "bitrateName":"Low"},
         {"bitrate":20000000, "bitrateName":"Medium Low"},
@@ -92,7 +93,7 @@ Rectangle{
                 tmpSinkType = root.sinkType
                 tmpFileDuration = root.fileDuration
                 tmpOpFilePath = root.outputFilePath
-//                tmpPresetSel = root.presetSelect
+                tmpPort = root.port
 
                 for(var i = 0; i < 5; i++){
                     if(root.bitrate === bitRateNames[i].bitrate){
@@ -363,6 +364,7 @@ Rectangle{
                 root.hostIP = tmpHostIP
                 root.sinkType = tmpSinkType
                 root.fileDuration = tmpFileDuration
+                root.port = tmpPort
             }
         }
     }
