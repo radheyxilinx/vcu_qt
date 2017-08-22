@@ -104,6 +104,7 @@ public slots:
     void pollError();
     void getLocalIpAddress();
     void uninitAll();
+    void freeMemory();
 };
 
 #endif // MAINCONTROLLER_H

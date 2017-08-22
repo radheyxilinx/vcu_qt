@@ -646,6 +646,7 @@ ApplicationWindow {
                             controller.stop_pipeline();
                             refreshTimer.stop()
                             controller.uninitAll()
+                            controller.freeMemory()
                             Qt.quit()
                         }
                     }

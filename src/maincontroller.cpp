@@ -51,6 +51,9 @@
 
 void maincontroller :: inits(){
     vgst_init();
+    memset(&inputParam, 0, sizeof(inputParam));
+    memset(&encoderParam, 0, sizeof(encoderParam));
+    memset(&outputParam, 0, sizeof(outputParam));
     cpuStat = new CPUStat("cpu");
 
     inputParam.height = SCREEN_HEIGHT;
@@ -215,6 +218,21 @@ void maincontroller :: getLocalIpAddress(){
             rootobject->setProperty("ipAddress", entryList.at(0).ip().toString());
         }
     }
+}
+
+void maincontroller :: freeMemory(){
+    free(inputParam.format);
+    inputParam.format = NULL;
+    free(inputParam.src);
+    inputParam.src = NULL;
+    free(inputParam.uri);
+    inputParam.uri = NULL;
+    free(encoderParam.enc_name);
+    encoderParam.enc_name = NULL;
+    free(outputParam.file_out);
+    outputParam.file_out = NULL;
+    free(outputParam.host_ip);
+    outputParam.host_ip = NULL;
 }
 
 void maincontroller :: uninitAll(){
