@@ -97,7 +97,7 @@ public slots:
     void updateThroughput(QAbstractSeries *videoSrc, QAbstractSeries *accelerator);
     void updateEncParam(int, int, QString, int, int, int, int, bool, int);
     void updateInputParam(QString, int, bool, QString, int, QString);
-    void updateOutputParam(QString, QString, int, int);
+    void updateOutputParam(QString, QString, int, int, int);
     void start_pipeline();
     void stop_pipeline();
     void updateFPS();

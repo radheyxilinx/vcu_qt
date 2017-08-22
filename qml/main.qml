@@ -262,7 +262,7 @@ ApplicationWindow {
                                 var opFile = outputFilePath + "/" + root.outputFileName// + root.fileExtention
 
                                 controller.updateInputParam(root.format, root.num_src, root.raw, root.src, root.device_type, "file://"+root.uri);
-                                controller.updateOutputParam(opFile, root.hostIP, root.fileDuration, root.sinkType);
+                                controller.updateOutputParam(opFile, root.hostIP, root.fileDuration, root.sinkType, root.port);
                                 controller.updateEncParam((root.bitrate * ((root.bitrateUnit == "Mbps") ? 1000000 : 1000)), root.b_frame, root.enc_name, root.goP_len, root.profile, root.qpMode, root.rateControl, root.l2Cache, root.sliceCount);
                                 controller.start_pipeline();
                                 playBtn.enabled = true

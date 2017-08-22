@@ -160,21 +160,15 @@ void maincontroller :: updateInputParam(QString format, int num_src, bool raw, Q
     inputParam.uri = g_strdup(uri.toLatin1().data());
 }
 
-void maincontroller :: updateOutputParam(QString fileOut, QString hostIp, int duration, int sinkType){
+void maincontroller :: updateOutputParam(QString fileOut, QString hostIp, int duration, int sinkType, int port){
     outputParam.file_out = g_strdup(fileOut.toLatin1().data());
     outputParam.host_ip = g_strdup(hostIp.toLatin1().data());
     outputParam.duration = duration;
     outputParam.sink_type = sinkType;
+    outputParam.port_num = port;
 }
 
 void maincontroller :: start_pipeline(){
-
-    qDebug() << "->>\n" << "Bitrate: " << encoderParam.bitrate << "B_Frame: " << encoderParam.b_frame << "Encoder Name:"<< encoderParam.enc_name << "Gop Length: " << encoderParam.GoP_len
-           << "profile: " << encoderParam.profile << "qpMode: " << encoderParam.qp_mode << "rateControl: " << encoderParam.rc_mode << "l2Cache" << encoderParam.enable_l2Cache
-           << "Slice: " << encoderParam.slice << "\n" << "Output param:    \n" << "Host IP: " << outputParam.host_ip << "fileout: " << outputParam.file_out
-           << "sinkType:  " << outputParam.sink_type << "duration: " << outputParam.duration;
-
-
     int err = vgst_config_options(&encoderParam, &inputParam, &outputParam);
     if(errorPopup(err)){
         rootobject->setProperty("play", false);
