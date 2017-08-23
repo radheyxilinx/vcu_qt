@@ -28,5 +28,6 @@
         <file>qml/FileTab.qml</file>
         <file>qml/StreamOutTab.qml</file>
         <file>qml/ConfigProperty.qml</file>
+        <file>qml/NumberKeyPad.qml</file>
     </qresource>
 </RCC>

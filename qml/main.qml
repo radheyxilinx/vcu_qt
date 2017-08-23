@@ -84,7 +84,7 @@ ApplicationWindow {
     property var outputSelect: configuration.outputSelect
     property var plotDisplay: configuration.plotDisplay
 
-    property int bitrate: configuration.bitrate
+    property var bitrate: configuration.bitrate
     property var bitrateUnit: configuration.bitrateUnit
     property var b_frame: configuration.b_frame
     property var enc_name: configuration.enc_name

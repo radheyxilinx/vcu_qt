@@ -37,51 +37,45 @@
  * AT ALL TIMES.
  *******************************************************************************/
 
+import QtQuick 2.7
+import QtQuick.Layouts 1.0
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 import QtQuick 2.0
+Rectangle{
+    visible: false
+    height: 145
+    width: 110
+    color: "lightGray"
+    MouseArea{
+        anchors.fill: parent
+    }
+    property var textToEdit: ""
+    property bool requireDot: true
 
-Item {
-    property bool play: false
-    property bool errorFound: false
+    Grid {
+        anchors.left: parent.left
+        anchors.leftMargin: 5
+        anchors.top: parent.top
+        anchors.topMargin: 5
+        columns: 3
+        columnSpacing: 5
+        rowSpacing: 5
 
-    property var errorMessageText: ""
-    property var errorNameText: ""
-    property var barColors: "#1FF7F7F0"
-    property var barTitleColorsPut: "#F0AAAAAA"
-    property var cellColor: "#FFEEEEEE"
-    property var cellHighlightColor: "#FFAAAAAA"
-    property var borderColors: "#F0AAAAAA"
-    property int boarderWidths: 1
-
-    property var videoResolution: "4k"
-    property var fpsValue: 0
-
-    property var videoInput: 2
-    property var presetSelect: 5
-    property var outputSelect: 0
-    property var plotDisplay: true
-
-    property var bitrate: "100"
-    property var bitrateUnit: "Mbps"
-    property var b_frame: 0
-    property var enc_name: "omxh265enc"
-    property var goP_len: 30
-    property int enc_enum: 2
-    property var profile: 1
-    property var qpMode: 0
-    property var rateControl: 1
-    property var l2Cache: true
-    property var sliceCount: 22
-    property var ipAddress: "Not Connected"
-    property var hostIP: "172.23.98.14"
-    property var port: "5004"
-    property var fileDuration: 1
-
-    property var format : "NV12"
-    property var num_src : 1
-    property var raw : !(encoderCB.checked || decoderCB.checked)
-    property var src : "v4l2src"
-    property var device_type : 1
-    property var uri : ""
-    property var sinkType: 2
-    property var outputFileName: "VCU-" + Qt.formatDateTime(new Date(), "yyyyMMddHHmm") + ".mp4"
+        Repeater{
+            model: requireDot ? ["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0", "<"] : ["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", "<"]
+            Button {
+                text: modelData
+                width: 30
+                height: 30
+                onClicked: {
+                    if("<" != modelData){
+                        textToEdit.text = textToEdit.text + modelData
+                    }else{
+                        textToEdit.text = textToEdit.text.substring(0, textToEdit.text.length-1)
+                    }
+                }
+            }
+        }
+    }
 }

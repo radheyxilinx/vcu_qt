@@ -204,6 +204,7 @@ Rectangle{
                         encParamTabV.visible = true
                         fileTabV.visible = false
                         streamOutTabV.visible = false
+                        keyPad.visible = false
                     }
                 }
             }
@@ -242,6 +243,7 @@ Rectangle{
                         fileTabV.visible = true
                         encParamTabV.visible = false
                         streamOutTabV.visible = false
+                        keyPad.visible = false
                     }
                 }
             }
@@ -281,6 +283,7 @@ Rectangle{
                         streamOutTabV.visible = true
                         fileTabV.visible = false
                         encParamTabV.visible = false
+                        keyPad.visible = false
                     }
                 }
             }
@@ -316,6 +319,14 @@ Rectangle{
                 topMargin: -1
             }
         }
+
+        NumberKeyPad{
+            id: keyPad
+            anchors.left: parent.left
+            anchors.leftMargin: 150
+            anchors.top: parent.top
+        }
+
         Button {
             id: okButton
             anchors{
@@ -330,6 +341,7 @@ Rectangle{
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
+                    keyPad.visible = false
                     encoderDecoderPanel.visible = false
                 }
             }
@@ -347,6 +359,7 @@ Rectangle{
             height: 30
             text: qsTr("Cancel")
             onClicked:{
+                keyPad.visible = false
                 encoderDecoderPanel.visible = false
                 root.presetSelect = tmpPresetSel
                 root.setPresets(root.presetSelect)

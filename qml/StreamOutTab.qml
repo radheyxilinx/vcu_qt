@@ -48,14 +48,13 @@ Rectangle{
     color: "transparent"
     MouseArea{
         anchors.fill: parent
-        onClicked: numberPad.visible = false
+        onClicked: keyPad.visible = false
     }
     onVisibleChanged: {
         if(visible){
             hostIpTxt.text = root.hostIP
             portTxt.text = root.port
         }else{
-            numberPad.visible = false
         }
     }
 
@@ -148,14 +147,18 @@ Rectangle{
                 }
                 width: 150
                 height: 25
-                text: root.hostIP
                 verticalAlignment: Text.AlignVCenter
                 enabled: !root.raw
+                onTextChanged: {
+                    root.hostIP = hostIpTxt.text
+                }
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        numberPad.state = "hostIpEdit"
-                        numberPad.visible =  !numberPad.visible
+                        keyPad.requireDot = true
+                        keyPad.visible =  !keyPad.visible
+                        keyPad.textToEdit = hostIpTxt
+                        keyPad.anchors.topMargin = 140
                     }
                 }
             }
@@ -225,83 +228,18 @@ Rectangle{
                 }
                 width: 150
                 height: 25
-                text: root.port
                 verticalAlignment: Text.AlignVCenter
                 enabled: !root.raw
+                onTextChanged: {
+                    root.port = portTxt.text
+                }
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        numberPad.state = "portEdit"
-                        numberPad.visible =  !numberPad.visible
-                    }
-                }
-            }
-        }
-    }
-
-    Rectangle{
-        id: numberPad
-        visible: false
-        anchors.left: parent.left
-        anchors.leftMargin: 130
-        anchors.top: parent.top
-        anchors.topMargin: 75
-        height: 145
-        width: 110
-        color: "lightGray"
-        MouseArea{
-            anchors.fill: parent
-        }
-
-        states: [
-            State {
-                name: "hostIpEdit"
-                PropertyChanges {
-                    target: numberPad
-                    anchors.topMargin: 75
-                }
-            },
-
-            State {
-                name: "portEdit"
-                PropertyChanges {
-                    target: numberPad
-                    anchors.topMargin: 140
-                }
-            }
-        ]
-
-        Grid {
-            anchors.left: parent.left
-            anchors.leftMargin: 5
-            anchors.top: parent.top
-            anchors.topMargin: 5
-            columns: 3
-            columnSpacing: 5
-            rowSpacing: 5
-
-            Repeater{
-                model: ["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0", "<"]
-                Button {
-                    text: modelData
-                    width: 30
-                    height: 30
-                    onClicked: {
-                        if("<" != modelData){
-                            if(numberPad.state == "hostIpEdit"){
-                                hostIpTxt.text = hostIpTxt.text + modelData
-                            }else{
-                                portTxt.text = portTxt.text + modelData
-                            }
-                        }else{
-                            if(numberPad.state == "hostIpEdit"){
-                                hostIpTxt.text = hostIpTxt.text.substring(0, hostIpTxt.text.length-1)
-                            }else{
-                                portTxt.text = portTxt.text.substring(0, portTxt.text.length - 1)
-                            }
-                        }
-                        root.hostIP = hostIpTxt.text
-                        root.port = portTxt.text
+                        keyPad.requireDot = false
+                        keyPad.visible =  !keyPad.visible
+                        keyPad.textToEdit = portTxt
+                        keyPad.anchors.topMargin = 210
                     }
                 }
             }

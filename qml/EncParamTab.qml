@@ -53,6 +53,10 @@ Rectangle{
             setPresetValues()
         }
     }
+    MouseArea{
+        anchors.fill: parent
+        onClicked: keyPad.visible = false
+    }
 
     Column{
         anchors.top: parent.top
@@ -486,56 +490,35 @@ Rectangle{
                 verticalAlignment: Text.AlignVCenter
                 text: "Bitrate: "
             }
-            Rectangle{
-                id: bitRateLblContainer
-                anchors{
-                    left: bitRateCount.right
-                    leftMargin: 10
-                    top: parent.top
-                }
-                width: 50
-                height: 25
-                Label{
-                    id:  bitRateCountLbl
-                    anchors.fill: parent
-                    enabled: !root.raw
-                    text: qsTr(bitRateCount.value.toString())
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignHCenter
-                    onTextChanged: {
-                        if(root.bitrate!= bitRateCount.value){
-                            root.bitrate = bitRateCount.value
-                            root.presetSelect = 6
-                            presetLbl.text = controlList[root.presetSelect].shortName
-                            presetList.resetSource(root.presetSelect)
-                        }
-                    }
-                }
-            }
 
-            Slider {
-                id: bitRateCount
+            TextField{
+                id: bitRatetext
                 anchors{
                     left: bitRateLbl.right
                     leftMargin: 5
                     top: parent.top
                 }
-                minimumValue: 1
-                maximumValue: 1000
-                stepSize: 1.0
-                value : root.bitrate
-                style: SliderStyle {
-                    groove: Rectangle {
-                        implicitWidth: 150
-                        implicitHeight: 5
-                        color: "gray"
-                        radius: 5
+                width: 150
+                height: 25
+                verticalAlignment: Text.AlignVCenter
+                enabled: !root.raw
+                onTextChanged: {
+                    root.bitrate = bitRatetext.text
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        keyPad.requireDot = false
+                        keyPad.visible =  !keyPad.visible
+                        keyPad.textToEdit = bitRatetext
+                        keyPad.anchors.topMargin = 310
                     }
                 }
             }
+
             Row{
                 anchors{
-                    left: bitRateLblContainer.right
+                    left: bitRatetext.right
                     leftMargin: 2
                     top: parent.top
                 }
@@ -815,7 +798,7 @@ Rectangle{
     function setPresetValues(){
         tmpPresetSel = root.presetSelect
         presetLbl.text = controlList[root.presetSelect].shortName
-        bitRateCount.value = root.bitrate
+        bitRatetext.text = root.bitrate
         framesCount.value = root.b_frame
         sliceCount.value = root.sliceCount
         gopLengthCount.value = root.goP_len
