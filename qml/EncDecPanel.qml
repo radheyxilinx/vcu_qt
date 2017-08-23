@@ -378,6 +378,7 @@ Rectangle{
                 root.sinkType = tmpSinkType
                 root.fileDuration = tmpFileDuration
                 root.port = tmpPort
+                root.outputFilePath = tmpOpFilePath
             }
         }
     }

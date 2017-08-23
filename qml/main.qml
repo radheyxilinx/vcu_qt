@@ -108,6 +108,7 @@ ApplicationWindow {
     property var uri : configuration.uri
     property var sinkType: configuration.sinkType
     property var outputFileName: configuration.outputFileName
+    property var outputFilePath: configuration.outputFilePath
 
     property alias presetStructure: presetValues.presetStruct
 

@@ -46,13 +46,43 @@ Rectangle{
     width: parent.width-6
     height: parent.height-110
     color: "transparent"
+    property bool sataV: false
+    property bool usbV: false
+    property bool cardV: false
+    property var availableMounts : ""
+    MouseArea{
+        anchors.fill: parent
+        onClicked: {
+            mountListRectangle.visible = false
+        }
+    }
+
     onVisibleChanged: {
         if(visible){
+            sataV = false
+            usbV = false
+            cardV = false
             durationSlider.value = root.fileDuration
+            availableMounts = dirOPS.changeFolder("/media/")
+            for(var i = 0; i<availableMounts.length; i++){
+
+                if(availableMounts[i].itemName === "card"){
+                    cardV = true
+                }
+                if(availableMounts[i].itemName === "usb"){
+                    usbV = true
+                }
+                if(availableMounts[i].itemName === "sata"){
+                    sataV = true
+                }
+            }
+        }else{
+            mountListRectangle.visible = false
         }
     }
 
     Column{
+        id: elementsCol
         anchors.top: parent.top
         anchors.topMargin: 10
         spacing: 10
@@ -83,12 +113,12 @@ Rectangle{
                 }
                 width: 125
                 height: 25
-                text: "USB"
+                text: "card"
                 enabled: !root.raw
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-
+                        mountListRectangle.visible = !mountListRectangle.visible
                     }
                 }
             }
@@ -218,6 +248,93 @@ Rectangle{
                 verticalAlignment: Text.AlignVCenter
             }
 
+        }
+    }
+
+    Rectangle{
+        id: mountListRectangle
+        anchors{
+            left: parent.left
+            leftMargin: 165
+            top: parent.top
+            topMargin: 35
+        }
+        width: 150
+        height: 60
+        visible: false
+        clip: true
+        color: "transparent"
+        MouseArea{
+            anchors.fill: parent
+        }
+
+        Column{
+            anchors.top: parent.top
+            anchors.left: parent.left
+            width: 150
+            height: 60
+            anchors.fill: parent
+            Rectangle{
+                id: card
+                Label{
+                    id: cardLbl
+                    anchors.fill: parent
+                    text: "card"
+                }
+                height: 20
+                width: 150
+                visible: cardV
+                color: "lightGray"
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        storageTxt.text = cardLbl.text
+                        root.outputFilePath = "/media/" + cardLbl.text
+                        mountListRectangle.visible = false
+                    }
+                }
+
+            }
+            Rectangle{
+                id: sata
+                Label{
+                    id: sataLbl
+                    anchors.fill: parent
+                    text: "sata"
+                }
+                height: 20
+                width: 150
+                visible: sataV
+                color: "lightGray"
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        storageTxt.text = sataLbl.text
+                        root.outputFilePath = "/media/" + sataLbl.text
+                        mountListRectangle.visible = false
+                    }
+                }
+            }
+            Rectangle{
+                id: usb
+                Label{
+                    id: usbLbl
+                    anchors.fill: parent
+                    text: "usb"
+                }
+                height: 20
+                width: 150
+                visible: usbV
+                color: "lightGray"
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        storageTxt.text = usbLbl.text
+                        root.outputFilePath = "/media/" + usbLbl.text
+                        mountListRectangle.visible = false
+                    }
+                }
+            }
         }
     }
 }

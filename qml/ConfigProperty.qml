@@ -84,4 +84,5 @@ Item {
     property var uri : ""
     property var sinkType: 2
     property var outputFileName: "VCU-" + Qt.formatDateTime(new Date(), "yyyyMMddHHmm") + ".mp4"
+    property var outputFilePath: "/media/card"
 }
