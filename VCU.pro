@@ -57,10 +57,12 @@ INCLUDEPATH += \
 
 
 QMAKE_LIBDIR_FLAGS += \
+        -L../vcu_video_lib/Release \
+        -L../vcu_video_lib/Debug \
         -L../vcu_gst_lib/Release \
         -L../vcu_gst_lib/Debug \
-	-L../vcu_apm_lib/Release \
-	-L../vcu_apm_lib/Debug \
+        -L../vcu_apm_lib/Release \
+        -L../vcu_apm_lib/Debug \
         -L=/usr/lib \
         -L=/${SYSROOT}/usr/lib \
         -L=/${SYSROOT}/usr/lib/gstreamer-1.0
@@ -70,9 +72,10 @@ LIBS += \
         -lQt5OpenGL \
         -lQt5Svg \
         -lvcu_apm_lib \
-	-lvcu_gst_lib \
+        -lvcu_gst_lib \
+        -lvideo \
         -lgstreamer-1.0 \
-	-lgthread-2.0 \
+        -lgthread-2.0 \
         -lgobject-2.0 \
         -lglib-2.0 \
         -lmediactl \
