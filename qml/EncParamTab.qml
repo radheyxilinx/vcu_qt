@@ -170,6 +170,7 @@ Rectangle{
                             root.enc_name =  "omxh264enc"
                             profileBaseline.checked = true
                             root.profile = 0
+                            root.outputFileName = h264Radio.text
                         }
                     }
                 }
@@ -192,6 +193,7 @@ Rectangle{
                             root.enc_name =  "omxh265enc"
                             profileMain.checked = true
                             root.profile = 1
+                            root.outputFileName = h265Radio.text
                         }
                     }
                 }

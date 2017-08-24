@@ -169,9 +169,8 @@ Rectangle{
                 }
                 width: 125
                 height: 25
-                text: root.outputFileName// + root.fileExtention
+                text: root.outputFileName + "_rec_TimeStamp.mp4"
                 enabled: !root.raw
-
             }
         }
 

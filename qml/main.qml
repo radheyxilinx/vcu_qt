@@ -260,8 +260,7 @@ ApplicationWindow {
                                 }else{
                                     root.sinkType = outputSelect
                                 }
-                                var opFile = outputFilePath + "/" + root.outputFileName// + root.fileExtention
-
+                                var opFile = outputFilePath + "/" + root.outputFileName + "_rec_" + Qt.formatDateTime(new Date(), "yyyyMMddHHmmss") + ".mp4"
                                 controller.updateInputParam(root.format, root.num_src, root.raw, root.src, root.device_type, "file://"+root.uri);
                                 controller.updateOutputParam(opFile, root.hostIP, root.fileDuration, root.sinkType, root.port);
                                 controller.updateEncParam((root.bitrate * ((root.bitrateUnit == "Mbps") ? 1000000 : 1000)), root.b_frame, root.enc_name, root.goP_len, root.profile, root.qpMode, root.rateControl, root.l2Cache, root.sliceCount);
@@ -596,7 +595,6 @@ ApplicationWindow {
                                 }
                             }
                             onClicked: {
-                                root.outputFileName = "VCU-" + Qt.formatDateTime(new Date(), "yyyyMMddHHmm") + ".mp4"
                                 fileList.visible = false
                                 encoderDecoderPanel.visible = !encoderDecoderPanel.visible
                                 inputSrcLst.showList = false
