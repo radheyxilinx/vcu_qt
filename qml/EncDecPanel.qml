@@ -131,22 +131,6 @@ Rectangle{
             id: header
         }
 
-        Button {
-            id: closeTabBtn
-            anchors{
-                right: parent.right
-                rightMargin: 15
-                top: parent.top
-                topMargin: 15
-            }
-            width: 20
-            height: 20
-            text: qsTr("X")
-            onClicked:{
-                encoderDecoderPanel.visible = false
-            }
-        }
-
         Rectangle{
             anchors{
                 left: parent.left
