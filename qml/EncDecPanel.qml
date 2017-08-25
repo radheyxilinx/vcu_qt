@@ -49,6 +49,7 @@ Rectangle{
     MouseArea{
         anchors.fill: parent
     }
+    property bool validation: true
     property var tmpBitrate: root.bitrate
     property var tmpB_frame: root.b_frame
     property var tmpEnc_name: root.enc_name
@@ -79,6 +80,7 @@ Rectangle{
         }
         onVisibleChanged: {
             if(encoderDecoderPanel.visible){
+                validation = true
                 tmpBitrate = root.bitrate
                 tmpB_frame = root.b_frame
                 tmpEnc_name = root.enc_name
@@ -179,16 +181,18 @@ Rectangle{
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        tab1UL.visible = false
-                        tab2UL.visible = true
-                        tab3UL.visible = true
-                        tab1.color = "transparent"
-                        tab2.color = "lightgray"
-                        tab3.color = "lightgray"
-                        encParamTabV.visible = true
-                        fileTabV.visible = false
-                        streamOutTabV.visible = false
-                        keyPad.visible = false
+                        if(validation == true){
+                            tab1UL.visible = false
+                            tab2UL.visible = true
+                            tab3UL.visible = true
+                            tab1.color = "transparent"
+                            tab2.color = "lightgray"
+                            tab3.color = "lightgray"
+                            encParamTabV.visible = true
+                            fileTabV.visible = false
+                            streamOutTabV.visible = false
+                            keyPad.visible = false
+                        }
                     }
                 }
             }
@@ -218,16 +222,18 @@ Rectangle{
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        tab1UL.visible = true
-                        tab2UL.visible = false
-                        tab3UL.visible = true
-                        tab1.color = "lightgray"
-                        tab2.color = "transparent"
-                        tab3.color = "lightgray"
-                        fileTabV.visible = true
-                        encParamTabV.visible = false
-                        streamOutTabV.visible = false
-                        keyPad.visible = false
+                        if(validation == true){
+                            tab1UL.visible = true
+                            tab2UL.visible = false
+                            tab3UL.visible = true
+                            tab1.color = "lightgray"
+                            tab2.color = "transparent"
+                            tab3.color = "lightgray"
+                            fileTabV.visible = true
+                            encParamTabV.visible = false
+                            streamOutTabV.visible = false
+                            keyPad.visible = false
+                        }
                     }
                 }
             }
@@ -258,16 +264,18 @@ Rectangle{
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        tab1UL.visible = true
-                        tab2UL.visible = true
-                        tab3UL.visible = false
-                        tab1.color = "lightgray"
-                        tab2.color = "lightgray"
-                        tab3.color = "transparent"
-                        streamOutTabV.visible = true
-                        fileTabV.visible = false
-                        encParamTabV.visible = false
-                        keyPad.visible = false
+                        if(validation == true){
+                            tab1UL.visible = true
+                            tab2UL.visible = true
+                            tab3UL.visible = false
+                            tab1.color = "lightgray"
+                            tab2.color = "lightgray"
+                            tab3.color = "transparent"
+                            streamOutTabV.visible = true
+                            fileTabV.visible = false
+                            encParamTabV.visible = false
+                            keyPad.visible = false
+                        }
                     }
                 }
             }
@@ -322,6 +330,7 @@ Rectangle{
             width: 80
             height: 30
             text: qsTr("Ok")
+            enabled: validation
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
@@ -364,6 +373,21 @@ Rectangle{
                 root.port = tmpPort
                 root.outputFilePath = tmpOpFilePath
             }
+        }
+        Label{
+            id: errorLbl
+            anchors{
+                left: parent.left
+                leftMargin: 10
+                right: cancelButton.left
+                rightMargin: 20
+                bottom: parent.bottom
+                bottomMargin: 10
+            }
+            height: 30
+            text: "Invalid Host IP"
+            color: "red"
+            visible: !validation
         }
     }
 }

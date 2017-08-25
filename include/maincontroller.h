@@ -88,6 +88,8 @@ class maincontroller : public QObject
 
 public:
     void rootUIObj(QObject * item);
+    bool  validDigit(char *);
+    bool isValidIp(char *);
 
 public slots:
     void inits();
@@ -105,6 +107,7 @@ public slots:
     void getLocalIpAddress();
     void uninitAll();
     void freeMemory();
+    bool validateHostIp(QString);
 };
 
 #endif // MAINCONTROLLER_H

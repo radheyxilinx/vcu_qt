@@ -151,6 +151,7 @@ Rectangle{
                 enabled: !root.raw
                 onTextChanged: {
                     root.hostIP = hostIpTxt.text
+                    validation = controller.validateHostIp(hostIpTxt.text)
                 }
                 MouseArea{
                     anchors.fill: parent

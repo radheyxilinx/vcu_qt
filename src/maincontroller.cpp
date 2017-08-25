@@ -248,3 +248,51 @@ void maincontroller :: freeMemory(){
 void maincontroller :: uninitAll(){
     vgst_uninit();
 }
+
+bool maincontroller :: validateHostIp(QString textToCheck){
+    return isValidIp(textToCheck.toLatin1().data());
+}
+
+bool maincontroller :: validDigit(char *ip_str){
+    while (*ip_str){
+        if (*ip_str >= '0' && *ip_str <= '9')
+            ++ip_str;
+        else
+            return false;
+    }
+    return true;
+}
+
+bool maincontroller :: isValidIp(char *ip_str){
+    int num, dots = 0;
+    char *ptr;
+
+    if (ip_str == NULL)
+        return false;
+
+    ptr = strtok(ip_str, ".");
+
+    if (ptr == NULL || strlen(ptr) > 3)
+        return false;
+
+    while (ptr){
+        if(strlen(ptr) > 3){
+            return false;
+        }
+        if (!validDigit(ptr))
+            return false;
+
+        num = atoi(ptr);
+
+        if (num >= 0 && num <= 255) {
+            ptr = strtok(NULL, ".");
+            if (ptr != NULL)
+                ++dots;
+        } else
+            return false;
+    }
+
+    if (dots != 3)
+        return false;
+    return true;
+}
