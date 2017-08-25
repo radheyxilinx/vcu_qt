@@ -201,10 +201,20 @@ void maincontroller :: updateFPS(){
 }
 
 void maincontroller :: pollError(){
-    int err = vgst_poll_event(VGST_EVENT_ERR);
-    if(errorPopup(err)){
-        rootobject->setProperty("errorFound", true);
-        return;
+    int arg = 0;
+    int event = vgst_poll_event(&arg);
+    switch (event) {
+    case VGST_EVENT_ERR:
+        if(errorPopup(arg)){
+            rootobject->setProperty("errorFound", true);
+            return;
+        }
+        break;
+    case VGST_EVENT_EOS:
+        stop_pipeline();
+        break;
+    default:
+        break;
     }
 }
 
