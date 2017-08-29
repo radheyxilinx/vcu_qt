@@ -253,6 +253,9 @@ ApplicationWindow {
                             outputRectangle.visible = false
                             fileList.visible = false
                             encoderDecoderPanel.visible = false
+                            encoderCB.enabled = false
+                            decoderCB.enabled = false
+
                             if(!root.play){
                                 playBtn.enabled = false
                                 if(encoderCB.checked == decoderCB.checked){
@@ -272,6 +275,8 @@ ApplicationWindow {
                                 root.errorFound = false;
                                 playBtn.enabled = true
                             }
+                            encoderCB.enabled = (root.src == "uridecodebin") ? false : !root.play
+                            decoderCB.enabled = (root.src == "uridecodebin") ? false : !root.play
                         }
                     }
 
