@@ -425,7 +425,7 @@ Rectangle{
                 width: 140
                 height: 25
                 verticalAlignment: Text.AlignVCenter
-                text: qsTr("Use L2 cache: ")
+                text: qsTr("L2 cache: ")
             }
 
             Row{
