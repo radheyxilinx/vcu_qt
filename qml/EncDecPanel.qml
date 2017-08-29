@@ -164,7 +164,7 @@ Rectangle{
                 border.width: 1
                 Label{
                     anchors.fill: parent
-                    text: "Encoder Paramter"
+                    text: "Encoder Parameter"
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                 }
