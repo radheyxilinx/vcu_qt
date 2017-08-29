@@ -315,7 +315,7 @@ Rectangle{
         NumberKeyPad{
             id: keyPad
             anchors.left: parent.left
-            anchors.leftMargin: 150
+            anchors.leftMargin: 160
             anchors.top: parent.top
         }
 

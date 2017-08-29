@@ -76,7 +76,7 @@ Rectangle{
                     leftMargin: 10
                     top: parent.top
                 }
-                width: 110
+                width: 140
                 height: 25
                 verticalAlignment: Text.AlignVCenter
                 text: "SINK: "
@@ -133,7 +133,7 @@ Rectangle{
                     leftMargin: 10
                     top: parent.top
                 }
-                width: 110
+                width: 140
                 height: 25
                 verticalAlignment: Text.AlignVCenter
                 text: "Host IP: "
@@ -177,7 +177,7 @@ Rectangle{
                     leftMargin: 10
                     top: parent.top
                 }
-                width: 110
+                width: 140
                 height: 25
                 verticalAlignment: Text.AlignVCenter
                 text: "IP: "
@@ -215,7 +215,7 @@ Rectangle{
                     leftMargin: 10
                     top: parent.top
                 }
-                width: 110
+                width: 140
                 height: 25
                 verticalAlignment: Text.AlignVCenter
                 text: "Port: "

@@ -44,8 +44,8 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick 2.0
 Rectangle{
     visible: false
-    height: 145
-    width: 110
+    height: 150
+    width: 145
     color: "lightGray"
     MouseArea{
         anchors.fill: parent
@@ -55,9 +55,9 @@ Rectangle{
 
     Grid {
         anchors.left: parent.left
-        anchors.leftMargin: 5
+        anchors.leftMargin: 8
         anchors.top: parent.top
-        anchors.topMargin: 5
+        anchors.topMargin: 8
         columns: 3
         columnSpacing: 5
         rowSpacing: 5
@@ -66,7 +66,7 @@ Rectangle{
             model: requireDot ? ["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0", "<"] : ["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", "<"]
             Button {
                 text: modelData
-                width: 30
+                width: 40
                 height: 30
                 onClicked: {
                     if("<" != modelData){
