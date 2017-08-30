@@ -508,6 +508,9 @@ Rectangle{
                     root.presetSelect = 6
                     presetLbl.text = controlList[root.presetSelect].shortName
                     presetList.resetSource(root.presetSelect)
+                    if(bitRatetext.text.length > 4){
+                        bitRatetext.text = bitRatetext.text.substring(0, bitRatetext.text.length-1)
+                    }
                     root.bitrate = bitRatetext.text
                 }
                 MouseArea{
