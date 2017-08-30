@@ -103,6 +103,26 @@ Rectangle{
                         tmpBitrate = bitRateNames[i].bitrate
                     }
                 }
+               switch(root.sinkType){
+               case 0:
+                   tab3Select()
+                   tab1.enabled = true
+                   tab2.enabled = false
+                   tab3.enabled = true
+                   break
+               case 1:
+                   tab2Select()
+                   tab1.enabled = true
+                   tab2.enabled = true
+                   tab3.enabled = false
+                   break
+               case 2:
+                   tab1Select()
+                   tab1.enabled = true
+                   tab2.enabled = false
+                   tab3.enabled = false
+                   break
+               }
             }
         }
 
@@ -183,16 +203,7 @@ Rectangle{
                     anchors.fill: parent
                     onClicked: {
                         if(validation == true){
-                            tab1UL.visible = false
-                            tab2UL.visible = true
-                            tab3UL.visible = true
-                            tab1.color = "transparent"
-                            tab2.color = "lightgray"
-                            tab3.color = "lightgray"
-                            encParamTabV.visible = true
-                            fileTabV.visible = false
-                            streamOutTabV.visible = false
-                            keyPad.visible = false
+                            tab1Select()
                         }
                     }
                 }
@@ -224,16 +235,7 @@ Rectangle{
                     anchors.fill: parent
                     onClicked: {
                         if(validation == true){
-                            tab1UL.visible = true
-                            tab2UL.visible = false
-                            tab3UL.visible = true
-                            tab1.color = "lightgray"
-                            tab2.color = "transparent"
-                            tab3.color = "lightgray"
-                            fileTabV.visible = true
-                            encParamTabV.visible = false
-                            streamOutTabV.visible = false
-                            keyPad.visible = false
+                            tab2Select()
                         }
                     }
                 }
@@ -266,16 +268,7 @@ Rectangle{
                     anchors.fill: parent
                     onClicked: {
                         if(validation == true){
-                            tab1UL.visible = true
-                            tab2UL.visible = true
-                            tab3UL.visible = false
-                            tab1.color = "lightgray"
-                            tab2.color = "lightgray"
-                            tab3.color = "transparent"
-                            streamOutTabV.visible = true
-                            fileTabV.visible = false
-                            encParamTabV.visible = false
-                            keyPad.visible = false
+                            tab3Select()
                         }
                     }
                 }
@@ -391,5 +384,41 @@ Rectangle{
             color: "red"
             visible: !validation
         }
+    }
+    function tab1Select(){
+        tab1UL.visible = false
+        tab2UL.visible = true
+        tab3UL.visible = true
+        tab1.color = "transparent"
+        tab2.color = "lightgray"
+        tab3.color = "lightgray"
+        encParamTabV.visible = true
+        fileTabV.visible = false
+        streamOutTabV.visible = false
+        keyPad.visible = false
+    }
+    function tab2Select(){
+        tab1UL.visible = true
+        tab2UL.visible = false
+        tab3UL.visible = true
+        tab1.color = "lightgray"
+        tab2.color = "transparent"
+        tab3.color = "lightgray"
+        fileTabV.visible = true
+        encParamTabV.visible = false
+        streamOutTabV.visible = false
+        keyPad.visible = false
+    }
+    function tab3Select(){
+        tab1UL.visible = true
+        tab2UL.visible = true
+        tab3UL.visible = false
+        tab1.color = "lightgray"
+        tab2.color = "lightgray"
+        tab3.color = "transparent"
+        streamOutTabV.visible = true
+        fileTabV.visible = false
+        encParamTabV.visible = false
+        keyPad.visible = false
     }
 }

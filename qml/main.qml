@@ -258,11 +258,6 @@ ApplicationWindow {
 
                             if(!root.play){
                                 playBtn.enabled = false
-                                if(encoderCB.checked == decoderCB.checked){
-                                    root.sinkType = 2
-                                }else{
-                                    root.sinkType = outputSelect
-                                }
                                 var opFile = outputFilePath + "/" + root.outputFileName + "_rec_" + Qt.formatDateTime(new Date(), "yyyyMMddHHmmss") + ".mp4"
                                 controller.updateInputParam(root.format, root.num_src, root.raw, root.src, root.device_type, "file://"+root.uri);
                                 controller.updateOutputParam(opFile, root.hostIP, root.fileDuration, root.sinkType, root.port);
@@ -456,6 +451,7 @@ ApplicationWindow {
                                     }else{
                                         outputLbl.text = outputSinkList[outputSelect].shortName
                                     }
+                                    changeOutputSink()
                                 }
                             }
                         }
@@ -482,6 +478,7 @@ ApplicationWindow {
                                     }else{
                                         outputLbl.text = outputSinkList[outputSelect].shortName
                                     }
+                                    changeOutputSink()
                                 }
                             }
                         }
@@ -951,5 +948,12 @@ ApplicationWindow {
         root.hostIP = presetStructure[index].hostIP
         root.port = presetStructure[index].port
         root.fileDuration = presetStructure[index].fileDuration
+    }
+    function changeOutputSink(){
+        if(encoderCB.checked == decoderCB.checked){
+            root.sinkType = 2
+        }else{
+            root.sinkType = outputSelect
+        }
     }
 }
