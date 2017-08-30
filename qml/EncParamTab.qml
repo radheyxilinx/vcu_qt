@@ -168,8 +168,8 @@ Rectangle{
                             sliceCount.value = 1
                             root.enc_enum = 1
                             root.enc_name =  "omxh264enc"
-                            profileBaseline.checked = true
-                            root.profile = 0
+                            profileMain.checked = true
+                            root.profile = 1
                             root.outputFileName = h264Radio.text
                         }
                     }
@@ -241,6 +241,7 @@ Rectangle{
                                 presetLbl.text = controlList[root.presetSelect].shortName
                                 presetList.resetSource(root.presetSelect)
                             }
+                            framesCount.value = 0
                             root.profile = 0
                         }
                     }
@@ -616,7 +617,7 @@ Rectangle{
                     leftMargin: 5
                     top: parent.top
                 }
-                enabled: !root.raw
+                enabled: (!root.raw && root.profile!=0)
                 maximumValue: 4.0
                 stepSize: 1.0
                 value : root.b_frame
