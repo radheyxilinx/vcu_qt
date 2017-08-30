@@ -505,6 +505,9 @@ Rectangle{
                 verticalAlignment: Text.AlignVCenter
                 enabled: !root.raw
                 onTextChanged: {
+                    root.presetSelect = 6
+                    presetLbl.text = controlList[root.presetSelect].shortName
+                    presetList.resetSource(root.presetSelect)
                     root.bitrate = bitRatetext.text
                 }
                 MouseArea{
@@ -537,6 +540,9 @@ Rectangle{
                     checked: true
                     onCheckedChanged: {
                         if(checked){
+                            root.presetSelect = 6
+                            presetLbl.text = controlList[root.presetSelect].shortName
+                            presetList.resetSource(root.presetSelect)
                             root.bitrateUnit = "Mbps"
                         }
                     }
@@ -547,6 +553,9 @@ Rectangle{
                     exclusiveGroup: bitrateUnitGroup
                     onCheckedChanged: {
                         if(checked){
+                            root.presetSelect = 6
+                            presetLbl.text = controlList[root.presetSelect].shortName
+                            presetList.resetSource(root.presetSelect)
                             root.bitrateUnit = "Kbps"
                         }
                     }
@@ -780,6 +789,7 @@ Rectangle{
             delgate: this
             width: parent.width
             function clicked(indexval){
+                mbps.checked = true
                 controlRectangle.visible = false
                 controlLst.showList = false
                 root.presetSelect = indexval
@@ -801,6 +811,11 @@ Rectangle{
         tmpPresetSel = root.presetSelect
         presetLbl.text = controlList[root.presetSelect].shortName
         bitRatetext.text = root.bitrate
+        if(root.bitrateUnit == "Mbps"){
+            mbps.checked = true
+        }else{
+            kbps.checked = true
+        }
         framesCount.value = root.b_frame
         sliceCount.value = root.sliceCount
         gopLengthCount.value = root.goP_len

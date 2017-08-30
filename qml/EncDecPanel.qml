@@ -66,6 +66,7 @@ Rectangle{
     property var tmpFileDuration: root.fileDuration
     property var tmpOpFilePath: root.outputFilePath
     property var tmpPort: root.port
+    property var tmpBitrateUnit: root.bitrateUnit
     property var bitRateNames: [
         {"bitrate":10000000, "bitrateName":"Low"},
         {"bitrate":20000000, "bitrateName":"Medium Low"},
@@ -96,7 +97,7 @@ Rectangle{
                 tmpFileDuration = root.fileDuration
                 tmpOpFilePath = root.outputFilePath
                 tmpPort = root.port
-
+                tmpBitrateUnit = root.bitrateUnit
                 for(var i = 0; i < 5; i++){
                     if(root.bitrate === bitRateNames[i].bitrate){
                         tmpBitrate = bitRateNames[i].bitrate
@@ -372,6 +373,7 @@ Rectangle{
                 root.fileDuration = tmpFileDuration
                 root.port = tmpPort
                 root.outputFilePath = tmpOpFilePath
+                root.bitrateUnit = tmpBitrateUnit
             }
         }
         Label{
