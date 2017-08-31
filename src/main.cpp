@@ -86,7 +86,6 @@ int main(int argc, char *argv[])
 
     QDir opDir(ROOT_FILE_PATH "/" RECORD_DIR);
     opDir.mkpath(".");
-    QString opFilePath = QString(ROOT_FILE_PATH).append("/").append(RECORD_DIR);
 
     engine.load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 

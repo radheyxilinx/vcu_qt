@@ -48,6 +48,7 @@
 #include <QHostAddress>
 #include <QNetworkInterface>
 #include <QNetworkAddressEntry>
+#include <dirop.h>
 
 void maincontroller :: inits(){
     vgst_init();
@@ -295,4 +296,9 @@ bool maincontroller :: isValidIp(char *ip_str){
     if (dots != 3)
         return false;
     return true;
+}
+
+void maincontroller :: createStorageDir(QString path){
+    QDir opDir(path);
+    opDir.mkpath(".");
 }

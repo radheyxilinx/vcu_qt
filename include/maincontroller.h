@@ -59,7 +59,7 @@ QT_CHARTS_USE_NAMESPACE
 #define SCREEN_WIDTH 3840;
 #define ROOT_FILE_PATH "/media/card"
 #define BYTE_TO_GBIT (8 / 1000000000.0)
-#define RECORD_DIR "VCU_Records"
+#define RECORD_DIR "vcu_records"
 
 class maincontroller : public QObject
 {
@@ -108,6 +108,7 @@ public slots:
     void uninitAll();
     void freeMemory();
     bool validateHostIp(QString);
+    void createStorageDir(QString);
 };
 
 #endif // MAINCONTROLLER_H

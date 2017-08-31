@@ -288,7 +288,8 @@ Rectangle{
                     anchors.fill: parent
                     onClicked: {
                         storageTxt.text = cardLbl.text
-                        root.outputFilePath = "/media/" + cardLbl.text
+                        root.outputFilePath = "/media/" + cardLbl.text + "/" + root.outputDirName
+                        controller.createStorageDir(root.outputFilePath)
                         mountListRectangle.visible = false
                     }
                 }
@@ -309,7 +310,8 @@ Rectangle{
                     anchors.fill: parent
                     onClicked: {
                         storageTxt.text = sataLbl.text
-                        root.outputFilePath = "/media/" + sataLbl.text
+                        root.outputFilePath = "/media/" + sataLbl.text + "/" + root.outputDirName
+                        controller.createStorageDir(root.outputFilePath)
                         mountListRectangle.visible = false
                     }
                 }
@@ -329,7 +331,8 @@ Rectangle{
                     anchors.fill: parent
                     onClicked: {
                         storageTxt.text = usbLbl.text
-                        root.outputFilePath = "/media/" + usbLbl.text
+                        root.outputFilePath = "/media/" + usbLbl.text + "/" + root.outputDirName
+                        controller.createStorageDir(root.outputFilePath)
                         mountListRectangle.visible = false
                     }
                 }

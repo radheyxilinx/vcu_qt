@@ -84,5 +84,6 @@ Item {
     property var uri : ""
     property var sinkType: 2
     property var outputFileName: "H265"
-    property var outputFilePath: "/media/card"
+    property var outputFilePath: "/media/card" + "/" + outputDirName
+    property var outputDirName: "vcu_records"
 }
