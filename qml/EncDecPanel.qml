@@ -380,7 +380,7 @@ Rectangle{
                 bottomMargin: 10
             }
             height: 30
-            text: "Invalid Host IP"
+            text: ""
             color: "red"
             visible: !validation
         }

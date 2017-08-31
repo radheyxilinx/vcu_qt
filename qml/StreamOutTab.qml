@@ -46,6 +46,8 @@ Rectangle{
     width: parent.width-6
     height: parent.height-110
     color: "transparent"
+    property bool validHostIp: true
+    property bool validPortNumber: true
     MouseArea{
         anchors.fill: parent
         onClicked: keyPad.visible = false
@@ -151,7 +153,8 @@ Rectangle{
                 enabled: !root.raw
                 onTextChanged: {
                     root.hostIP = hostIpTxt.text
-                    validation = controller.validateHostIp(hostIpTxt.text)
+                    validHostIp = controller.validateHostIp(hostIpTxt.text)
+                    getErrorMsg()
                 }
                 MouseArea{
                     anchors.fill: parent
@@ -232,6 +235,12 @@ Rectangle{
                 verticalAlignment: Text.AlignVCenter
                 enabled: !root.raw
                 onTextChanged: {
+                    if(portTxt.text.length <= 0){
+                        validPortNumber = false
+                    }else{
+                        validPortNumber = true
+                    }
+                    getErrorMsg()
                     root.port = portTxt.text
                 }
                 MouseArea{
@@ -244,6 +253,15 @@ Rectangle{
                     }
                 }
             }
+        }
+    }
+    function getErrorMsg(){
+        validation = validHostIp && validPortNumber
+        if(!validHostIp){
+            errorLbl.text = "Invalid Host Ip"
+        }
+        if(!validPortNumber){
+            errorLbl.text = "Invalid Port Number"
         }
     }
 }

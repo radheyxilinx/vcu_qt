@@ -736,7 +736,7 @@ ApplicationWindow {
                             color: "darkGray"
                         }
                         Label{
-                            text:  ((root.src == "uridecodebin") || root.raw) ? "<b>Bitrate: </b>NA" :"<b>Bitrate: </b>" + root.bitrate + root.bitrateUnit
+                            text:  ((root.src == "uridecodebin") || root.raw) ? "<b>Bitrate: </b>NA" :"<b>Bitrate: </b>" + ((root.bitrate.length === 0) ? "0": root.bitrate) + root.bitrateUnit
                         }
                     }
                 }
