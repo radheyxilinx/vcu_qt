@@ -514,6 +514,12 @@ Rectangle{
                         bitRatetext.text = bitRatetext.text.substring(0, bitRatetext.text.length-1)
                     }
                     root.bitrate = bitRatetext.text
+                    if(bitRatetext.text.length == 0){
+                        validation = false
+                        errorLbl.text = "Invalid bitrate"
+                    }else{
+                        validation = true
+                    }
                 }
                 MouseArea{
                     anchors.fill: parent
