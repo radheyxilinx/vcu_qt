@@ -52,7 +52,7 @@ void signalhandler(int sig){
 int main(int argc, char *argv[])
 {
     QStringList  sources = {"File", "HDMI", "Test Pattern"};
-    QStringList outputSinkArr = {"Stream", "Record", "Display Port"};
+    QStringList outputSinkArr = {"Record", "Stream", "Display Port"};
     QStringList controls = {"AVC Low", "AVC Medium", "AVC High", "HEVC Low", "HEVC Medium", "HEVC High", "Custom"};
     QApplication qapp(argc, argv);
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);

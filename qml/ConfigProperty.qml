@@ -57,7 +57,7 @@ Item {
 
     property var videoInput: 2
     property var presetSelect: 5
-    property var outputSelect: 0
+    property var outputSelect: 1
     property var plotDisplay: true
 
     property var bitrate: "100"

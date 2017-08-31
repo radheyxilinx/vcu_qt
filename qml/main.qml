@@ -562,16 +562,7 @@ ApplicationWindow {
                                             outputLst.showList = false
                                             root.outputSelect = indexval
                                             outputLbl.text = outputSinkList[indexval].shortName
-                                            switch(indexval){
-                                            case 0:
-                                                root.sinkType = 0
-                                                break
-                                            case 1:
-                                                root.sinkType = 1
-                                                break
-                                            default:
-                                                root.sinkType = 2
-                                            }
+                                            changeOutputSink()
                                         }
                                     }
                                 }
@@ -954,7 +945,11 @@ ApplicationWindow {
         if(encoderCB.checked == decoderCB.checked){
             root.sinkType = 2
         }else{
-            root.sinkType = outputSelect
+            if(root.outputSelect == 0){
+                root.sinkType = 1
+            }else{
+                root.sinkType = 0
+            }
         }
     }
 }
