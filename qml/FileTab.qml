@@ -59,23 +59,7 @@ Rectangle{
 
     onVisibleChanged: {
         if(visible){
-            sataV = false
-            usbV = false
-            cardV = false
             durationSlider.value = root.fileDuration
-            availableMounts = dirOPS.changeFolder("/media/")
-            for(var i = 0; i<availableMounts.length; i++){
-
-                if(availableMounts[i].itemName === "card"){
-                    cardV = true
-                }
-                if(availableMounts[i].itemName === "usb"){
-                    usbV = true
-                }
-                if(availableMounts[i].itemName === "sata"){
-                    sataV = true
-                }
-            }
         }else{
             mountListRectangle.visible = false
         }
@@ -119,6 +103,7 @@ Rectangle{
                     anchors.fill: parent
                     onClicked: {
                         mountListRectangle.visible = !mountListRectangle.visible
+                        refreshMountPointList()
                     }
                 }
             }
@@ -138,7 +123,8 @@ Rectangle{
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-
+                        mountListRectangle.visible = !mountListRectangle.visible
+                        refreshMountPointList()
                     }
                 }
             }
@@ -335,6 +321,25 @@ Rectangle{
                         controller.createStorageDir(root.outputFilePath)
                         mountListRectangle.visible = false
                     }
+                }
+            }
+        }
+    }
+    function refreshMountPointList(){
+        if(mountListRectangle.visible){
+            sataV = false
+            usbV = false
+            cardV = false
+            availableMounts = dirOPS.changeFolder("/media/")
+            for(var i = 0; i<availableMounts.length; i++){
+                if(availableMounts[i].itemName === "card"){
+                    cardV = true
+                }
+                if(availableMounts[i].itemName === "usb"){
+                    usbV = true
+                }
+                if(availableMounts[i].itemName === "sata"){
+                    sataV = true
                 }
             }
         }
