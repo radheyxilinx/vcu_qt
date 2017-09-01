@@ -251,7 +251,11 @@ void maincontroller :: uninitAll(){
 }
 
 bool maincontroller :: validateHostIp(QString textToCheck){
-    return isValidIp(textToCheck.toLatin1().data());
+    if(textToCheck.count(QLatin1Char('.')) !=3){
+        return false;
+    }else{
+        return isValidIp(textToCheck.toLatin1().data());
+    }
 }
 
 bool maincontroller :: validDigit(char *ip_str){
