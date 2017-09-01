@@ -68,7 +68,7 @@ Item {
     property int enc_enum: 2
     property var profile: 1
     property var qpMode: 0
-    property var rateControl: 1
+    property var rateControl: 2
     property var l2Cache: true
     property var sliceCount: 22
     property var ipAddress: "Not Connected"

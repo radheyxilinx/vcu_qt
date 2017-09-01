@@ -397,6 +397,7 @@ Rectangle{
                     width: 80
                     text: "VBR"
                     exclusiveGroup: ratecontrolGroup
+                    enabled: false
                     onCheckedChanged: {
                         if(checked){
                             if(root.rateControl != 1){
@@ -856,7 +857,7 @@ Rectangle{
             cbrRadio.checked = true
             break;
         default:
-            vbrRadio.checked = true
+            vbrRadio.checked = false
             break;
         }
         if(1 == root.l2Cache){
