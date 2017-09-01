@@ -138,7 +138,7 @@ Rectangle{
                 width: 140
                 height: 25
                 verticalAlignment: Text.AlignVCenter
-                text: qsTr("Encoder Type: ")
+                text: qsTr("Encoder: ")
             }
 
             Row{
@@ -297,7 +297,7 @@ Rectangle{
                 width: 140
                 height: 25
                 verticalAlignment: Text.AlignVCenter
-                text: "QPMode: "
+                text: "QP: "
             }
 
 
@@ -362,7 +362,7 @@ Rectangle{
                 width: 140
                 height: 25
                 verticalAlignment: Text.AlignVCenter
-                text: "Rate control mode:"
+                text: "Rate Control:"
             }
             Row{
                 anchors{
@@ -427,7 +427,7 @@ Rectangle{
                 width: 140
                 height: 25
                 verticalAlignment: Text.AlignVCenter
-                text: qsTr("L2 cache: ")
+                text: qsTr("Encoder Buffer: ")
             }
 
             Row{
