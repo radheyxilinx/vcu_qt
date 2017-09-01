@@ -43,7 +43,7 @@ Item {
 
     property int lowBitRate: 10
     property int mediumBitRate: 30
-    property int highBitRate: 100
+    property int highBitRate: 60
 
     property var presetStruct: [
         {"name":"AVC Low", "bitrate":lowBitRate, "b_frame":0, "enc_enum":1, "enc_name":"omxh264enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type,

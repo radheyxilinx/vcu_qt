@@ -60,7 +60,7 @@ Item {
     property var outputSelect: 1
     property var plotDisplay: true
 
-    property var bitrate: "100"
+    property var bitrate: "60"
     property var bitrateUnit: "Mbps"
     property var b_frame: 0
     property var enc_name: "omxh265enc"
