@@ -936,10 +936,6 @@ ApplicationWindow {
         root.rateControl = presetStructure[index].rateControl
         root.l2Cache = presetStructure[index].l2Cache
         root.sliceCount = presetStructure[index].sliceCount
-        root.ipAddress = presetStructure[index].ipAddress
-        root.hostIP = presetStructure[index].hostIP
-        root.port = presetStructure[index].port
-        root.fileDuration = presetStructure[index].fileDuration
     }
     function changeOutputSink(){
         if(encoderCB.checked == decoderCB.checked){
