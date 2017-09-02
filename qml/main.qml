@@ -579,7 +579,7 @@ ApplicationWindow {
                             id: controlBtn
                             width: 70
                             height: parent.height
-                            text: "Control"
+                            text: "Settings"
                             enabled: ((root.src == "uridecodebin") || root.raw) ? false : !root.play
                             style: ButtonStyle{
                                 background: Rectangle {

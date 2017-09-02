@@ -146,7 +146,7 @@ Rectangle{
                 topMargin: 10
                 top: parent.top
             }
-            text: "Encoder parameter and sink configuration"
+            text: "Settings"
             font.bold: true
             font.pointSize: 13
             width: parent.width
