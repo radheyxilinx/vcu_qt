@@ -96,6 +96,7 @@ ApplicationWindow {
     property var l2Cache: configuration.l2Cache
     property var sliceCount: configuration.sliceCount
     property var ipAddress: configuration.ipAddress
+    property bool isStreamUp: configuration.isStreamUp
     property var hostIP: configuration.hostIP
     property var port: configuration.port
     property var fileDuration: configuration.fileDuration
@@ -258,13 +259,18 @@ ApplicationWindow {
                             decoderCB.enabled = false
 
                             if(!root.play){
-                                playBtn.enabled = false
-                                var opFile = outputFilePath + "/" + root.outputFileName + "_rec_" + Qt.formatDateTime(new Date(), "yyyyMMddHHmmss") + ".mp4"
-                                controller.updateInputParam(root.format, root.num_src, root.raw, root.src, root.device_type, "file://"+root.uri);
-                                controller.updateOutputParam(opFile, root.hostIP, root.fileDuration, root.sinkType, root.port);
-                                controller.updateEncParam((root.bitrate * ((root.bitrateUnit == "Mbps") ? 1000000 : 1000)), root.b_frame, root.enc_name, root.goP_len, root.profile, root.qpMode, root.rateControl, root.l2Cache, root.sliceCount);
-                                controller.start_pipeline();
-                                playBtn.enabled = true
+                                if(!root.isStreamUp && (root.sinkType == 0)){
+                                    errorMessageText = "No ethernet connection"
+                                    errorNameText = "Error"
+                                }else{
+                                    playBtn.enabled = false
+                                    var opFile = outputFilePath + "/" + root.outputFileName + "_rec_" + Qt.formatDateTime(new Date(), "yyyyMMddHHmmss") + ".mp4"
+                                    controller.updateInputParam(root.format, root.num_src, root.raw, root.src, root.device_type, "file://"+root.uri);
+                                    controller.updateOutputParam(opFile, root.hostIP, root.fileDuration, root.sinkType, root.port);
+                                    controller.updateEncParam((root.bitrate * ((root.bitrateUnit == "Mbps") ? 1000000 : 1000)), root.b_frame, root.enc_name, root.goP_len, root.profile, root.qpMode, root.rateControl, root.l2Cache, root.sliceCount);
+                                    controller.start_pipeline();
+                                    playBtn.enabled = true
+                                }
                             }else{
                                 playBtn.enabled = false
                                 controller.stop_pipeline();

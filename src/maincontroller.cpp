@@ -225,8 +225,12 @@ void maincontroller :: getLocalIpAddress(){
         QNetworkInterface item = interface.at(i);
         QList<QNetworkAddressEntry> entryList = item.addressEntries();
         if(entryList.size() && (item.name().toStdString() == "eth0")){
-            if((entryList.at(0).ip().toString().length() >= 7) && (entryList.at(0).ip().toString().length() <= 15))
-            rootobject->setProperty("ipAddress", entryList.at(0).ip().toString());
+            if(item.flags().testFlag(item.IsRunning)){
+                rootobject->setProperty("ipAddress", entryList.at(0).ip().toString());
+                rootobject->setProperty("isStreamUp", true);
+            }else{
+                rootobject->setProperty("isStreamUp", false);
+            }
         }
     }
 }

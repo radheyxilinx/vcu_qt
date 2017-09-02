@@ -72,6 +72,7 @@ Item {
     property var l2Cache: true
     property var sliceCount: 22
     property var ipAddress: "Not Connected"
+    property bool isStreamUp: false
     property var hostIP: "172.23.98.14"
     property var port: "5004"
     property var fileDuration: 1

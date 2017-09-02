@@ -194,7 +194,7 @@ Rectangle{
                 }
                 width: 150
                 height: 25
-                text: root.ipAddress
+                text: root.isStreamUp ? root.ipAddress : "Not Connected"
                 verticalAlignment: Text.AlignVCenter
                 enabled: !root.raw
                 MouseArea{
