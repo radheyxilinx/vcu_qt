@@ -733,6 +733,14 @@ ApplicationWindow {
                             color: "darkGray"
                         }
                         Label{
+                            text: "<b>Encoder: </b>" + (((root.src == "uridecodebin") || root.raw) ? "NA" : ((1 === root.enc_enum) ? "AVC" : "HEVC"))
+                        }
+                        Rectangle{
+                            width: 2
+                            height: 20
+                            color: "darkGray"
+                        }
+                        Label{
                             text:  ((root.src == "uridecodebin") || root.raw) ? "<b>Bitrate: </b>NA" :"<b>Bitrate: </b>" + ((root.bitrate.length === 0) ? "0": root.bitrate) + root.bitrateUnit
                         }
                     }
