@@ -50,6 +50,7 @@ Rectangle{
 
     onVisibleChanged: {
         if(visible){
+            createTemp()
             setPresetValues()
         }
     }
@@ -63,65 +64,6 @@ Rectangle{
         anchors.topMargin: 10
         spacing: 10
         width: parent.width
-        Rectangle{
-            width: parent.width
-            height: 25
-            color: "transparent"
-            Label{
-                id: presetL
-                anchors{
-                    left: parent.left
-                    leftMargin: 10
-                    top: parent.top
-                }
-                width: 140
-                height: 25
-                verticalAlignment: Text.AlignVCenter
-                text: "Preset:"
-            }
-            Rectangle{
-                id: controlLst
-                anchors.left: presetL.right
-                anchors.leftMargin: 5
-                width: 150
-                height: parent.height
-                color: ((root.src == "uridecodebin") || root.play) ? "lightGray" : "lightGray"
-                enabled: (root.src == "uridecodebin") ? false : !root.play
-                property var showList: false
-                border.color: "black"
-                border.width: 1
-                radius: 2
-                MouseArea{
-                    anchors.fill: parent
-                    onClicked: {
-                        fileList.visible = false
-                        parent.showList = !parent.showList
-                        controlRectangle.visible = !controlRectangle.visible
-                        inputRectangle.visible = false
-                        inputSrcLst.showList = false
-                    }
-                }
-                Label{
-                    id: presetLbl
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    height: parent.height
-                    color: "white"
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    text: (root.src == "uridecodebin")? "None" : presetLbl.text = controlList[root.presetSelect].shortName
-                }
-                Image{
-                    anchors.right: parent.right
-                    anchors.rightMargin: 5
-                    width: parent.height
-                    height: parent.height
-                    source: controlLst.showList ? "qrc:///images/upArrow.png" : "qrc:///images/downArrow.png"
-                }
-
-            }
-
-        }
 
         Rectangle{
             width: parent.width
@@ -507,13 +449,15 @@ Rectangle{
                 verticalAlignment: Text.AlignVCenter
                 enabled: !root.raw
                 onTextChanged: {
-                    root.presetSelect = 6
-                    presetLbl.text = controlList[root.presetSelect].shortName
-                    presetList.resetSource(root.presetSelect)
                     if(bitRatetext.text.length > 4){
                         bitRatetext.text = bitRatetext.text.substring(0, bitRatetext.text.length-1)
                     }
-                    root.bitrate = bitRatetext.text
+                    if(root.bitrate != bitRatetext.text){
+                        root.presetSelect = 6
+                        presetLbl.text = controlList[root.presetSelect].shortName
+                        presetList.resetSource(root.presetSelect)
+                        root.bitrate = bitRatetext.text
+                    }
                     if(bitRatetext.text.length == 0){
                         validation = false
                         errorLbl.text = "Invalid bitrate"
@@ -775,51 +719,7 @@ Rectangle{
         }
 
     }
-
-    Rectangle{
-        id: controlRectangle
-        anchors{
-            left: parent.left
-            leftMargin: 155
-            top: parent.top
-            topMargin: 35
-        }
-        width: 150
-        height: 140
-        visible: false
-        border.color: root.borderColors
-        border.width: root.boarderWidths
-        clip: true
-        color: root.barColors
-
-        ControlVu{
-            id: presetList
-            anchors.fill: parent
-            listModel.model: controlList
-            selecteItem: root.presetSelect
-            delgate: this
-            width: parent.width
-            function clicked(indexval){
-                mbps.checked = true
-                controlRectangle.visible = false
-                controlLst.showList = false
-                root.presetSelect = indexval
-                root.setPresets(indexval)
-                setPresetValues()
-                presetLbl.text = controlList[indexval].shortName
-                presetList.resetSource(root.presetSelect)
-                if(indexval == 6){
-                    root.raw = false
-                    encoderDecoderPanel.visible = true
-                }else{
-                    root.raw = false
-                    encoderDecoderPanel.tmpPresetSel = indexval
-                }
-            }
-        }
-    }
     function setPresetValues(){
-        tmpPresetSel = root.presetSelect
         presetLbl.text = controlList[root.presetSelect].shortName
         bitRatetext.text = root.bitrate
         if(root.bitrateUnit == "Mbps"){

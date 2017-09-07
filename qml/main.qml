@@ -436,7 +436,7 @@ ApplicationWindow {
 
                         Rectangle{
                             height: parent.height
-                            width: 80
+                            width: 75
                             color: "transparent"
                             CheckBox{
                                 id: encoderCB
@@ -449,6 +449,7 @@ ApplicationWindow {
                                     inputSrcLst.showList = false
                                     outputLst.showList = false
                                     outputRectangle.visible = false
+                                    root.raw = !encoderCB.checked
                                     if(!encoderCB.checked){
                                         decoderCB.checked = false
                                     }
@@ -459,6 +460,103 @@ ApplicationWindow {
                                         outputLbl.text = outputSinkList[outputSelect].shortName
                                     }
                                     changeOutputSink()
+                                }
+                            }
+                        }
+
+                        Rectangle{
+                            height: parent.height
+                            width: 220
+                            color: "transparent"
+                            Label{
+                                id: presetL
+                                anchors{
+                                    left: parent.left
+                                    leftMargin: 10
+                                    top: parent.top
+                                }
+                                width: 60
+                                height: 25
+                                verticalAlignment: Text.AlignVCenter
+                                text: "<b>Preset: </b>"
+                            }
+                            Rectangle{
+                                id: controlLst
+                                anchors.left: presetL.right
+                                width: 150
+                                height: parent.height
+                                color: ((root.src == "uridecodebin") || root.play || root.raw) ? "lightGray" : "gray"
+                                enabled: ((root.src == "uridecodebin") || root.raw) ? false : !root.play
+                                property var showList: false
+                                border.color: "black"
+                                border.width: 1
+                                radius: 2
+                                MouseArea{
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        fileList.visible = false
+                                        parent.showList = !parent.showList
+                                        controlRectangle.visible = !controlRectangle.visible
+                                        inputRectangle.visible = false
+                                        inputSrcLst.showList = false
+                                    }
+                                }
+                                Label{
+                                    id: presetLbl
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 10
+                                    height: parent.height
+                                    color: "white"
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    text: ((root.src == "uridecodebin") || root.raw)? "None" : controlList[root.presetSelect].shortName
+                                }
+                                Image{
+                                    anchors.right: parent.right
+                                    anchors.rightMargin: 5
+                                    width: parent.height
+                                    height: parent.height
+                                    source: controlLst.showList ? "qrc:///images/upArrow.png" : "qrc:///images/downArrow.png"
+                                }
+                                Rectangle{
+                                    id: controlRectangle
+                                    anchors{
+                                        left: parent.left
+                                        leftMargin: 0
+                                        top: parent.bottom
+                                        topMargin: 0
+                                    }
+                                    width: parent.width
+                                    height: 140
+                                    visible: false
+                                    border.color: root.borderColors
+                                    border.width: root.boarderWidths
+                                    clip: true
+                                    color: root.barColors
+
+                                    ControlVu{
+                                        id: presetList
+                                        anchors.fill: parent
+                                        listModel.model: controlList
+                                        selecteItem: root.presetSelect
+                                        delgate: this
+                                        width: parent.width
+                                        function clicked(indexval){
+                                            controlRectangle.visible = false
+                                            controlLst.showList = false
+                                            root.presetSelect = indexval
+                                            root.setPresets(indexval)
+                                            presetLbl.text = controlList[indexval].shortName
+                                            presetList.resetSource(root.presetSelect)
+                                            if(indexval == 6){
+                                                root.raw = false
+                                                encoderDecoderPanel.visible = true
+                                            }else{
+                                                root.raw = false
+                                                encoderDecoderPanel.tmpPresetSel = indexval
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }

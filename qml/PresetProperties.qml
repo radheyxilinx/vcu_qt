@@ -47,17 +47,17 @@ Item {
 
     property var presetStruct: [
         {"name":"AVC Low", "bitrate":lowBitRate, "b_frame":0, "enc_enum":1, "enc_name":"omxh264enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type,
-        "bitrateUnit":"Mbps", "profile":1, "qpMode":0, "rateControl":1, "l2Cache":true, "sliceCount":135},
+        "bitrateUnit":"Mbps", "profile":1, "qpMode":0, "rateControl":2, "l2Cache":true, "sliceCount":1},
         {"name":"AVC Medium", "bitrate":mediumBitRate, "b_frame":0, "enc_enum":1, "enc_name":"omxh264enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type,
-        "bitrateUnit":"Mbps", "profile":1, "qpMode":1, "rateControl":1, "l2Cache":true, "sliceCount":135},
+        "bitrateUnit":"Mbps", "profile":1, "qpMode":0, "rateControl":2, "l2Cache":true, "sliceCount":1},
         {"name":"AVC High", "bitrate":highBitRate, "b_frame":0, "enc_enum":1, "enc_name":"omxh264enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type,
-        "bitrateUnit":"Mbps", "profile":1, "qpMode":1, "rateControl":1, "l2Cache":true, "sliceCount":135},
+        "bitrateUnit":"Mbps", "profile":1, "qpMode":0, "rateControl":2, "l2Cache":true, "sliceCount":1},
         {"name":"HEVC Low", "bitrate":lowBitRate, "b_frame":0, "enc_enum":2, "enc_name":"omxh265enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type,
-        "bitrateUnit":"Mbps", "profile":1, "qpMode":1, "rateControl":1, "l2Cache":true, "sliceCount":22},
+        "bitrateUnit":"Mbps", "profile":1, "qpMode":0, "rateControl":2, "l2Cache":true, "sliceCount":1},
         {"name":"HEVC Medium", "bitrate":mediumBitRate, "b_frame":0, "enc_enum":2, "enc_name":"omxh265enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type,
-        "bitrateUnit":"Mbps", "profile":1, "qpMode":0, "rateControl":1, "l2Cache":true, "sliceCount":22},
+        "bitrateUnit":"Mbps", "profile":1, "qpMode":0, "rateControl":2, "l2Cache":true, "sliceCount":1},
         {"name":"HEVC High", "bitrate":highBitRate, "b_frame":0, "enc_enum":2, "enc_name":"omxh265enc", "goP_len":30, "src":"v4l2src", "device_type":root.device_type,
-        "bitrateUnit":"Mbps", "profile":1, "qpMode":0, "rateControl":1, "l2Cache":true, "sliceCount":22},
+        "bitrateUnit":"Mbps", "profile":1, "qpMode":0, "rateControl":2, "l2Cache":true, "sliceCount":1},
         {"name":"Custom", "bitrate":root.bitrate, "b_frame":root.b_frame, "enc_enum":root.enc_enum, "enc_name":root.enc_name, "goP_len":root.goP_len, "src":root.src, "device_type":root.device_type,
         "bitrateUnit":root.bitrateUnit, "profile":root.profile, "qpMode":root.qpMode, "rateControl":root.rateControl, "l2Cache":root.l2Cache, "sliceCount":root.sliceCount}
     ]

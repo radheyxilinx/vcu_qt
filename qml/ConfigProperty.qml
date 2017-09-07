@@ -70,7 +70,7 @@ Item {
     property var qpMode: 0
     property var rateControl: 2
     property var l2Cache: true
-    property var sliceCount: 22
+    property var sliceCount: 1
     property var ipAddress: "Not Connected"
     property bool isStreamUp: false
     property var hostIP: "172.23.98.14"

@@ -67,13 +67,44 @@ Rectangle{
     property var tmpOpFilePath: root.outputFilePath
     property var tmpPort: root.port
     property var tmpBitrateUnit: root.bitrateUnit
-    property var bitRateNames: [
-        {"bitrate":10000000, "bitrateName":"Low"},
-        {"bitrate":20000000, "bitrateName":"Medium Low"},
-        {"bitrate":30000000, "bitrateName":"Medium"},
-        {"bitrate":50000000, "bitrateName":"Medium High"},
-        {"bitrate":100000000, "bitrateName":"High"},
+
+    property var selectTabAtIndex: [
+        {   "tab1ULvisible" : false,
+            "tab2ULvisible" : true,
+            "tab3ULvisible" : true,
+            "tab1color" : "transparent",
+            "tab2color" : "lightgray",
+            "tab3color" : "lightgray",
+            "encParamTabVvisible" : true,
+            "fileTabVvisible" : false,
+            "streamOutTabVvisible" : false,
+            "keyPadvisible" : false
+        },
+
+        {   "tab1ULvisible" : true,
+            "tab2ULvisible" : false,
+            "tab3ULvisible" : true,
+            "tab1color" : "lightgray",
+            "tab2color" : "transparent",
+            "tab3color" : "lightgray",
+            "fileTabVvisible" : true,
+            "encParamTabVvisible" : false,
+            "streamOutTabVvisible" : false,
+            "keyPadvisible" : false
+        },
+        {   "tab1ULvisible" : true,
+            "tab2ULvisible" : true,
+            "tab3ULvisible" : false,
+            "tab1color" : "lightgray",
+            "tab2color" : "lightgray",
+            "tab3color" : "transparent",
+            "streamOutTabVvisible" : true,
+            "fileTabVvisible" : false,
+            "encParamTabVvisible" : false,
+            "keyPadvisible" : false
+        }
     ]
+
     Rectangle {
         anchors{
             horizontalCenter: parent.horizontalCenter
@@ -82,47 +113,27 @@ Rectangle{
         onVisibleChanged: {
             if(encoderDecoderPanel.visible){
                 validation = true
-                tmpBitrate = root.bitrate
-                tmpB_frame = root.b_frame
-                tmpEnc_name = root.enc_name
-                tmpGoP_len = root.goP_len
-                tmpEnc_enum = root.enc_enum
-                tmpProfile = root.profile
-                tmpQPMode = root.qpMode
-                tmpRateControl = root.rateControl
-                tmpL2Cache = root.l2Cache
-                tmpsliceCount = root.sliceCount
-                tmpHostIP = root.hostIP
-                tmpSinkType = root.sinkType
-                tmpFileDuration = root.fileDuration
-                tmpOpFilePath = root.outputFilePath
-                tmpPort = root.port
-                tmpBitrateUnit = root.bitrateUnit
-                for(var i = 0; i < 5; i++){
-                    if(root.bitrate === bitRateNames[i].bitrate){
-                        tmpBitrate = bitRateNames[i].bitrate
-                    }
+
+                switch(root.sinkType){
+                case 0:
+                    tabSelect(selectTabAtIndex[2])
+                    tab1.enabled = true
+                    tab2.enabled = false
+                    tab3.enabled = true
+                    break
+                case 1:
+                    tabSelect(selectTabAtIndex[1])
+                    tab1.enabled = true
+                    tab2.enabled = true
+                    tab3.enabled = false
+                    break
+                case 2:
+                    tabSelect(selectTabAtIndex[0])
+                    tab1.enabled = true
+                    tab2.enabled = false
+                    tab3.enabled = false
+                    break
                 }
-               switch(root.sinkType){
-               case 0:
-                   tab3Select()
-                   tab1.enabled = true
-                   tab2.enabled = false
-                   tab3.enabled = true
-                   break
-               case 1:
-                   tab2Select()
-                   tab1.enabled = true
-                   tab2.enabled = true
-                   tab3.enabled = false
-                   break
-               case 2:
-                   tab1Select()
-                   tab1.enabled = true
-                   tab2.enabled = false
-                   tab3.enabled = false
-                   break
-               }
             }
         }
 
@@ -203,7 +214,7 @@ Rectangle{
                     anchors.fill: parent
                     onClicked: {
                         if(validation == true){
-                            tab1Select()
+                            tabSelect(selectTabAtIndex[0])
                         }
                     }
                 }
@@ -235,7 +246,7 @@ Rectangle{
                     anchors.fill: parent
                     onClicked: {
                         if(validation == true){
-                            tab2Select()
+                            tabSelect(selectTabAtIndex[1])
                         }
                     }
                 }
@@ -268,7 +279,7 @@ Rectangle{
                     anchors.fill: parent
                     onClicked: {
                         if(validation == true){
-                            tab3Select()
+                            tabSelect(selectTabAtIndex[2])
                         }
                     }
                 }
@@ -348,8 +359,6 @@ Rectangle{
             onClicked:{
                 keyPad.visible = false
                 encoderDecoderPanel.visible = false
-                root.presetSelect = tmpPresetSel
-                root.setPresets(root.presetSelect)
 
                 root.b_frame = tmpB_frame
                 root.goP_len = tmpGoP_len
@@ -367,6 +376,11 @@ Rectangle{
                 root.port = tmpPort
                 root.outputFilePath = tmpOpFilePath
                 root.bitrateUnit = tmpBitrateUnit
+
+                root.presetSelect = tmpPresetSel
+                root.setPresets(root.presetSelect)
+                presetLbl.text = controlList[root.presetSelect].shortName
+                presetList.resetSource(root.presetSelect)
             }
         }
         Label{
@@ -385,40 +399,34 @@ Rectangle{
             visible: !validation
         }
     }
-    function tab1Select(){
-        tab1UL.visible = false
-        tab2UL.visible = true
-        tab3UL.visible = true
-        tab1.color = "transparent"
-        tab2.color = "lightgray"
-        tab3.color = "lightgray"
-        encParamTabV.visible = true
-        fileTabV.visible = false
-        streamOutTabV.visible = false
-        keyPad.visible = false
+    function tabSelect(selectedTab){
+        tab1UL.visible = selectedTab.tab1ULvisible
+        tab2UL.visible = selectedTab.tab2ULvisible
+        tab3UL.visible = selectedTab.tab3ULvisible
+        tab1.color = selectedTab.tab1color
+        tab2.color = selectedTab.tab2color
+        tab3.color = selectedTab.tab3color
+        encParamTabV.visible = selectedTab.encParamTabVvisible
+        fileTabV.visible = selectedTab.fileTabVvisible
+        streamOutTabV.visible = selectedTab.streamOutTabVvisible
+        keyPad.visible = selectedTab.keyPadvisible
     }
-    function tab2Select(){
-        tab1UL.visible = true
-        tab2UL.visible = false
-        tab3UL.visible = true
-        tab1.color = "lightgray"
-        tab2.color = "transparent"
-        tab3.color = "lightgray"
-        fileTabV.visible = true
-        encParamTabV.visible = false
-        streamOutTabV.visible = false
-        keyPad.visible = false
-    }
-    function tab3Select(){
-        tab1UL.visible = true
-        tab2UL.visible = true
-        tab3UL.visible = false
-        tab1.color = "lightgray"
-        tab2.color = "lightgray"
-        tab3.color = "transparent"
-        streamOutTabV.visible = true
-        fileTabV.visible = false
-        encParamTabV.visible = false
-        keyPad.visible = false
+    function createTemp(){
+        tmpBitrate = root.bitrate
+        tmpB_frame = root.b_frame
+        tmpEnc_name = root.enc_name
+        tmpGoP_len = root.goP_len
+        tmpEnc_enum = root.enc_enum
+        tmpProfile = root.profile
+        tmpQPMode = root.qpMode
+        tmpRateControl = root.rateControl
+        tmpL2Cache = root.l2Cache
+        tmpsliceCount = root.sliceCount
+        tmpHostIP = root.hostIP
+        tmpSinkType = root.sinkType
+        tmpFileDuration = root.fileDuration
+        tmpOpFilePath = root.outputFilePath
+        tmpPort = root.port
+        tmpBitrateUnit = root.bitrateUnit
     }
 }
