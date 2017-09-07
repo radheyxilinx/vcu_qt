@@ -111,6 +111,7 @@ ApplicationWindow {
     property var outputFileName: configuration.outputFileName
     property var outputFilePath: configuration.outputFilePath
     property var outputDirName: configuration.outputDirName
+    property bool invertColor: false
 
     property alias presetStructure: presetValues.presetStruct
 
@@ -243,8 +244,8 @@ ApplicationWindow {
                                 border.color: "#888"
                                 radius: 4
                                 gradient: Gradient {
-                                    GradientStop { position: 0 ; color: control.pressed ? "#ccc" : "#eee" }
-                                    GradientStop { position: 1 ; color: control.pressed ? "#aaa" : "#ccc" }
+                                    GradientStop { position: 0 ; color: (root.play && root.invertColor && (root.sinkType == 1)) ? "red" : (control.pressed ? "#ccc" : "#eee") }
+                                    GradientStop { position: 1 ; color: (root.play && !root.invertColor && (root.sinkType == 1)) ? "red" : (control.pressed ? "#aaa" : "#ccc") }
                                 }
                             }
                         }
@@ -1002,6 +1003,12 @@ ApplicationWindow {
                 controller.getLocalIpAddress()
                 controller.updatecpu(chart_line_CPU.series(0))
                 controller.updateThroughput(encoderBandWidthPlot.series(0),decoderBandWidthPlot.series(0))
+                if(root.play && (root.sinkType == 1)){
+                    root.invertColor = !root.invertColor
+                }else{
+                    root.invertColor = false
+                }
+
                 if(root.play && !root.errorFound){
                     controller.updateFPS()
                     controller.pollError();
