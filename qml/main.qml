@@ -589,15 +589,15 @@ ApplicationWindow {
                         }
 
                         Rectangle{
-                            width: 250
+                            width: 215
                             height: parent.height
                             color: "transparent"
                             Label{
                                 anchors.left: parent.left
-                                width: 100
+                                width: 65
                                 height: parent.height
                                 verticalAlignment: Text.AlignVCenter
-                                text: "<b>Output Sink: </b>"
+                                text: "<b>Output: </b>"
                             }
                             Rectangle{
                                 id: outputLst
