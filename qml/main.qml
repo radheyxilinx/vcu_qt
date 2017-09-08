@@ -82,6 +82,7 @@ ApplicationWindow {
     property var videoInput: configuration.videoInput
     property var presetSelect: configuration.presetSelect
     property var outputSelect: configuration.outputSelect
+    property var codecSelect: configuration.codecSelect
     property var plotDisplay: configuration.plotDisplay
 
     property var bitrate: configuration.bitrate
@@ -134,10 +135,14 @@ ApplicationWindow {
                 anchors.fill: parent
                 hoverEnabled: true
                 onClicked: {
-                    inputSrcLst.showList = false
-                    outputLst.showList = false
                     inputRectangle.visible = false
+                    inputSrcLst.showList = false
+                    codecRectangle.visible = false
+                    codecLst.showList = false
+                    controlRectangle.visible = false
+                    controlLst.showList = false
                     outputRectangle.visible = false
+                    outputLst.showList = false
 
                     titleBar.y = 0
                     graphPlot.visible = true
@@ -250,14 +255,16 @@ ApplicationWindow {
                             }
                         }
                         onClicked: {
-                            inputSrcLst.showList = false
-                            outputLst.showList = false
                             inputRectangle.visible = false
+                            inputSrcLst.showList = false
+                            codecRectangle.visible = false
+                            codecLst.showList = false
+                            controlRectangle.visible = false
+                            controlLst.showList = false
                             outputRectangle.visible = false
+                            outputLst.showList = false
                             fileList.visible = false
                             encoderDecoderPanel.visible = false
-                            encoderCB.enabled = false
-                            decoderCB.enabled = false
 
                             if(!root.play){
                                 if(!root.isStreamUp && (root.sinkType == 0)){
@@ -278,8 +285,6 @@ ApplicationWindow {
                                 root.errorFound = false;
                                 playBtn.enabled = true
                             }
-                            encoderCB.enabled = (root.src == "uridecodebin") ? false : !root.play
-                            decoderCB.enabled = (root.src == "uridecodebin") ? false : !root.play
                         }
                     }
 
@@ -347,8 +352,11 @@ ApplicationWindow {
                                     onClicked: {
                                         fileList.visible = false
                                         inputRectangle.visible = !inputRectangle.visible
-                                        parent.showList = !parent.showList
-                                        encoderDecoderPanel.visible = false
+                                        inputSrcLst.showList = !inputSrcLst.showList
+                                        codecRectangle.visible = false
+                                        codecLst.showList = false
+                                        controlRectangle.visible = false
+                                        controlLst.showList = false
                                         outputRectangle.visible = false
                                         outputLst.showList = false
                                     }
@@ -403,6 +411,17 @@ ApplicationWindow {
                                             inputRectangle.visible = false
                                             inputSrcLst.showList = false
                                             srcNameLbl.text = videoSourceList[indexval].shortName
+                                            if(root.outputSelect == 0){
+                                                root.sinkType = 1
+                                            }else if(root.outputSelect == 1){
+                                                root.sinkType = 0
+                                            }
+                                            outputLbl.text = outputSinkList[outputSelect].shortName
+                                            if((root.codecSelect == 1) || (root.codecSelect == 2)){
+                                                root.sinkType = 2
+                                                outputLbl.text = outputSinkList[2].shortName
+                                            }
+                                            codecNameLbl.text = codecList[root.codecSelect].shortName
                                             switch (indexval){
                                             case 0:
                                                 fileList.visible = true
@@ -410,23 +429,14 @@ ApplicationWindow {
                                             case 1:
                                                 root.src = "v4l2src"
                                                 root.device_type = 2
-                                                encoderCB.enabled = true
-                                                decoderCB.enabled = true
-                                                outputLbl.text = (encoderCB.checked && !decoderCB.checked) ? outputSinkList[outputSelect].shortName : outputSinkList[2].shortName
                                                 break;
                                             case 2:
                                                 root.src = "v4l2src"
                                                 root.device_type = 1
-                                                encoderCB.enabled = true
-                                                decoderCB.enabled = true
-                                                outputLbl.text = (encoderCB.checked && !decoderCB.checked) ? outputSinkList[outputSelect].shortName : outputSinkList[2].shortName
                                                 break;
                                             default:
                                                 root.src = "v4l2src"
                                                 root.device_type = 1
-                                                encoderCB.enabled = true
-                                                decoderCB.enabled = true
-                                                outputLbl.text = (encoderCB.checked && !decoderCB.checked) ? outputSinkList[outputSelect].shortName : outputSinkList[2].shortName
                                             }
                                             root.videoInput = indexval
                                         }
@@ -436,31 +446,116 @@ ApplicationWindow {
                         }
 
                         Rectangle{
+                            width: 200
                             height: parent.height
-                            width: 75
                             color: "transparent"
-                            CheckBox{
-                                id: encoderCB
-                                text: "<b>Encode</b>"
-                                anchors.verticalCenter: parent.verticalCenter
-                                checked: true
+                            Label{
+                                anchors.left: parent.left
+                                width: 65
+                                height: parent.height
+                                verticalAlignment: Text.AlignVCenter
+                                text: "<b>Codec: </b>"
+                            }
+                            Rectangle{
+                                id: codecLst
+                                anchors.right: parent.right
+                                width: 140
+                                height: parent.height
+                                color: ((root.src == "uridecodebin") || root.play) ? "lightGray" : "gray"
                                 enabled: (root.src == "uridecodebin") ? false : !root.play
-                                onCheckedChanged: {
-                                    inputRectangle.visible = false
-                                    inputSrcLst.showList = false
-                                    outputLst.showList = false
-                                    outputRectangle.visible = false
-                                    root.raw = !encoderCB.checked
-                                    if(!encoderCB.checked){
-                                        decoderCB.checked = false
+                                property var showList: false
+                                property var browseSrc: false
+                                border.color: "black"
+                                border.width: 1
+                                radius: 2
+                                MouseArea{
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        fileList.visible = false
+                                        codecRectangle.visible = !codecRectangle.visible
+                                        codecLst.showList = !codecLst.showList
+                                        inputRectangle.visible = false
+                                        inputSrcLst.showList = false
+                                        controlRectangle.visible = false
+                                        controlLst.showList = false
+                                        outputRectangle.visible = false
+                                        outputLst.showList = false
                                     }
-                                    if(encoderCB.checked == decoderCB.checked){
-                                        outputLbl.text = outputSinkList[2].shortName
-                                        root.sinkType = 2
-                                    }else{
-                                        outputLbl.text = outputSinkList[outputSelect].shortName
+                                }
+                                Label{
+                                    id: codecNameLbl
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 10
+                                    height: parent.height
+                                    color: "white"
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    text: ((root.src == "uridecodebin") ? "None" : codecList[root.codecSelect].shortName)
+                                }
+                                Image{
+                                    anchors.right: parent.right
+                                    anchors.rightMargin: 5
+                                    width: parent.height
+                                    height: parent.height
+                                    source: codecLst.showList ? "qrc:///images/upArrow.png" : "qrc:///images/downArrow.png"
+                                }
+
+                                Rectangle{
+                                    id: codecRectangle
+                                    width: codecLst.width
+                                    anchors.left: codecLst.left
+                                    height: 60
+                                    visible: false
+                                    border.color: root.borderColors
+                                    border.width: root.boarderWidths
+
+                                    clip: true
+                                    color: root.barColors
+                                    anchors.top: codecLst.bottom
+                                    anchors.bottomMargin: 0
+                                    MouseArea{
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        onExited: {
+
+                                        }
                                     }
-                                    changeOutputSink()
+
+                                    CodecDropDown{
+                                        id: codecListV
+                                        anchors.fill: parent
+                                        listModel.model: codecList
+                                        selecteItem: root.codecSelect
+                                        delgate: this
+                                        width: parent.width
+                                        function clicked(indexval){
+                                            codecRectangle.visible = false
+                                            codecLst.showList = false
+                                            codecNameLbl.text = codecList[indexval].shortName
+                                            root.raw = false
+                                            if(root.outputSelect == 0){
+                                                root.sinkType = 1
+                                            }else if(root.outputSelect == 1){
+                                                root.sinkType = 0
+                                            }
+                                            switch (indexval){
+                                            case 0:
+                                                outputLbl.text = outputSinkList[outputSelect].shortName
+                                                break;
+                                            case 1:
+                                                outputLbl.text = outputSinkList[2].shortName
+                                                root.sinkType = 2
+                                                break;
+                                            case 2:
+                                                root.raw = true
+                                                outputLbl.text = outputSinkList[2].shortName
+                                                root.sinkType = 2
+                                                break;
+                                            default:
+                                            }
+                                            root.codecSelect = indexval
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -496,10 +591,14 @@ ApplicationWindow {
                                     anchors.fill: parent
                                     onClicked: {
                                         fileList.visible = false
-                                        parent.showList = !parent.showList
                                         controlRectangle.visible = !controlRectangle.visible
+                                        controlLst.showList = !controlLst.showList
                                         inputRectangle.visible = false
                                         inputSrcLst.showList = false
+                                        codecRectangle.visible = false
+                                        codecLst.showList = false
+                                        outputRectangle.visible = false
+                                        outputLst.showList = false
                                     }
                                 }
                                 Label{
@@ -563,33 +662,6 @@ ApplicationWindow {
                         }
 
                         Rectangle{
-                            height: parent.height
-                            width: 80
-                            color: "transparent"
-                            enabled: encoderCB.checked
-                            CheckBox{
-                                id: decoderCB
-                                text: "<b>Decode</b>"
-                                checked: true
-                                anchors.verticalCenter: parent.verticalCenter
-                                enabled: (root.src == "uridecodebin") ? false : !root.play
-                                onCheckedChanged: {
-                                    inputRectangle.visible = false
-                                    inputSrcLst.showList = false
-                                    outputLst.showList = false
-                                    outputRectangle.visible = false
-                                    if(encoderCB.checked == decoderCB.checked){
-                                        outputLbl.text = outputSinkList[2].shortName
-                                        root.sinkType = 2
-                                    }else{
-                                        outputLbl.text = outputSinkList[outputSelect].shortName
-                                    }
-                                    changeOutputSink()
-                                }
-                            }
-                        }
-
-                        Rectangle{
                             width: 215
                             height: parent.height
                             color: "transparent"
@@ -605,8 +677,8 @@ ApplicationWindow {
                                 anchors.right: parent.right
                                 width: 150
                                 height: parent.height
-                                color: ((root.src == "uridecodebin") || (encoderCB.checked == decoderCB.checked) || root.play) ? "lightGray" : "gray"
-                                enabled: (root.src == "uridecodebin") ? false : !root.play
+                                color: ((root.src == "uridecodebin") || root.raw || (root.sinkType == 2) || root.play) ? "lightGray" : "gray"
+                                enabled: ((root.src == "uridecodebin") || root.raw || (root.sinkType == 2)) ? false : !root.play
                                 property var showList: false
                                 border.color: "black"
                                 border.width: 1
@@ -615,14 +687,16 @@ ApplicationWindow {
                                 MouseArea{
                                     anchors.fill: parent
                                     onClicked: {
-                                        if(encoderCB.checked && !decoderCB.checked){
-                                            fileList.visible = false
-                                            encoderDecoderPanel.visible = false
-                                            outputLst.showList = !outputLst.showList
-                                            outputRectangle.visible = !outputRectangle.visible
-                                            inputRectangle.visible = false
-                                            inputSrcLst.showList = false
-                                        }
+                                        fileList.visible = false
+                                        encoderDecoderPanel.visible = false
+                                        outputLst.showList = !outputLst.showList
+                                        outputRectangle.visible = !outputRectangle.visible
+                                        inputRectangle.visible = false
+                                        inputSrcLst.showList = false
+                                        codecRectangle.visible = false
+                                        codecLst.showList = false
+                                        controlRectangle.visible = false
+                                        controlLst.showList = false
                                     }
                                 }
                                 Label{
@@ -633,7 +707,7 @@ ApplicationWindow {
                                     color: "white"
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
-                                    text: outputSinkList[2].shortName
+                                    text:  ((root.src == "uridecodebin") || root.raw || (root.sinkType == 2)) ? outputSinkList[2].shortName : outputSinkList[root.outputSelect].shortName
                                 }
                                 Image{
                                     anchors.right: parent.right
@@ -659,7 +733,7 @@ ApplicationWindow {
                                         id: outputList
                                         anchors.fill: parent
                                         listModel.model: outputSinkList
-                                        selecteItem: root.presetSelect
+                                        selecteItem: root.outputSelect
                                         delgate: this
                                         width: parent.width
                                         function clicked(indexval){
@@ -667,7 +741,17 @@ ApplicationWindow {
                                             outputLst.showList = false
                                             root.outputSelect = indexval
                                             outputLbl.text = outputSinkList[indexval].shortName
-                                            changeOutputSink()
+                                            switch (indexval){
+                                            case 0:
+                                                root.sinkType = 1
+                                                break
+                                            case 1:
+                                                root.sinkType = 0
+                                                break
+                                            default:
+                                                root.sinkType = 2
+                                                break
+                                            }
                                         }
                                     }
                                 }
@@ -696,10 +780,14 @@ ApplicationWindow {
                             onClicked: {
                                 fileList.visible = false
                                 encoderDecoderPanel.visible = !encoderDecoderPanel.visible
-                                inputSrcLst.showList = false
                                 inputRectangle.visible = false
-                                outputLst.showList = false
+                                inputSrcLst.showList = false
+                                codecRectangle.visible = false
+                                codecLst.showList = false
+                                controlRectangle.visible = false
+                                controlLst.showList = false
                                 outputRectangle.visible = false
+                                outputLst.showList = false
                             }
                         }
                     }
@@ -784,13 +872,19 @@ ApplicationWindow {
                             }
                         }
                         onClicked: {
+                            encoderDecoderPanel.visible = false
+                            inputRectangle.visible = false
+                            inputSrcLst.showList = false
+                            codecRectangle.visible = false
+                            codecLst.showList = false
+                            controlRectangle.visible = false
+                            controlLst.showList = false
+                            outputRectangle.visible = false
+                            outputLst.showList = false
                             if(root.play){
                                 fileList.visible = false
                                 titleBar.y = -100
-                                inputRectangle.visible = false
-                                outputRectangle.visible = false
                                 graphPlot.visible = false
-                                encoderDecoderPanel.visible = false
                             }
                         }
                     }
@@ -1055,16 +1149,5 @@ ApplicationWindow {
         root.rateControl = presetStructure[index].rateControl
         root.l2Cache = presetStructure[index].l2Cache
         root.sliceCount = presetStructure[index].sliceCount
-    }
-    function changeOutputSink(){
-        if(encoderCB.checked == decoderCB.checked){
-            root.sinkType = 2
-        }else{
-            if(root.outputSelect == 0){
-                root.sinkType = 1
-            }else{
-                root.sinkType = 0
-            }
-        }
     }
 }

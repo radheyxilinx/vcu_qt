@@ -54,6 +54,8 @@ int main(int argc, char *argv[])
     QStringList  sources = {"File", "HDMI", "Test Pattern"};
     QStringList outputSinkArr = {"Record", "Stream", "Display Port"};
     QStringList controls = {"AVC Low", "AVC Medium", "AVC High", "HEVC Low", "HEVC Medium", "HEVC High", "Custom"};
+    QStringList codecType = {"Enc", "Enc-Dec", "Pass-through"};
+
     QApplication qapp(argc, argv);
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QQmlApplicationEngine engine;
@@ -79,10 +81,18 @@ int main(int argc, char *argv[])
         controlList.append(mapCtrl);
     }
 
+    QVariantList codecList;
+    QVariantMap mapCodec;
+    for(int i = 0; i < codecType.size(); i++){
+        mapCodec.insert("shortName", codecType[i]);
+        codecList.append(mapCodec);
+    }
+
     engine.rootContext()->setContextProperty("videoSourcesCount",4);
     engine.rootContext()->setContextProperty("videoSourceList",QVariant::fromValue(sourceList));
     engine.rootContext()->setContextProperty("outputSinkList",QVariant::fromValue(outputSinkList));
     engine.rootContext()->setContextProperty("controlList",QVariant::fromValue(controlList));
+    engine.rootContext()->setContextProperty("codecList",QVariant::fromValue(codecList));
 
     QDir opDir(ROOT_FILE_PATH "/" RECORD_DIR);
     opDir.mkpath(".");

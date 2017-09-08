@@ -29,5 +29,6 @@
         <file>qml/StreamOutTab.qml</file>
         <file>qml/ConfigProperty.qml</file>
         <file>qml/NumberKeyPad.qml</file>
+        <file>qml/CodecDropDown.qml</file>
     </qresource>
 </RCC>

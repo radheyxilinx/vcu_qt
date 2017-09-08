@@ -221,13 +221,10 @@ Rectangle{
                 }else{
                     root.uri = filePathLbl.text + "/" + libraryModel.get(row).itemName
                     root.src = "uridecodebin"
-                    root.sinkType = 0
+                    root.sinkType = 2
                     fileList.visible = false
                     outputLbl.text =  outputSinkList[2].shortName
-                    encoderCB.checked = false
-                    encoderCB.enabled = false
-                    decoderCB.checked = false
-                    decoderCB.enabled = false
+                    codecNameLbl.text = "None"
                 }
             }
         }
@@ -257,6 +254,7 @@ Rectangle{
                     dirOPS.applyTypeFilter("*")
                     srcNameLbl.text = (root.src == "uridecodebin") ? "File" : ((root.device_type == 1) ? "Test Pattern" : "HDMI")
                     text: (root.src == "uridecodebin")? "None" : presetLbl.text = controlList[root.presetSelect].shortName
+                    codecNameLbl.text = (root.src == "uridecodebin") ? "None" : codecList[root.codecSelect].shortName
                 }
             }
         }
@@ -289,12 +287,9 @@ Rectangle{
                         root.uri = filePathLbl.text + "/" + fileName
                         root.src = "uridecodebin"
                         fileList.visible = false
-                        root.sinkType = 0
+                        root.sinkType = 2
                         outputLbl.text =  outputSinkList[2].shortName
-                        encoderCB.checked = false
-                        encoderCB.enabled = false
-                        decoderCB.checked = false
-                        decoderCB.enabled = false
+                        codecNameLbl.text = "None"
                     }else{
                         if(selectedDir.length){
                             var lst = dirOPS.changeFolder(selectedDir)

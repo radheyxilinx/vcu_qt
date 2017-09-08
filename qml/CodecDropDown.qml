@@ -38,54 +38,66 @@
  *******************************************************************************/
 
 import QtQuick 2.0
+import QtQuick.Controls 1.1
+import QtQuick.Controls.Styles 1.0
+import QtQuick.Layouts 1.0
 
-Item {
-    property bool play: false
-    property bool errorFound: false
+Rectangle{
+    property alias listModel: repeateListCodec
+    property int selecteItem: 0
+    property var delgate: this
 
-    property var errorMessageText: ""
-    property var errorNameText: ""
-    property var barColors: "#1FF7F7F0"
-    property var barTitleColorsPut: "#F0AAAAAA"
-    property var cellColor: "#FFEEEEEE"
-    property var cellHighlightColor: "#FFAAAAAA"
-    property var borderColors: "#F0AAAAAA"
-    property int boarderWidths: 1
+    height: repeateListCodec.count
+    anchors.topMargin: 0
+    anchors.leftMargin: 0
+    id: codecListVu
 
-    property var videoResolution: "4k"
-    property var fpsValue: 0
+    Behavior on height{
+        NumberAnimation {
+            duration: 0
+            easing.type: Easing.Linear
+        }
+    }
+    ColumnLayout{
+        spacing: 0
+        Repeater{
+            id: repeateListCodec
+            Rectangle{
+                Text {
+                    text: modelData.shortName
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                }
+                anchors.left: parent.left
+                width: codecListVu.width
+                height: 20
+                color: selecteItem == index ? root.cellHighlightColor : root.cellColor
 
-    property var videoInput: 2
-    property var codecSelect: 1
-    property var presetSelect: 5
-    property var outputSelect: 1
-    property var plotDisplay: true
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
+                    onClicked:{
 
-    property var bitrate: "60"
-    property var bitrateUnit: "Mbps"
-    property var b_frame: 0
-    property var enc_name: "omxh265enc"
-    property var goP_len: 30
-    property int enc_enum: 2
-    property var profile: 1
-    property var qpMode: 0
-    property var rateControl: 2
-    property var l2Cache: true
-    property var sliceCount: 1
-    property var ipAddress: "Not Connected"
-    property bool isStreamUp: false
-    property var hostIP: "172.23.98.14"
-    property var port: "5004"
-    property var fileDuration: 1
-
-    property var format : "NV12"
-    property var num_src : 1
-    property var raw : false
-    property var src : "v4l2src"
-    property var device_type : 1
-    property var uri : ""
-    property var sinkType: 2
-    property var outputFileName: "H265"
-    property var outputFilePath: "/media/card" + "/" + outputDirName
-    property var outputDirName: "vcu_records"
+                        for(var i = 0; i< repeateListCodec.count; i++){
+                            repeateListCodec.itemAt(i).color = root.cellColor
+                        }
+                        parent.color = root.cellHighlightColor
+                        delgate.clicked(index)
+                    }
+                }
+            }
+        }
+    }
+    function resetSource(index){
+        for(var i = 0; i< repeateListCodec.count; i++){
+            if(i == index){
+                repeateListCodec.itemAt(i).color = root.cellHighlightColor
+            }
+            else{
+                repeateListCodec.itemAt(i).color = root.cellColor
+            }
+        }
+    }
 }
