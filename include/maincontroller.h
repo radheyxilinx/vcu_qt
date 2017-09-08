@@ -99,9 +99,9 @@ public slots:
     bool errorPopup(int);
     void updatecpu(QAbstractSeries *cpu);
     void updateThroughput(QAbstractSeries *videoSrc, QAbstractSeries *accelerator);
-    void updateEncParam(int, int, QString, int, int, int, int, bool, int);
-    void updateInputParam(QString, int, bool, QString, int, QString);
-    void updateOutputParam(QString, QString, int, int, int);
+    void updateEncParam(unsigned int, unsigned int, QString, unsigned int, int, int, int, bool, unsigned int);
+    void updateInputParam(QString, unsigned int, bool, QString, int, QString);
+    void updateOutputParam(QString, QString, unsigned int, int, unsigned int);
     void start_pipeline();
     void stop_pipeline();
     void updateFPS();

@@ -143,7 +143,7 @@ void maincontroller :: updateThroughput(QAbstractSeries *videoSrcAS, QAbstractSe
     acceleratorSeries->replace(accelpoints);
 }
 
-void maincontroller :: updateEncParam(int bitRate, int bFrameCount, QString encName, int gopLength, int profile, int qpMode, int rateControlmode, bool l2Cache, int slice){
+void maincontroller :: updateEncParam(unsigned int bitRate, unsigned int bFrameCount, QString encName, unsigned int gopLength, int profile, int qpMode, int rateControlmode, bool l2Cache, unsigned int slice){
    encoderParam.bitrate = bitRate;
     encoderParam.b_frame = bFrameCount;
     encoderParam.enc_name = g_strdup(encName.toLatin1().data());
@@ -155,7 +155,7 @@ void maincontroller :: updateEncParam(int bitRate, int bFrameCount, QString encN
     encoderParam.slice = slice;
 }
 
-void maincontroller :: updateInputParam(QString format, int num_src, bool raw, QString src, int device_type, QString uri){
+void maincontroller :: updateInputParam(QString format, unsigned int num_src, bool raw, QString src, int device_type, QString uri){
     inputParam.format = g_strdup(format.toLatin1().data());
     inputParam.num_src = num_src;
     inputParam.raw = raw;
@@ -164,7 +164,7 @@ void maincontroller :: updateInputParam(QString format, int num_src, bool raw, Q
     inputParam.uri = g_strdup(uri.toLatin1().data());
 }
 
-void maincontroller :: updateOutputParam(QString fileOut, QString hostIp, int duration, int sinkType, int port){
+void maincontroller :: updateOutputParam(QString fileOut, QString hostIp, unsigned int duration, int sinkType, unsigned int port){
     outputParam.file_out = g_strdup(fileOut.toLatin1().data());
     outputParam.host_ip = g_strdup(hostIp.toLatin1().data());
     outputParam.duration = duration;
