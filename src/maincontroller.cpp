@@ -201,7 +201,7 @@ void maincontroller :: updateFPS(){
     rootobject->setProperty("fpsValue", vgst_calc_fps());
 }
 
-void maincontroller :: pollError(){
+void maincontroller :: pollEvent(){
     int arg = 0;
     int event = vgst_poll_event(&arg);
     switch (event) {
@@ -213,6 +213,13 @@ void maincontroller :: pollError(){
         break;
     case VGST_EVENT_EOS:
         stop_pipeline();
+        break;
+    case VGST_EVENT_FILE_BR:
+        if(BIT_TO_MBIT(arg) <= 0){
+            rootobject->setProperty("bitrate", QString::number(BIT_TO_KBIT(arg)).append("Kbps"));
+        }else{
+            rootobject->setProperty("bitrate", QString::number(BIT_TO_MBIT(arg)).append("Mbps"));
+        }
         break;
     default:
         break;

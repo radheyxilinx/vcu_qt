@@ -60,6 +60,8 @@ QT_CHARTS_USE_NAMESPACE
 #define ROOT_FILE_PATH "/media/card"
 #define BYTE_TO_GBIT (8 / 1000000000.0)
 #define RECORD_DIR "vcu_records"
+#define BIT_TO_MBIT(value) ((value/1024)/1024)
+#define BIT_TO_KBIT(value) (value/1024)
 
 class maincontroller : public QObject
 {
@@ -103,7 +105,7 @@ public slots:
     void start_pipeline();
     void stop_pipeline();
     void updateFPS();
-    void pollError();
+    void pollEvent();
     void getLocalIpAddress();
     void uninitAll();
     void freeMemory();

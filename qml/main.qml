@@ -439,6 +439,7 @@ ApplicationWindow {
                                                 root.device_type = 1
                                             }
                                             root.videoInput = indexval
+                                            root.setPresets(root.presetSelect)
                                         }
                                     }
                                 }
@@ -934,7 +935,7 @@ ApplicationWindow {
                             color: "darkGray"
                         }
                         Label{
-                            text:  ((root.src == "uridecodebin") || root.raw) ? "<b>Bitrate: </b>NA" :"<b>Bitrate: </b>" + ((root.bitrate.length === 0) ? "0": root.bitrate) + root.bitrateUnit
+                            text:  "<b>Bitrate: </b>" + ((root.raw || ((root.src == "uridecodebin") && !root.play))? "NA" : ((root.bitrate.length === 0) ? "0": root.bitrate) + ((root.src == "uridecodebin") ? "" : root.bitrateUnit))
                         }
                     }
                 }
@@ -1105,7 +1106,7 @@ ApplicationWindow {
 
                 if(root.play && !root.errorFound){
                     controller.updateFPS()
-                    controller.pollError();
+                    controller.pollEvent();
                 }else{
                     root.fpsValue = 0
                 }
