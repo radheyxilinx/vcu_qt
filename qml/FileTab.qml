@@ -70,7 +70,7 @@ Rectangle{
         anchors.top: parent.top
         anchors.topMargin: 10
         spacing: 10
-        height: 300
+        height: 150
         width: parent.width
         Rectangle{
             width: parent.width
@@ -234,6 +234,13 @@ Rectangle{
             }
 
         }
+    }
+    Label{
+        anchors.top: elementsCol.bottom
+        anchors.topMargin: 50
+        anchors.left: parent.left
+        anchors.leftMargin: 10
+        text: "NOTE:\n• Max bitrate for SD Class-10 card is 80 Mbps\n• Max bitrate for USB 3.0 is 5 Gbps\n• Max bitrate for SATA 3.0 is 6 Gbps\n• Actual bitrate may be lower due to device characteristics"
     }
 
     Rectangle{
