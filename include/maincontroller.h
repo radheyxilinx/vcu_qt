@@ -92,6 +92,7 @@ public:
     void rootUIObj(QObject * item);
     bool  validDigit(char *);
     bool isValidIp(char *);
+    bool updateBitrate;
 
 public slots:
     void inits();

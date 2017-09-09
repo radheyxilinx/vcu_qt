@@ -59,7 +59,7 @@ void maincontroller :: inits(){
 
     inputParam.height = SCREEN_HEIGHT;
     inputParam.width = SCREEN_WIDTH;
-
+    updateBitrate = false;
     perf_monitor_init();
 }
 void maincontroller :: rootUIObj(QObject * item){
@@ -194,6 +194,7 @@ void maincontroller :: stop_pipeline(){
         return;
     }else{
         rootobject->setProperty("play", false);
+        updateBitrate = false;
     }
 }
 
@@ -215,10 +216,13 @@ void maincontroller :: pollEvent(){
         stop_pipeline();
         break;
     case VGST_EVENT_FILE_BR:
-        if(BIT_TO_MBIT(arg) <= 0){
-            rootobject->setProperty("bitrate", QString::number(BIT_TO_KBIT(arg)).append("Kbps"));
-        }else{
-            rootobject->setProperty("bitrate", QString::number(BIT_TO_MBIT(arg)).append("Mbps"));
+        if(!updateBitrate){
+            if(BIT_TO_MBIT(arg) <= 0){
+                rootobject->setProperty("bitrate", QString::number(BIT_TO_KBIT(arg)).append("Kbps"));
+            }else{
+                rootobject->setProperty("bitrate", QString::number(BIT_TO_MBIT(arg)).append("Mbps"));
+            }
+            updateBitrate = true;
         }
         break;
     default:
