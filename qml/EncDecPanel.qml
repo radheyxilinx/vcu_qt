@@ -67,6 +67,8 @@ Rectangle{
     property var tmpOpFilePath: root.outputFilePath
     property var tmpPort: root.port
     property var tmpBitrateUnit: root.bitrateUnit
+    property var lastMedia: "card"
+    property var currentMedia: "card"
 
     property var selectTabAtIndex: [
         {   "tab1ULvisible" : false,
@@ -113,7 +115,7 @@ Rectangle{
         onVisibleChanged: {
             if(encoderDecoderPanel.visible){
                 validation = true
-
+                currentMedia = lastMedia
                 switch(root.sinkType){
                 case 0:
                     tabSelect(selectTabAtIndex[2])
@@ -340,6 +342,7 @@ Rectangle{
                 anchors.fill: parent
                 onClicked: {
                     keyPad.visible = false
+                    lastMedia = currentMedia
                     encoderDecoderPanel.visible = false
                 }
             }
@@ -359,7 +362,6 @@ Rectangle{
             onClicked:{
                 keyPad.visible = false
                 encoderDecoderPanel.visible = false
-
                 root.b_frame = tmpB_frame
                 root.goP_len = tmpGoP_len
                 root.enc_name = tmpEnc_name
@@ -374,9 +376,9 @@ Rectangle{
                 root.sinkType = tmpSinkType
                 root.fileDuration = tmpFileDuration
                 root.port = tmpPort
-                root.outputFilePath = tmpOpFilePath
                 root.bitrateUnit = tmpBitrateUnit
-
+                currentMedia = lastMedia
+                root.outputFilePath = "/media/" + currentMedia + "/" + root.outputDirName
                 root.presetSelect = tmpPresetSel
                 root.setPresets(root.presetSelect)
                 presetLbl.text = controlList[root.presetSelect].shortName

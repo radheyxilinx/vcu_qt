@@ -97,7 +97,7 @@ Rectangle{
                 }
                 width: 125
                 height: 25
-                text: "card"
+                text: encoderDecoderPanel.currentMedia
                 enabled: !root.raw
                 MouseArea{
                     anchors.fill: parent
@@ -280,8 +280,8 @@ Rectangle{
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        storageTxt.text = cardLbl.text
-                        root.outputFilePath = "/media/" + cardLbl.text + "/" + root.outputDirName
+                        currentMedia = cardLbl.text
+                        root.outputFilePath = "/media/" + currentMedia + "/" + root.outputDirName
                         controller.createStorageDir(root.outputFilePath)
                         mountListRectangle.visible = false
                     }
@@ -302,8 +302,8 @@ Rectangle{
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        storageTxt.text = sataLbl.text
-                        root.outputFilePath = "/media/" + sataLbl.text + "/" + root.outputDirName
+                        currentMedia = sataLbl.text
+                        root.outputFilePath = "/media/" + currentMedia + "/" + root.outputDirName
                         controller.createStorageDir(root.outputFilePath)
                         mountListRectangle.visible = false
                     }
@@ -323,8 +323,8 @@ Rectangle{
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        storageTxt.text = usbLbl.text
-                        root.outputFilePath = "/media/" + usbLbl.text + "/" + root.outputDirName
+                        currentMedia = usbLbl.text
+                        root.outputFilePath = "/media/" + currentMedia + "/" + root.outputDirName
                         controller.createStorageDir(root.outputFilePath)
                         mountListRectangle.visible = false
                     }
