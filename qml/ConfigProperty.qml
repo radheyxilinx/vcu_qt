@@ -63,6 +63,7 @@ Item {
 
     property var bitrate: "60"
     property var bitrateUnit: "Mbps"
+    property var fileBitrate: "NA"
     property var b_frame: 0
     property var enc_name: "omxh265enc"
     property var goP_len: 30

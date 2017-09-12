@@ -86,6 +86,7 @@ ApplicationWindow {
     property var plotDisplay: configuration.plotDisplay
 
     property var bitrate: configuration.bitrate
+    property var fileBitrate: configuration.fileBitrate
     property var bitrateUnit: configuration.bitrateUnit
     property var b_frame: configuration.b_frame
     property var enc_name: configuration.enc_name
@@ -440,6 +441,7 @@ ApplicationWindow {
                                             }
                                             root.videoInput = indexval
                                             root.setPresets(root.presetSelect)
+                                            root.fileBitrate = "NA"
                                         }
                                     }
                                 }
@@ -935,7 +937,7 @@ ApplicationWindow {
                             color: "darkGray"
                         }
                         Label{
-                            text:  "<b>Bitrate: </b>" + ((root.raw || ((root.src == "uridecodebin") && !root.play))? "NA" : ((root.bitrate.length === 0) ? "0": root.bitrate) + ((root.src == "uridecodebin") ? "" : root.bitrateUnit))
+                            text:  "<b>Bitrate: </b>" + ((root.raw || ((root.src == "uridecodebin") && !root.play))? "NA" : (((root.src == "uridecodebin") && root.play) ? root.fileBitrate : ((root.bitrate.length === 0) ? "0": root.bitrate) + ((root.src == "uridecodebin") ? "" : root.bitrateUnit)))
                         }
                     }
                 }

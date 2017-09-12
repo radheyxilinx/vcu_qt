@@ -218,9 +218,9 @@ void maincontroller :: pollEvent(){
     case VGST_EVENT_FILE_BR:
         if(!updateBitrate){
             if(BIT_TO_MBIT(arg) <= 0){
-                rootobject->setProperty("bitrate", QString::number(BIT_TO_KBIT(arg)).append("Kbps"));
+                rootobject->setProperty("fileBitrate", QString::number(BIT_TO_KBIT(arg)).append("Kbps"));
             }else{
-                rootobject->setProperty("bitrate", QString::number(BIT_TO_MBIT(arg)).append("Mbps"));
+                rootobject->setProperty("fileBitrate", QString::number(BIT_TO_MBIT(arg)).append("Mbps"));
             }
             updateBitrate = true;
         }
