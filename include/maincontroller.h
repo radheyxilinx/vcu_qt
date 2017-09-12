@@ -62,6 +62,8 @@ QT_CHARTS_USE_NAMESPACE
 #define RECORD_DIR "vcu_records"
 #define BIT_TO_MBIT(value) ((value/1024)/1024)
 #define BIT_TO_KBIT(value) (value/1024)
+#define IPV4_MIN_LENGTH 7
+#define IPV4_MAX_LENGTH 15
 
 class maincontroller : public QObject
 {
