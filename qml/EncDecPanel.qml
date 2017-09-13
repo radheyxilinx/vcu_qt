@@ -373,7 +373,6 @@ Rectangle{
                 root.l2Cache = tmpL2Cache
                 root.sliceCount = tmpsliceCount
                 root.hostIP = tmpHostIP
-                root.sinkType = tmpSinkType
                 root.fileDuration = tmpFileDuration
                 root.port = tmpPort
                 root.bitrateUnit = tmpBitrateUnit
@@ -425,7 +424,6 @@ Rectangle{
         tmpL2Cache = root.l2Cache
         tmpsliceCount = root.sliceCount
         tmpHostIP = root.hostIP
-        tmpSinkType = root.sinkType
         tmpFileDuration = root.fileDuration
         tmpOpFilePath = root.outputFilePath
         tmpPort = root.port
