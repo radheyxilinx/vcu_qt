@@ -60,7 +60,7 @@ QT_CHARTS_USE_NAMESPACE
 #define ROOT_FILE_PATH "/media/card"
 #define BYTE_TO_GBIT (8 / 1000000000.0)
 #define RECORD_DIR "vcu_records"
-#define BIT_TO_MBIT(value) ((value/1000.0)/1000.0)
+#define BIT_TO_MBIT(value) (value/1000000.0)
 #define BIT_TO_KBIT(value) (value/1000.0)
 #define IPV4_MIN_LENGTH 7
 #define IPV4_MAX_LENGTH 15
