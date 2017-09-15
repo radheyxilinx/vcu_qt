@@ -65,11 +65,13 @@ Rectangle{
     property var tmpSinkType: root.sinkType
     property var tmpFileDuration: root.fileDuration
     property var tmpOpFilePath: root.outputFilePath
+    property var tmpOpFileName: root.outputFileName
     property var tmpPort: root.port
     property var tmpBitrateUnit: root.bitrateUnit
     property var lastMedia: "card"
     property var currentMedia: "card"
 
+    property bool allTbRefreshed: false
     property var selectTabAtIndex: [
         {   "tab1ULvisible" : false,
             "tab2ULvisible" : true,
@@ -344,6 +346,8 @@ Rectangle{
                     keyPad.visible = false
                     lastMedia = currentMedia
                     encoderDecoderPanel.visible = false
+                    saveChanges()
+                    allTbRefreshed = false
                 }
             }
         }
@@ -362,24 +366,7 @@ Rectangle{
             onClicked:{
                 keyPad.visible = false
                 encoderDecoderPanel.visible = false
-                root.b_frame = tmpB_frame
-                root.goP_len = tmpGoP_len
-                root.enc_name = tmpEnc_name
-                root.bitrate = tmpBitrate
-                root.enc_enum = tmpEnc_enum
-                root.profile = tmpProfile
-                root.qpMode = tmpQPMode
-                root.rateControl = tmpRateControl
-                root.l2Cache = tmpL2Cache
-                root.sliceCount = tmpsliceCount
-                root.hostIP = tmpHostIP
-                root.fileDuration = tmpFileDuration
-                root.port = tmpPort
-                root.bitrateUnit = tmpBitrateUnit
-                currentMedia = lastMedia
-                root.outputFilePath = "/media/" + currentMedia + "/" + root.outputDirName
-                root.presetSelect = tmpPresetSel
-                root.setPresets(root.presetSelect)
+                allTbRefreshed = false
                 presetLbl.text = controlList[root.presetSelect].shortName
                 presetList.resetSource(root.presetSelect)
             }
@@ -428,5 +415,31 @@ Rectangle{
         tmpOpFilePath = root.outputFilePath
         tmpPort = root.port
         tmpBitrateUnit = root.bitrateUnit
+        tmpPresetSel = root.presetSelect
+        tmpOpFileName = root.outputFileName
+        allTbRefreshed = true
+    }
+    function saveChanges(){
+        root.b_frame = tmpB_frame
+        root.goP_len = tmpGoP_len
+        root.enc_name = tmpEnc_name
+        root.bitrate = tmpBitrate
+        root.enc_enum = tmpEnc_enum
+        root.profile = tmpProfile
+        root.qpMode = tmpQPMode
+        root.rateControl = tmpRateControl
+        root.l2Cache = tmpL2Cache
+        root.sliceCount = tmpsliceCount
+        root.hostIP = tmpHostIP
+        root.fileDuration = tmpFileDuration
+        root.port = tmpPort
+        root.bitrateUnit = tmpBitrateUnit
+        currentMedia = lastMedia
+        root.outputFilePath = "/media/" + currentMedia + "/" + root.outputDirName
+        root.outputFileName = tmpOpFileName
+        root.presetSelect = tmpPresetSel
+        root.setPresets(root.presetSelect)
+        presetLbl.text = controlList[root.presetSelect].shortName
+        presetList.resetSource(root.presetSelect)
     }
 }

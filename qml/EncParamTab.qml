@@ -50,8 +50,10 @@ Rectangle{
 
     onVisibleChanged: {
         if(visible){
-            createTemp()
-            setPresetValues()
+            if(!allTbRefreshed){
+                createTemp()
+                setPresetValues()
+            }
         }
     }
     MouseArea{
@@ -102,17 +104,17 @@ Rectangle{
                     width: 80
                     onCheckedChanged: {
                         if(checked){
-                            if(1 != root.enc_enum){
-                                root.presetSelect = 6
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
+                            if(1 != tmpEnc_enum){
+                                tmpPresetSel = 6
+                                presetLbl.text = controlList[tmpPresetSel].shortName
+                                presetList.resetSource(tmpPresetSel)
                             }
                             sliceCount.value = 1
-                            root.enc_enum = 1
-                            root.enc_name =  "omxh264enc"
+                            tmpEnc_enum = 1
+                            tmpEnc_name =  "omxh264enc"
                             profileMain.checked = true
-                            root.profile = 1
-                            root.outputFileName = h264Radio.text
+                            tmpProfile = 1
+                            tmpOpFileName = h264Radio.text
                         }
                     }
                 }
@@ -125,17 +127,17 @@ Rectangle{
                     exclusiveGroup: encTypeGroup
                     onCheckedChanged: {
                         if(checked){
-                            if(2 != root.enc_enum){
-                                root.presetSelect = 6
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
+                            if(2 != tmpEnc_enum){
+                                tmpPresetSel = 6
+                                presetLbl.text = controlList[tmpPresetSel].shortName
+                                presetList.resetSource(tmpPresetSel)
                             }
                             sliceCount.value = 1
-                            root.enc_enum= 2
-                            root.enc_name =  "omxh265enc"
+                            tmpEnc_enum = 2
+                            tmpEnc_name =  "omxh265enc"
                             profileMain.checked = true
-                            root.profile = 1
-                            root.outputFileName = h265Radio.text
+                            tmpProfile = 1
+                            tmpOpFileName = h265Radio.text
                         }
                     }
                 }
@@ -178,13 +180,13 @@ Rectangle{
                     visible: !h265Radio.checked
                     onCheckedChanged: {
                         if(checked){
-                            if(root.profile != 0){
-                                root.presetSelect = 6
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
+                            if(tmpProfile != 0){
+                                tmpPresetSel = 6
+                                presetLbl.text = controlList[tmpPresetSel].shortName
+                                presetList.resetSource(tmpPresetSel)
                             }
                             framesCount.value = 0
-                            root.profile = 0
+                            tmpProfile = 0
                         }
                     }
                 }
@@ -196,12 +198,12 @@ Rectangle{
                     exclusiveGroup: profileGroup
                     onCheckedChanged: {
                         if(checked){
-                            if(root.profile != 1){
-                                root.presetSelect = 6
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
+                            if(tmpProfile != 1){
+                                tmpPresetSel = 6
+                                presetLbl.text = controlList[tmpPresetSel].shortName
+                                presetList.resetSource(tmpPresetSel)
                             }
-                            root.profile = 1
+                            tmpProfile = 1
                         }
                     }
                 }
@@ -213,12 +215,12 @@ Rectangle{
                     visible: !h265Radio.checked
                     onCheckedChanged: {
                         if(checked){
-                            if(root.profile != 2){
-                                root.presetSelect = 6
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
+                            if(tmpProfile != 2){
+                                tmpPresetSel = 6
+                                presetLbl.text = controlList[tmpPresetSel].shortName
+                                presetList.resetSource(tmpPresetSel)
                             }
-                            root.profile = 2
+                            tmpProfile = 2
                         }
                     }
                 }
@@ -262,12 +264,12 @@ Rectangle{
                     checked: true
                     onCheckedChanged: {
                         if(checked){
-                            if(root.qpMode){
-                                root.presetSelect = 6
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
+                            if(tmpQPMode){
+                                tmpPresetSel = 6
+                                presetLbl.text = controlList[tmpPresetSel].shortName
+                                presetList.resetSource(tmpPresetSel)
                             }
-                            root.qpMode = 0
+                            tmpQPMode = 0
                         }
                     }
                 }
@@ -278,12 +280,12 @@ Rectangle{
                     exclusiveGroup: qpModeGroup
                     onCheckedChanged: {
                         if(checked){
-                            if(!root.qpMode){
-                                root.presetSelect = 6
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
+                            if(!tmpQPMode){
+                                tmpPresetSel = 6
+                                presetLbl.text = controlList[tmpPresetSel].shortName
+                                presetList.resetSource(tmpPresetSel)
                             }
-                            root.qpMode = 1
+                            tmpQPMode = 1
                         }
                     }
                 }
@@ -325,12 +327,12 @@ Rectangle{
                     checked: true
                     onCheckedChanged: {
                         if(checked){
-                            if(root.rateControl != 2){
-                                root.presetSelect = 6
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
+                            if(tmpRateControl != 2){
+                                tmpPresetSel = 6
+                                presetLbl.text = controlList[tmpPresetSel].shortName
+                                presetList.resetSource(tmpPresetSel)
                             }
-                            root.rateControl = 2
+                            tmpRateControl = 2
                         }
                     }
                 }
@@ -342,12 +344,12 @@ Rectangle{
                     enabled: false
                     onCheckedChanged: {
                         if(checked){
-                            if(root.rateControl != 1){
-                                root.presetSelect = 6
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
+                            if(tmpRateControl != 1){
+                                tmpPresetSel = 6
+                                presetLbl.text = controlList[tmpPresetSel].shortName
+                                presetList.resetSource(tmpPresetSel)
                             }
-                            root.rateControl = 1
+                            tmpRateControl = 1
                         }
                     }
                 }
@@ -392,12 +394,12 @@ Rectangle{
                     width: 80
                     onCheckedChanged: {
                         if(checked){
-                            if(!root.l2Cache){
-                                root.presetSelect = 6
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
+                            if(!tmpL2Cache){
+                                tmpPresetSel = 6
+                                presetLbl.text = controlList[tmpPresetSel].shortName
+                                presetList.resetSource(tmpPresetSel)
                             }
-                            root.l2Cache = 1
+                            tmpL2Cache = 1
                         }
                     }
                 }
@@ -408,12 +410,12 @@ Rectangle{
                     width: 80
                     onCheckedChanged: {
                         if(checked){
-                            if(root.l2Cache){
-                                root.presetSelect = 6
-                                presetLbl.text = controlList[root.presetSelect].shortName
-                                presetList.resetSource(root.presetSelect)
+                            if(tmpL2Cache){
+                                tmpPresetSel = 6
+                                presetLbl.text = controlList[tmpPresetSel].shortName
+                                presetList.resetSource(tmpPresetSel)
                             }
-                            root.l2Cache = 0
+                            tmpL2Cache = 0
                         }
                     }
                 }
@@ -452,11 +454,11 @@ Rectangle{
                     if(bitRatetext.text.length > 4){
                         bitRatetext.text = bitRatetext.text.substring(0, bitRatetext.text.length-1)
                     }
-                    if(root.bitrate != bitRatetext.text){
-                        root.presetSelect = 6
-                        presetLbl.text = controlList[root.presetSelect].shortName
-                        presetList.resetSource(root.presetSelect)
-                        root.bitrate = bitRatetext.text
+                    if(tmpBitrate != bitRatetext.text){
+                        tmpPresetSel = 6
+                        presetLbl.text = controlList[tmpPresetSel].shortName
+                        presetList.resetSource(tmpPresetSel)
+                        tmpBitrate = bitRatetext.text
                     }
                     if(bitRatetext.text.length == 0){
                         validation = false
@@ -495,10 +497,10 @@ Rectangle{
                     checked: true
                     onCheckedChanged: {
                         if(checked){
-                            root.presetSelect = 6
-                            presetLbl.text = controlList[root.presetSelect].shortName
-                            presetList.resetSource(root.presetSelect)
-                            root.bitrateUnit = "Mbps"
+                            tmpPresetSel = 6
+                            presetLbl.text = controlList[tmpPresetSel].shortName
+                            presetList.resetSource(tmpPresetSel)
+                            tmpBitrateUnit = "Mbps"
                         }
                     }
                 }
@@ -508,10 +510,10 @@ Rectangle{
                     exclusiveGroup: bitrateUnitGroup
                     onCheckedChanged: {
                         if(checked){
-                            root.presetSelect = 6
-                            presetLbl.text = controlList[root.presetSelect].shortName
-                            presetList.resetSource(root.presetSelect)
-                            root.bitrateUnit = "Kbps"
+                            tmpPresetSel = 6
+                            presetLbl.text = controlList[tmpPresetSel].shortName
+                            presetList.resetSource(tmpPresetSel)
+                            tmpBitrateUnit = "Kbps"
                         }
                     }
                 }
@@ -551,11 +553,11 @@ Rectangle{
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     onTextChanged: {
-                        if(root.b_frame != framesCount.value){
-                            root.b_frame = framesCount.value
-                            root.presetSelect = 6
-                            presetLbl.text = controlList[root.presetSelect].shortName
-                            presetList.resetSource(root.presetSelect)
+                        if(tmpB_frame != framesCount.value){
+                            tmpB_frame = framesCount.value
+                            tmpPresetSel = 6
+                            presetLbl.text = controlList[tmpPresetSel].shortName
+                            presetList.resetSource(tmpPresetSel)
                         }
                     }
                 }
@@ -568,10 +570,10 @@ Rectangle{
                     leftMargin: 5
                     top: parent.top
                 }
-                enabled: (!root.raw && root.profile!=0)
+                enabled: (!root.raw && tmpProfile!=0)
                 maximumValue: 4.0
                 stepSize: 1.0
-                value : root.b_frame
+                value : tmpB_frame
                 style: SliderStyle {
                     groove: Rectangle {
                         implicitWidth: 150
@@ -613,11 +615,11 @@ Rectangle{
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     onTextChanged: {
-                        if(root.sliceCount != sliceCount.value){
-                            root.sliceCount = sliceCount.value
-                            root.presetSelect = 6
-                            presetLbl.text = controlList[root.presetSelect].shortName
-                            presetList.resetSource(root.presetSelect)
+                        if(tmpsliceCount != sliceCount.value){
+                            tmpsliceCount = sliceCount.value
+                            tmpPresetSel = 6
+                            presetLbl.text = controlList[tmpPresetSel].shortName
+                            presetList.resetSource(tmpPresetSel)
                         }
                     }
                 }
@@ -633,7 +635,7 @@ Rectangle{
                 minimumValue: 1
                 maximumValue: h264Radio.checked ? 135 : 22
                 stepSize: 1.0
-                value : root.sliceCount
+                value : tmpsliceCount
                 style: SliderStyle {
                     groove: Rectangle {
                         implicitWidth: 150
@@ -686,11 +688,11 @@ Rectangle{
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     onTextChanged: {
-                        if(root.goP_len != gopLengthCount.value){
-                            root.goP_len = gopLengthCount.value
-                            root.presetSelect = 6
-                            presetLbl.text = controlList[root.presetSelect].shortName
-                            presetList.resetSource(root.presetSelect)
+                        if(tmpGoP_len != gopLengthCount.value){
+                            tmpGoP_len = gopLengthCount.value
+                            tmpPresetSel = 6
+                            presetLbl.text = controlList[tmpPresetSel].shortName
+                            presetList.resetSource(tmpPresetSel)
                         }
                     }
                 }
@@ -706,7 +708,7 @@ Rectangle{
                 maximumValue: 100
                 minimumValue: 1
                 stepSize: 1.0
-                value : root.goP_len
+                value : tmpGoP_len
                 style: SliderStyle {
                     groove: Rectangle {
                         implicitWidth: 150
@@ -717,26 +719,25 @@ Rectangle{
                 }
             }
         }
-
     }
     function setPresetValues(){
-        presetLbl.text = controlList[root.presetSelect].shortName
-        bitRatetext.text = root.bitrate
-        if(root.bitrateUnit == "Mbps"){
+        bitRatetext.text = tmpBitrate
+        if(tmpBitrateUnit == "Mbps"){
             mbps.checked = true
         }else{
             kbps.checked = true
         }
-        framesCount.value = root.b_frame
-        sliceCount.value = root.sliceCount
-        gopLengthCount.value = root.goP_len
-        if(1 == root.enc_enum){
+        framesCount.value = tmpB_frame
+        sliceCount.value = tmpsliceCount
+        gopLengthCount.value = tmpGoP_len
+        if(1 == tmpEnc_enum){
             h264Radio.checked = true
+            tmpOpFileName = h264Radio.text
         }else{
             h265Radio.checked = true
+            tmpOpFileName = h265Radio.text
         }
-
-        switch (root.profile) {
+        switch (tmpProfile) {
         case 0:
             profileBaseline.checked = true
             break;
@@ -750,12 +751,12 @@ Rectangle{
             profileMain.checked = true
             break
         }
-        if(1 == root.qpMode){
+        if(1 == tmpQPMode){
             qpModeAuto.checked = true
         }else{
             qpModeUniform.checked = true
         }
-        switch (root.rateControl){
+        switch (tmpRateControl){
         case 1:
              vbrRadio.checked = true
             break;
@@ -766,10 +767,11 @@ Rectangle{
             vbrRadio.checked = false
             break;
         }
-        if(1 == root.l2Cache){
+        if(1 == tmpL2Cache){
             enableL2Cache.checked = true
         }else{
             disableL2Cache.checked = true
         }
+        presetLbl.text = controlList[root.presetSelect].shortName
     }
 }

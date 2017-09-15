@@ -59,7 +59,11 @@ Rectangle{
 
     onVisibleChanged: {
         if(visible){
-            durationSlider.value = root.fileDuration
+            if(!allTbRefreshed){
+                createTemp()
+                encParamTabV.setPresetValues()
+            }
+            durationSlider.value = tmpFileDuration
         }else{
             mountListRectangle.visible = false
         }
@@ -155,7 +159,7 @@ Rectangle{
                 }
                 width: 125
                 height: 25
-                text: root.outputFileName + "_rec_TimeStamp.mp4"
+                text: tmpOpFileName + "_rec_TimeStamp.mp4"
                 enabled: !root.raw
             }
         }
@@ -188,7 +192,7 @@ Rectangle{
                 minimumValue: 1
                 maximumValue: 3
                 stepSize: 1.0
-                value : 1
+                value : tmpFileDuration
                 style: SliderStyle {
                     groove: Rectangle {
                         implicitWidth: 150
@@ -216,7 +220,7 @@ Rectangle{
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     onTextChanged: {
-                        root.fileDuration = durationSlider.value
+                        tmpFileDuration = durationSlider.value
                     }
                 }
             }
@@ -281,12 +285,9 @@ Rectangle{
                     anchors.fill: parent
                     onClicked: {
                         currentMedia = cardLbl.text
-                        root.outputFilePath = "/media/" + currentMedia + "/" + root.outputDirName
-                        controller.createStorageDir(root.outputFilePath)
-                        mountListRectangle.visible = false
+                        updateOpPath()
                     }
                 }
-
             }
             Rectangle{
                 id: sata
@@ -303,9 +304,7 @@ Rectangle{
                     anchors.fill: parent
                     onClicked: {
                         currentMedia = sataLbl.text
-                        root.outputFilePath = "/media/" + currentMedia + "/" + root.outputDirName
-                        controller.createStorageDir(root.outputFilePath)
-                        mountListRectangle.visible = false
+                        updateOpPath()
                     }
                 }
             }
@@ -324,13 +323,16 @@ Rectangle{
                     anchors.fill: parent
                     onClicked: {
                         currentMedia = usbLbl.text
-                        root.outputFilePath = "/media/" + currentMedia + "/" + root.outputDirName
-                        controller.createStorageDir(root.outputFilePath)
-                        mountListRectangle.visible = false
+                        updateOpPath()
                     }
                 }
             }
         }
+    }
+    function updateOpPath(){
+        tmpOpFilePath = "/media/" + currentMedia + "/" + root.outputDirName
+        controller.createStorageDir(tmpOpFilePath)
+        mountListRectangle.visible = false
     }
     function refreshMountPointList(){
         if(mountListRectangle.visible){

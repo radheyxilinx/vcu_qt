@@ -273,6 +273,11 @@ ApplicationWindow {
                                     errorNameText = "Error"
                                 }else{
                                     playBtn.enabled = false
+                                    if(root.enc_enum == 2){
+                                        root.outputFileName = "H265"
+                                    }else{
+                                        root.outputFileName = "H264"
+                                    }
                                     var opFile = outputFilePath + "/" + root.outputFileName + "_rec_" + Qt.formatDateTime(new Date(), "yyyyMMddHHmmss") + ".mp4"
                                     controller.updateInputParam(root.format, root.num_src, root.raw, root.src, root.device_type, "file://"+root.uri);
                                     controller.updateOutputParam(opFile, root.hostIP, root.fileDuration, root.sinkType, root.port);

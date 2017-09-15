@@ -54,8 +54,12 @@ Rectangle{
     }
     onVisibleChanged: {
         if(visible){
-            hostIpTxt.text = root.hostIP
-            portTxt.text = root.port
+            if(!allTbRefreshed){
+                createTemp()
+                encParamTabV.setPresetValues()
+            }
+            hostIpTxt.text = tmpHostIP
+            portTxt.text = tmpPort
         }else{
         }
     }
@@ -152,7 +156,7 @@ Rectangle{
                 verticalAlignment: Text.AlignVCenter
                 enabled: !root.raw
                 onTextChanged: {
-                    root.hostIP = hostIpTxt.text
+                    tmpHostIP = hostIpTxt.text
                     validHostIp = controller.validateHostIp(hostIpTxt.text)
                     getErrorMsg()
                 }
@@ -241,7 +245,7 @@ Rectangle{
                         validPortNumber = true
                     }
                     getErrorMsg()
-                    root.port = portTxt.text
+                    tmpPort = portTxt.text
                 }
                 MouseArea{
                     anchors.fill: parent
