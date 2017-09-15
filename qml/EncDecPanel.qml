@@ -117,7 +117,6 @@ Rectangle{
         onVisibleChanged: {
             if(encoderDecoderPanel.visible){
                 validation = true
-                currentMedia = lastMedia
                 switch(root.sinkType){
                 case 0:
                     tabSelect(selectTabAtIndex[2])
@@ -344,7 +343,6 @@ Rectangle{
                 anchors.fill: parent
                 onClicked: {
                     keyPad.visible = false
-                    lastMedia = currentMedia
                     encoderDecoderPanel.visible = false
                     saveChanges()
                     allTbRefreshed = false
@@ -417,6 +415,7 @@ Rectangle{
         tmpBitrateUnit = root.bitrateUnit
         tmpPresetSel = root.presetSelect
         tmpOpFileName = root.outputFileName
+        currentMedia = lastMedia
         allTbRefreshed = true
     }
     function saveChanges(){
@@ -434,8 +433,8 @@ Rectangle{
         root.fileDuration = tmpFileDuration
         root.port = tmpPort
         root.bitrateUnit = tmpBitrateUnit
-        currentMedia = lastMedia
-        root.outputFilePath = "/media/" + currentMedia + "/" + root.outputDirName
+        lastMedia = currentMedia
+        root.outputFilePath = "/media/" + lastMedia + "/" + root.outputDirName
         root.outputFileName = tmpOpFileName
         root.presetSelect = tmpPresetSel
         root.setPresets(root.presetSelect)

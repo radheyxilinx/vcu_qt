@@ -64,6 +64,7 @@ Rectangle{
                 encParamTabV.setPresetValues()
             }
             durationSlider.value = tmpFileDuration
+            refreshMountPointList()
         }else{
             mountListRectangle.visible = false
         }
@@ -335,11 +336,11 @@ Rectangle{
         mountListRectangle.visible = false
     }
     function refreshMountPointList(){
+        availableMounts = dirOPS.changeFolder("/media/")
         if(mountListRectangle.visible){
             sataV = false
             usbV = false
             cardV = false
-            availableMounts = dirOPS.changeFolder("/media/")
             for(var i = 0; i<availableMounts.length; i++){
                 if(availableMounts[i].itemName === "card"){
                     cardV = true
@@ -351,6 +352,20 @@ Rectangle{
                     sataV = true
                 }
             }
+        }
+        updateStorageTxt()
+    }
+    function updateStorageTxt(){
+        var currMediaAvailable = false
+        for(var i = 0; i < availableMounts.length; i++){
+            if(availableMounts[i].itemName == currentMedia){
+                currMediaAvailable = true
+            }
+        }
+        if(!currMediaAvailable){
+            currentMedia = "card"
+            lastMedia = currentMedia
+            root.outputFilePath = "/media/" + currentMedia + "/" + root.outputDirName
         }
     }
 }
